@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Карманная библиотека</string>
+
+    <string name="home">Главная</string>
+    <string name="favorite">Избранное</string>
+    <string name="profile">Профиль</string>
+    <string name="my_books">Мои книги</string>
+    <string name="add_book">Добавить книгу</string>
+    <string name="search_book">Найти книгу</string>
+
+</resources>
