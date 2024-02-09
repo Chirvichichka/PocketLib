@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -16,12 +17,17 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -35,9 +41,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -56,7 +64,7 @@ fun HomeScreen() {
     }
 
     Scaffold(
-        topBar = { TopBar(viewModel = viewModel) }
+        topBar = { HomeTopAppBar(viewModel = viewModel) }
     ) { paddingValues ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -74,7 +82,7 @@ fun HomeScreen() {
 }
 
 @Composable
-private fun TopBar(
+private fun HomeTopAppBar(
     viewModel: HomeViewModel
 ) {
     val isGrid by viewModel.isGrid.observeAsState(false)
@@ -85,28 +93,24 @@ private fun TopBar(
         PocketLibTheme.colors.black
     }
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.1f)
-            .background(PocketLibTheme.colors.tertiary)
-            .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        SearchBook(viewModel = viewModel)
-        Spacer(modifier = Modifier.weight(1f))
-        IconButton(
-            onClick = {
-                viewModel.gridChange()
+    PocketLibTopAppBar(
+        title = {
+            SearchBook(viewModel = viewModel)
+        },
+        actions = {
+            IconButton(
+                onClick = {
+                    viewModel.gridChange()
+                }
+            ) {
+                Icon(
+                    painter =  painterResource(id = R.drawable.filter),
+                    contentDescription = null,
+                    tint = tint
+                )
             }
-        ) {
-            Icon(
-                painter =  painterResource(id = R.drawable.filter),
-                contentDescription = null,
-                tint = tint
-            )
         }
-    }
+    )
 }
 
 @Composable
@@ -164,19 +168,22 @@ private fun SearchBook(
     viewModel: HomeViewModel
 ) {
     val text by viewModel.newText.observeAsState("")
-    val textStyle = PocketLibTheme.textStyles.primaryLarge.copy(
+    val textStyle = PocketLibTheme.textStyles.primarySmall.copy(
         color = PocketLibTheme.colors.black
     )
 
     TextField(
         modifier = Modifier
-            .fillMaxWidth(0.8f),
+            .fillMaxWidth(0.9f)
+            .height(48.dp),
         value = text,
         onValueChange = { viewModel.textChange(text = it) },
         placeholder = {
             Text(
                 text = stringResource(id = R.string.search_book),
-                style = textStyle
+                style = textStyle.copy(
+                    fontStyle = FontStyle.Italic
+                )
             )
         },
         textStyle = textStyle,
@@ -188,7 +195,7 @@ private fun SearchBook(
                 tint = PocketLibTheme.colors.black
             )
         },
-        shape = CircleShape,
+        shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = PocketLibTheme.colors.secondary,
             unfocusedContainerColor = PocketLibTheme.colors.secondary,

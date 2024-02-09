@@ -41,9 +41,9 @@ data class TextStyles(
 )
 
 val TextStyleType = TextStyles(
-    primary = primarySmallStyle,
+    primarySmall = primaryStyle,
     primaryLarge = primaryLargeStyle,
-    primarySmall = primaryStyle
+    primary = primarySmallStyle
 )
 
 val LocalNavController = staticCompositionLocalOf<NavHostController> {
