@@ -2,6 +2,7 @@ package com.chirvi.pocketlib.presentation.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ fun ButtonWithText(
         colors = ButtonDefaults.buttonColors(
             containerColor = PocketLibTheme.colors.tertiary
         ),
+        shape = RoundedCornerShape(10.dp),
         onClick = {
             onClickListener()
         }
