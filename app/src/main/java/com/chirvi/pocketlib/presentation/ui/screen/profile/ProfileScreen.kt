@@ -54,7 +54,7 @@ fun ProfileScreen(
 }
 
 @Composable
-private fun TopBar() {
+private fun TopBar() { // todo узнать про TopAppBAr
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,7 +62,7 @@ private fun TopBar() {
             .background(
                 color = PocketLibTheme.colors.tertiary
             )
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -78,7 +78,7 @@ private fun TopBar() {
             }
         ) {
             Icon(
-                modifier = Modifier.size(36.dp),
+                modifier = Modifier.size(24.dp),
                 painter = painterResource(id = R.drawable.settings),
                 contentDescription = null,
                 tint = PocketLibTheme.colors.black
