@@ -11,4 +11,3 @@ val White = Color(0xFFFAFAFA)
 val SkyBlue = Color(0xFFC7EEFF)
 val Blue = Color(0xFF0077C0)
 val Black = Color(0xFF1D242B)
-

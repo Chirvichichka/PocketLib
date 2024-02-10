@@ -20,15 +20,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.navigation.AppNavGraph
+import com.chirvi.pocketlib.presentation.navigation.BottomNavigationItem
 import com.chirvi.pocketlib.presentation.navigation.NavigationState
 import com.chirvi.pocketlib.presentation.navigation.rememberNavigationState
+import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
 import com.chirvi.pocketlib.presentation.ui.screen.home.HomeScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.ProfileScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
-import com.chirvi.pocketlib.presentation.navigation.NavigationItem
-import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
 
 @Composable
 fun MainScreen() {
@@ -65,10 +64,10 @@ private fun BottomNavigation(
     val currentRoute = navBackStackEntry?.destination?.route
 
     val items = listOf(
-        NavigationItem.Home,
-        NavigationItem.Profile
+        BottomNavigationItem.Home,
+        BottomNavigationItem.Profile
     )
-    val addBook = NavigationItem.AddBook
+    val addBook = BottomNavigationItem.AddBook
 
     BottomAppBar(
         containerColor = PocketLibTheme.colors.tertiary,

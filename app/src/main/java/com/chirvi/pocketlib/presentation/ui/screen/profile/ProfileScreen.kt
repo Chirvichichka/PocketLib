@@ -12,13 +12,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -26,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.common.BookColumn
 import com.chirvi.pocketlib.presentation.common.ButtonWithText
@@ -35,8 +38,9 @@ import com.chirvi.pocketlib.presentation.navigation.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun ProfileScreen(
-) {
+fun ProfileScreen() {
+    val viewModel = hiltViewModel<ProfileViewModel>()
+
     Scaffold(
         topBar = { ProfileTopAppBar() },
     ) {
@@ -45,7 +49,7 @@ fun ProfileScreen(
                 .padding(it)
         ) {
             UserInfo()
-            ProfileTabRow()
+            ProfileTabRow(viewModel = viewModel)
         }
     }
 }
@@ -93,9 +97,7 @@ private fun UserInfo() {
             Image(
                 modifier = Modifier
                     .size(80.dp)
-                    .clip(
-                        shape = CircleShape
-                    ),
+                    .clip(shape = CircleShape),
                 painter = painterResource(id = R.drawable.test_image),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
@@ -127,31 +129,44 @@ private fun UserInfo() {
 }
 
 @Composable
-private fun ProfileTabRow() {
+private fun ProfileTabRow(
+    viewModel: ProfileViewModel
+) {
+    val tabRowIndex by viewModel.tabRowItem.observeAsState(0)
+
     val items = listOf(
         ProfileTabRowItem.MyBooks,
         ProfileTabRowItem.Favorite
     )
 
     TabRow(
-        selectedTabIndex = 0,
+        selectedTabIndex = tabRowIndex,
         contentColor = PocketLibTheme.colors.black,
-        indicator = {
+        indicator = { tabPosition ->
             TabRowDefaults.Indicator(
-                modifier = Modifier.tabIndicatorOffset(it[0]),
+                modifier = Modifier.tabIndicatorOffset(tabPosition[tabRowIndex]),
                 color = PocketLibTheme.colors.tertiary
             )
         }
     ) {
-        items.forEach { item ->
-            Tab(
+        items.forEachIndexed { index, item  ->
+            LeadingIconTab(
                 text = {
                     Text(
                         text = item.title
                     )
                 },
-                selected = true,
-                onClick = { /*TODO*/ })
+                icon = {
+                    Icon(
+                        modifier = Modifier.size(20.dp),
+                        tint = PocketLibTheme.colors.tertiary,
+                        painter = painterResource(id = item.iconId),
+                        contentDescription = null
+                    )
+                },
+                selected = index == tabRowIndex,
+                onClick = { viewModel.onIndexChange(index = index) }
+            )
         }
     }
     BookColumn(
