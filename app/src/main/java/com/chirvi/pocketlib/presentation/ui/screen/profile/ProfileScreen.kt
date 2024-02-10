@@ -15,6 +15,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,6 +30,7 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.common.BookColumn
 import com.chirvi.pocketlib.presentation.common.ButtonWithText
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.navigation.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -129,9 +132,16 @@ private fun ProfileTabRow() {
         ProfileTabRowItem.MyBooks,
         ProfileTabRowItem.Favorite
     )
+
     TabRow(
         selectedTabIndex = 0,
         contentColor = PocketLibTheme.colors.black,
+        indicator = {
+            TabRowDefaults.Indicator(
+                modifier = Modifier.tabIndicatorOffset(it[0]),
+                color = PocketLibTheme.colors.tertiary
+            )
+        }
     ) {
         items.forEach { item ->
             Tab(
@@ -144,5 +154,7 @@ private fun ProfileTabRow() {
                 onClick = { /*TODO*/ })
         }
     }
-    BookColumn()
+    BookColumn(
+        book = Book()
+    )
 }

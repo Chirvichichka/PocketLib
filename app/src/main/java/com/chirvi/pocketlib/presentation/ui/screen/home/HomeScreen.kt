@@ -45,7 +45,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.common.BookColumn
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.common.VerticalBookCard
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -66,18 +68,11 @@ fun HomeScreen() {
     Scaffold(
         topBar = { HomeTopAppBar(viewModel = viewModel) }
     ) { paddingValues ->
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            items( books ) {book ->
-                BookCard(
-                    book = book
-                )
-            }
-        }
+        BookColumn(
+            grid = false,
+            paddingValues = paddingValues,
+            book = books[0]
+        )
     }
 }
 
@@ -111,56 +106,6 @@ private fun HomeTopAppBar(
             }
         }
     )
-}
-
-@Composable
-private fun BookCard(
-    book: Book
-) {
-    Column(
-        modifier = Modifier
-            .padding(all = 8.dp)
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(10.dp)
-            )
-            .background(
-                color = PocketLibTheme.colors.secondary,
-                shape = RoundedCornerShape(10.dp)
-            )
-            .padding(all = 8.dp)
-
-    ) {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(
-                    height = 150.dp,
-                    width = 100.dp
-                )
-                .clip(
-                    RoundedCornerShape(
-                        4.dp,
-                        4.dp
-                    )
-                ),
-            contentScale = ContentScale.Crop,
-            painter = painterResource(id = book.posterId),
-            contentDescription = null
-        )
-        Text(
-            text = book.name,
-            style = PocketLibTheme.textStyles.primaryLarge.copy(
-                color = PocketLibTheme.colors.secondaryText
-            )
-        )
-        Text(
-            text = book.author,
-            style = PocketLibTheme.textStyles.primarySmall.copy(
-                color = PocketLibTheme.colors.secondaryText
-            )
-        )
-    }
 }
 
 @Composable
