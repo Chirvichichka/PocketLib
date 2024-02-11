@@ -10,12 +10,12 @@ sealed class BottomNavigationItem(
     data object Home : BottomNavigationItem(
         screen = Screen.Home,
         title = R.string.home,
-        iconId = R.drawable.home_icon
+        iconId = R.drawable.home
     )
     data object Profile : BottomNavigationItem(
         screen = Screen.Profile,
         title = R.string.profile,
-        iconId = R.drawable.profile_icon
+        iconId = R.drawable.profile
     )
     data object AddBook : BottomNavigationItem(
         screen = Screen.AddBook,

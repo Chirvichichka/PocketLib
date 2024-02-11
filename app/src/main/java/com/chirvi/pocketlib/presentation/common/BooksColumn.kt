@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.chirvi.pocketlib.presentation.common.book_card.HorizontalBookCard
+import com.chirvi.pocketlib.presentation.common.book_card.VerticalBookCard
 import com.chirvi.pocketlib.presentation.models.Book
 
 @Composable
@@ -38,7 +40,7 @@ fun BookColumn(
                 .padding(paddingValues)
         ){
             items ( 30 ) {
-                HorizontalBookCard()
+                HorizontalBookCard(book = book)
             }
         }
     }

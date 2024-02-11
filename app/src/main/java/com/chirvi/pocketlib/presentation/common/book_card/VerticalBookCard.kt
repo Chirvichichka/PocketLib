@@ -1,8 +1,10 @@
-package com.chirvi.pocketlib.presentation.common
+package com.chirvi.pocketlib.presentation.common.book_card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,6 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -17,14 +20,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
-
 @Composable
 fun VerticalBookCard(
     book: Book
 ) {
     Card(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
+            defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
             containerColor = PocketLibTheme.colors.secondary
@@ -34,43 +36,38 @@ fun VerticalBookCard(
                 horizontal = 8.dp,
                 vertical = 4.dp
             )
-            .fillMaxWidth()
     ) {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(
-                    height = 150.dp,
-                    width = 100.dp
-                )
-                .padding(
-                    top = 8.dp,
-                    end = 8.dp,
-                    start = 8.dp
-                )
-                .clip(
-                    RoundedCornerShape(
-                        4.dp,
-                        4.dp
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .height(150.dp,)
+                    .padding(
+                        top = 8.dp,
+                        end = 8.dp,
+                        start = 8.dp
                     )
-                ),
-            contentScale = ContentScale.Crop,
-            painter = painterResource(id = book.posterId),
-            contentDescription = null
-        )
+                    .clip(RoundedCornerShape(10.dp)),
+                contentScale = ContentScale.FillWidth,
+                painter = painterResource(id = book.posterId),
+                contentDescription = null
+            )
+        }
         Column(
             modifier = Modifier.padding(all = 8.dp)
         ) {
             Text(
                 text = book.name,
                 style = PocketLibTheme.textStyles.primaryLarge.copy(
-                    color = PocketLibTheme.colors.secondaryText
+                    color = PocketLibTheme.colors.black
                 )
             )
             Text(
                 text = book.author,
-                style = PocketLibTheme.textStyles.primarySmall.copy(
-                    color = PocketLibTheme.colors.secondaryText
+                style = PocketLibTheme.textStyles.primary.copy(
+                    color = PocketLibTheme.colors.black
                 )
             )
         }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LeadingIconTab
@@ -42,6 +43,8 @@ fun ProfileScreen() {
     val viewModel = hiltViewModel<ProfileViewModel>()
 
     Scaffold(
+        containerColor = PocketLibTheme.colors.primary,
+
         topBar = { ProfileTopAppBar() },
     ) {
         Column(
@@ -54,6 +57,7 @@ fun ProfileScreen() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProfileTopAppBar() {
     PocketLibTopAppBar(
@@ -116,7 +120,7 @@ private fun UserInfo() {
                 )
                 Text(
                     text = "User id",
-                    style = PocketLibTheme.textStyles.primarySmall,
+                    style = PocketLibTheme.textStyles.primary,
                 )
             }
         }
@@ -140,6 +144,7 @@ private fun ProfileTabRow(
     )
 
     TabRow(
+        containerColor = PocketLibTheme.colors.primary  ,
         selectedTabIndex = tabRowIndex,
         contentColor = PocketLibTheme.colors.black,
         indicator = { tabPosition ->
@@ -153,7 +158,7 @@ private fun ProfileTabRow(
             LeadingIconTab(
                 text = {
                     Text(
-                        text = item.title
+                        text = stringResource(id = item.title)
                     )
                 },
                 icon = {

@@ -28,7 +28,7 @@ fun ButtonWithText(
     ) {
         Text(
             text = text,
-            style = PocketLibTheme.textStyles.primarySmall
+            style = PocketLibTheme.textStyles.primary
         )
     }
 }

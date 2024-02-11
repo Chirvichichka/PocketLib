@@ -1,14 +1,17 @@
 package com.chirvi.pocketlib.presentation.ui.screen.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -25,8 +28,11 @@ import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    scroll: TopAppBarScrollBehavior
+) {
     val viewModel = hiltViewModel<HomeViewModel>()
 
     val books = mutableListOf<Book>().apply {
@@ -38,9 +44,9 @@ fun HomeScreen() {
             )
         }
     }
-
     Scaffold(
-        topBar = { HomeTopAppBar(viewModel = viewModel) }
+        containerColor = PocketLibTheme.colors.primary,
+        topBar = { HomeTopAppBar(viewModel = viewModel,scroll =scroll ) }
     ) { paddingValues ->
         BookColumn(
             grid = false,
@@ -50,9 +56,11 @@ fun HomeScreen() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeTopAppBar(
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    scroll: TopAppBarScrollBehavior
 ) {
     val isGrid by viewModel.isGrid.observeAsState(false)
 
@@ -63,6 +71,7 @@ private fun HomeTopAppBar(
     }
 
     PocketLibTopAppBar(
+        scroll = scroll,
         title = {
             SearchBook(viewModel = viewModel)
         },
@@ -87,14 +96,14 @@ private fun SearchBook(
     viewModel: HomeViewModel
 ) {
     val text by viewModel.newText.observeAsState("")
-    val textStyle = PocketLibTheme.textStyles.primarySmall.copy(
+    val textStyle = PocketLibTheme.textStyles.primary.copy(
         color = PocketLibTheme.colors.black
     )
 
     TextField(
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .height(48.dp),
+            .height(51.dp),
         value = text,
         onValueChange = { viewModel.textChange(text = it) },
         placeholder = {

@@ -5,17 +5,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,11 +33,14 @@ import com.chirvi.pocketlib.presentation.ui.screen.home.HomeScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.ProfileScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val navigationState = rememberNavigationState()
-
+    val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior() //todo перенести в HomeScreen
     Scaffold(
+        containerColor = PocketLibTheme.colors.primary,
+        modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
         bottomBar = {
             BottomNavigation(
                 navigationState = navigationState
@@ -48,7 +55,7 @@ fun MainScreen() {
         ) {
             AppNavGraph(
                 navHostController = navigationState.navHostController,
-                homeScreenContent = { HomeScreen() },
+                homeScreenContent = { HomeScreen(scroll = scroll) },
                 profileScreenContent = { ProfileScreen() },
                 addBookScreenContent = { AddBookScreen() },
             )
@@ -85,12 +92,13 @@ private fun BottomNavigation(
                        Icon(
                            painter = painterResource(id = item.iconId),
                            contentDescription = null,
-                           tint = PocketLibTheme.colors.black)
+                           tint = PocketLibTheme.colors.black
+                       )
                     },
                     label = {
                         Text(
                             text = stringResource(id = item.title),
-                            style = PocketLibTheme.textStyles.primary.copy(
+                            style = PocketLibTheme.textStyles.primarySmall.copy(
                                 color = PocketLibTheme.colors.secondary
                             )
                         )

@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
@@ -14,36 +13,24 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
-data class Colors(
-    val primary: Color,
-    val primaryText: Color,
-    val secondary: Color,
-    val secondaryText: Color,
-    val tertiary: Color,
-    val selected: Color,
-    val black: Color,
-)
-
 private val MainColorScheme = Colors(
-    primary = White,
-    primaryText = White,
+    primary = Light,
     secondary = SkyBlue,
-    secondaryText = Black,
     tertiary = Blue,
     selected = SkyBlue,
     black = Black
 )
 
 data class TextStyles(
-    val primary: TextStyle,
-    val primaryLarge: TextStyle,
     val primarySmall: TextStyle,
+    val primaryLarge: TextStyle,
+    val primary: TextStyle,
 )
 
 val TextStyleType = TextStyles(
-    primarySmall = primaryStyle,
+    primary = primaryStyle,
     primaryLarge = primaryLargeStyle,
-    primary = primarySmallStyle
+    primarySmall = primarySmallStyle
 )
 
 val LocalNavController = staticCompositionLocalOf<NavHostController> {

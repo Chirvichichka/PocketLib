@@ -8,5 +8,7 @@
     <string name="my_books">My books</string>
     <string name="add_book">Add book</string>
     <string name="search_book">Search book</string>
+    <string name="add_image">Add image</string>
+
 
 </resources>

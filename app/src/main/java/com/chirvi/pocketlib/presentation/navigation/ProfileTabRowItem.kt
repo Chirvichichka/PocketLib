@@ -3,15 +3,15 @@ package com.chirvi.pocketlib.presentation.navigation
 import com.chirvi.pocketlib.R
 
 sealed class ProfileTabRowItem(
-    val title: String,
+    val title: Int,
     val iconId: Int,
 ) {
     data object MyBooks : ProfileTabRowItem(
-        title = "Заглушка",
-        iconId = R.drawable.round_library_add
+        title = R.string.my_books,
+        iconId = R.drawable.library_add
     )
     data object Favorite : ProfileTabRowItem(
-        title = "Заглушка",
-        iconId = R.drawable.favorite_icon
+        title = R.string.favorite,
+        iconId = R.drawable.favorite
     )
 }
