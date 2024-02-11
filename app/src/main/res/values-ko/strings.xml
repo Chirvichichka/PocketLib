@@ -9,5 +9,7 @@
     <string name="add_book">책 추가</string>
     <string name="search_book">책 검색</string>
     <string name="add_image">이미지 추가</string>
+    <string name="enter_name">이름을 입력하세요</string>
+    <string name="enter_author">이름을 입력하세요</string>
 
 </resources>

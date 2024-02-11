@@ -13,14 +13,17 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 fun PocketLibTopAppBar(
     scroll: TopAppBarScrollBehavior? = null,
     title: @Composable () -> Unit = {},
-    actions: @Composable () -> Unit = {}
+    actions: @Composable () -> Unit = {},
+    navigationIcon: @Composable () -> Unit = {}
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = PocketLibTheme.colors.tertiary
+            containerColor = PocketLibTheme.colors.tertiary,
+            scrolledContainerColor = PocketLibTheme.colors.tertiary
         ),
         title = { title() },
         actions = { actions() },
+        navigationIcon = { navigationIcon() },
         scrollBehavior = scroll
     )
 }

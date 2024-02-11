@@ -1,6 +1,7 @@
 package com.chirvi.pocketlib.presentation.common.book_card
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +23,7 @@ import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun VerticalBookCard(
-    book: Book
+    book: Book,
 ) {
     Card(
         elevation = CardDefaults.cardElevation(

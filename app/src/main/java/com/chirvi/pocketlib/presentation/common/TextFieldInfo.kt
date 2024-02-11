@@ -1,8 +1,55 @@
 package com.chirvi.pocketlib.presentation.common
 
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookViewModel
+import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun TextFieldInfo() {
-    //todo экстеншен функции коспоуз
+fun PocketLibTextField(
+    text: String,
+    placeHolderText: String,
+    leadingIconId: Int,
+    onValueChange: (String) -> Unit
+) {
+    val textStyle = PocketLibTheme.textStyles.primary.copy(
+        color = PocketLibTheme.colors.black
+    )
+
+    TextField(
+        value = text,
+        onValueChange = { onValueChange(it) },
+        placeholder = {
+            Text(
+                text = placeHolderText,
+                style = textStyle
+            )
+        },
+        textStyle = textStyle,
+        singleLine = true,
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = leadingIconId),
+                contentDescription = null,
+                tint = PocketLibTheme.colors.black
+            )
+        },
+        shape = RoundedCornerShape(10.dp),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = PocketLibTheme.colors.secondary,
+            unfocusedContainerColor = PocketLibTheme.colors.secondary,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            cursorColor = PocketLibTheme.colors.black
+        )
+    )
 }

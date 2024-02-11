@@ -22,9 +22,7 @@ fun ButtonWithText(
             containerColor = PocketLibTheme.colors.tertiary
         ),
         shape = RoundedCornerShape(10.dp),
-        onClick = {
-            onClickListener()
-        }
+        onClick = { onClickListener() }
     ) {
         Text(
             text = text,

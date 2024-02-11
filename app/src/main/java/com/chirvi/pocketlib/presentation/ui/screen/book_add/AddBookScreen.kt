@@ -1,8 +1,7 @@
 package com.chirvi.pocketlib.presentation.ui.screen.book_add
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,18 +18,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.common.ButtonWithText
+import com.chirvi.pocketlib.presentation.common.PocketLibTextField
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun AddBookScreen() {
+    val viewModel = hiltViewModel<AddBookViewModel>()
+
+
     Scaffold(
         containerColor = PocketLibTheme.colors.primary,
         topBar = { AddBookTopAppBar() }
@@ -42,8 +50,9 @@ fun AddBookScreen() {
                 .fillMaxSize()
         ) {
             AddPicture()
-            Spacer(modifier = Modifier.height(16.dp))
-            TextFields()
+            TextFields(viewModel = viewModel)
+            Spacer(modifier = Modifier.weight(1f))
+            ButtonWithText(text = "Сохранить", onClickListener = {})
         }
     }
 }
@@ -79,6 +88,10 @@ private fun AddPicture() {
                     color = PocketLibTheme.colors.secondary,
                     shape = RoundedCornerShape(10.dp)
                 )
+                .clip(RoundedCornerShape(10.dp))
+                .clickable{
+                    //todo
+                }
         ) {
             Icon(
                 modifier = Modifier.size(60.dp),
@@ -97,6 +110,25 @@ private fun AddPicture() {
 }
 
 @Composable
-private fun TextFields() {
+private fun TextFields(
+    viewModel: AddBookViewModel
+) {
+    val textName by viewModel.textName.observeAsState("")
+    val textAuthor by viewModel.textAuthor.observeAsState("")
 
+    Spacer(modifier = Modifier.height(16.dp))
+    PocketLibTextField(
+        text = textName,
+        placeHolderText = stringResource(id = R.string.enter_name),
+        leadingIconId = R.drawable.add,
+        onValueChange = { newText -> viewModel.onValueChangeName(newText) }
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    PocketLibTextField(
+        text = textAuthor,
+        placeHolderText = stringResource(id = R.string.enter_author),
+        leadingIconId = R.drawable.add,
+        onValueChange = { newText -> viewModel.onValueChangeAuthor(newText) }
+    )
+    Spacer(modifier = Modifier.height(16.dp))
 }

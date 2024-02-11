@@ -9,5 +9,7 @@
     <string name="add_book">Добавить книгу</string>
     <string name="search_book">Найти книгу</string>
     <string name="add_image">Добавить изображение</string>
+    <string name="enter_name">Укажите название</string>
+    <string name="enter_author">Укажите автора</string>
 
 </resources>

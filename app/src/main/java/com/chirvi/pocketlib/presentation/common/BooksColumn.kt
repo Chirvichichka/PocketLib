@@ -18,7 +18,9 @@ import com.chirvi.pocketlib.presentation.models.Book
 fun BookColumn(
     book: Book,
     grid: Boolean = true,
-    paddingValues: PaddingValues = PaddingValues(0.dp)
+    paddingValues: PaddingValues = PaddingValues(0.dp),
+    count: Int = 30,
+    onClickPreview: () -> Unit = {}
 ) {
     if(grid) {
         LazyVerticalGrid(
@@ -27,9 +29,9 @@ fun BookColumn(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            items( 30 ) {
+            items( count ) {
                 VerticalBookCard(
-                    book = book
+                    book = book,
                 )
             }
         }
@@ -39,8 +41,11 @@ fun BookColumn(
                 .fillMaxWidth()
                 .padding(paddingValues)
         ){
-            items ( 30 ) {
-                HorizontalBookCard(book = book)
+            items ( count ) {
+                HorizontalBookCard(
+                    book = book,
+                    onClickPreview = onClickPreview
+                )
             }
         }
     }

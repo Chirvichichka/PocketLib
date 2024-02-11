@@ -1,6 +1,7 @@
 package com.chirvi.pocketlib.presentation.common.book_card
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +27,8 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun HorizontalBookCard(
-    book: Book
+    book: Book,
+    onClickPreview: () -> Unit
 ) {
     Card(
         elevation = CardDefaults.cardElevation(
@@ -41,6 +43,9 @@ fun HorizontalBookCard(
                 vertical = 6.dp
             )
             .fillMaxWidth()
+            .clickable {
+                onClickPreview()
+            }
     ) {
         Row(
             modifier = Modifier

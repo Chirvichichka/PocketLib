@@ -144,7 +144,7 @@ private fun ProfileTabRow(
     )
 
     TabRow(
-        containerColor = PocketLibTheme.colors.primary  ,
+        containerColor = PocketLibTheme.colors.primary,
         selectedTabIndex = tabRowIndex,
         contentColor = PocketLibTheme.colors.black,
         indicator = { tabPosition ->
@@ -174,7 +174,18 @@ private fun ProfileTabRow(
             )
         }
     }
-    BookColumn(
-        book = Book()
-    )
+    when(tabRowIndex) {
+        0 -> {
+            BookColumn(
+                book = Book(),
+            )
+        }
+        1 -> {
+            BookColumn(
+                grid = false,
+                count = 5,
+                book = Book()
+            )
+        }
+    }
 }

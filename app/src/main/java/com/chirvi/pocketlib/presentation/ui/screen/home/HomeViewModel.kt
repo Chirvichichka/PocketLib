@@ -3,25 +3,27 @@ package com.chirvi.pocketlib.presentation.ui.screen.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.chirvi.pocketlib.presentation.navigation.HomeScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel(){
 
-    private val _isGrid = MutableLiveData(false)
-    val isGrid: LiveData<Boolean> = _isGrid
+    private val initialState = HomeScreenState.Feed
 
-    private val _newText = MutableLiveData("")
-    val newText: LiveData<String> = _newText
+    private val _screenState = MutableLiveData<HomeScreenState>(initialState)
+    val screenState: MutableLiveData<HomeScreenState> = _screenState
 
-    fun textChange(
-        text: String
-    ) {
-        _newText.value = text
+    private var savedState: HomeScreenState? = initialState
+
+    fun showPost() {
+        savedState = _screenState.value
+        _screenState.value = HomeScreenState.Post
     }
 
-    fun gridChange() {
-        _isGrid.value = !_isGrid.value!!
+    fun closePost() {
+        _screenState.value = savedState ?: HomeScreenState.Initial
     }
+
 }

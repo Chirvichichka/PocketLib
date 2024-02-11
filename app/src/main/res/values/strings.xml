@@ -9,6 +9,7 @@
     <string name="add_book">Add book</string>
     <string name="search_book">Search book</string>
     <string name="add_image">Add image</string>
-
+    <string name="enter_name">Enter the name</string>
+    <string name="enter_author">Enter the author</string>
 
 </resources>

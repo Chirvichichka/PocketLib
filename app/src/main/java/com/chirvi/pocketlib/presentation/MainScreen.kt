@@ -12,7 +12,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -27,8 +26,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.chirvi.pocketlib.presentation.navigation.AppNavGraph
 import com.chirvi.pocketlib.presentation.navigation.BottomNavigationItem
 import com.chirvi.pocketlib.presentation.navigation.NavigationState
+import com.chirvi.pocketlib.presentation.navigation.Screen
 import com.chirvi.pocketlib.presentation.navigation.rememberNavigationState
 import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
+import com.chirvi.pocketlib.presentation.ui.screen.book_page.BookPageScreen
 import com.chirvi.pocketlib.presentation.ui.screen.home.HomeScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.ProfileScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -55,9 +56,9 @@ fun MainScreen() {
         ) {
             AppNavGraph(
                 navHostController = navigationState.navHostController,
-                homeScreenContent = { HomeScreen(scroll = scroll) },
                 profileScreenContent = { ProfileScreen() },
                 addBookScreenContent = { AddBookScreen() },
+                homeScreenContent = { HomeScreen(scroll = scroll,) }
             )
         }
     }
