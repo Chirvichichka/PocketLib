@@ -6,7 +6,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.chirvi.pocketlib.presentation.navigation.HomeScreenState
+import com.chirvi.pocketlib.presentation.navigation.state.FeedScreenState
 import com.chirvi.pocketlib.presentation.ui.screen.feed.FeedScreen
 import com.chirvi.pocketlib.presentation.ui.screen.book_page.BookPageScreen
 
@@ -16,27 +16,28 @@ fun HomeScreen(
     scroll: TopAppBarScrollBehavior,
 ) {
     val viewModel = hiltViewModel<HomeViewModel>()
-    val screenState = viewModel.screenState.observeAsState(HomeScreenState.Initial)
+    val screenState = viewModel.screenState.observeAsState(FeedScreenState.Initial)
     val currentState = screenState.value
 
-    when(currentState) {
-        is HomeScreenState.Feed -> {
-            FeedScreen(
-                scroll = scroll,
-                onClickPreview = { viewModel.showPost() }
-            )
-        }
-        is HomeScreenState.Post -> {
-            BookPageScreen(
-                onBackPressed = {
-                    viewModel.closePost()
-                }
-            )
-            BackHandler {
-                viewModel.closePost()
-            }
-        }
-        is HomeScreenState.Initial -> {}
-    }
+    FeedScreen(scroll = scroll) {  }
+//    when(currentState) {
+//        is FeedScreenState.Feed -> {
+//            FeedScreen(
+//                scroll = scroll,
+//                onClickPreview = { viewModel.showPost() }
+//            )
+//        }
+//        is FeedScreenState.Post -> {
+//            BookPageScreen(
+//                onBackPressed = {
+//                    viewModel.closePost()
+//                }
+//            )
+//            BackHandler {
+//                viewModel.closePost()
+//            }
+//        }
+//        is FeedScreenState.Initial -> {}
+//    }
 }
 

@@ -1,6 +1,7 @@
-package com.chirvi.pocketlib.presentation.navigation
+package com.chirvi.pocketlib.presentation.navigation.item
 
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.navigation.Screen
 
 sealed class BottomNavigationItem(
     val screen: Screen,

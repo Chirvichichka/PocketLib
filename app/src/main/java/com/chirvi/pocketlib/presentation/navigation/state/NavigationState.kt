@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.navigation
+package com.chirvi.pocketlib.presentation.navigation.state
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

@@ -1,9 +1,10 @@
-package com.chirvi.pocketlib.presentation.navigation
+package com.chirvi.pocketlib.presentation.navigation.graph
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.chirvi.pocketlib.presentation.navigation.Screen
 
 fun NavGraphBuilder.homeNavGraph(
     bookPageContent: @Composable () -> Unit,

@@ -15,7 +15,10 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -23,13 +26,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.chirvi.pocketlib.presentation.navigation.AppNavGraph
-import com.chirvi.pocketlib.presentation.navigation.BottomNavigationItem
-import com.chirvi.pocketlib.presentation.navigation.NavigationState
-import com.chirvi.pocketlib.presentation.navigation.Screen
-import com.chirvi.pocketlib.presentation.navigation.rememberNavigationState
+import com.chirvi.pocketlib.presentation.navigation.graph.AppNavGraph
+import com.chirvi.pocketlib.presentation.navigation.item.BottomNavigationItem
+import com.chirvi.pocketlib.presentation.navigation.state.FeedScreenState
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
+import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationState
 import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
-import com.chirvi.pocketlib.presentation.ui.screen.book_page.BookPageScreen
 import com.chirvi.pocketlib.presentation.ui.screen.home.HomeScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.ProfileScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -39,6 +41,10 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 fun MainScreen() {
     val navigationState = rememberNavigationState()
     val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior() //todo перенести в HomeScreen
+    val bookPageToFeed: MutableState<FeedScreenState?> = remember {
+        mutableStateOf(null)
+    }
+
     Scaffold(
         containerColor = PocketLibTheme.colors.primary,
         modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
@@ -58,7 +64,7 @@ fun MainScreen() {
                 navHostController = navigationState.navHostController,
                 profileScreenContent = { ProfileScreen() },
                 addBookScreenContent = { AddBookScreen() },
-                homeScreenContent = { HomeScreen(scroll = scroll,) }
+                homeScreenContent = { HomeScreen(scroll = scroll) }
             )
         }
     }

@@ -22,7 +22,7 @@ fun BookColumn(
     count: Int = 30,
     onClickPreview: () -> Unit = {}
 ) {
-    if(grid) {
+    if (grid) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier

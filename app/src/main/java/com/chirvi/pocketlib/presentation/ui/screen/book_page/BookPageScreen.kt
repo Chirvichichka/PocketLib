@@ -9,26 +9,36 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.navigation.state.BookPageScreenState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun BookPageScreen(
     onBackPressed: () -> Unit
 ) {
-    Scaffold(
-        containerColor = PocketLibTheme.colors.primary,
-        topBar = {  }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            FeedAppTopBar(onBackPressed = onBackPressed)
+    val viewModel = hiltViewModel<BookPageViewModel>()
+    val screenState by viewModel.screenState.observeAsState(BookPageScreenState.Initial)
+    val currentState = screenState
+
+    if ( currentState is BookPageScreenState.BookPage ) {
+        Scaffold(
+            containerColor = PocketLibTheme.colors.primary,
+            topBar = {  }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                FeedAppTopBar(onBackPressed = onBackPressed)
+            }
         }
     }
 }

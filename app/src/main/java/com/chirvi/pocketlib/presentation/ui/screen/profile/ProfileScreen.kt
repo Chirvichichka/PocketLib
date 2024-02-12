@@ -35,7 +35,7 @@ import com.chirvi.pocketlib.presentation.common.BookColumn
 import com.chirvi.pocketlib.presentation.common.ButtonWithText
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
-import com.chirvi.pocketlib.presentation.navigation.ProfileTabRowItem
+import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable

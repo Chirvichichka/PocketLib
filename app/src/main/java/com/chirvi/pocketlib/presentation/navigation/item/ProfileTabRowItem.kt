@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.navigation
+package com.chirvi.pocketlib.presentation.navigation.item
 
 import com.chirvi.pocketlib.R
 
