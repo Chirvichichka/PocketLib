@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 import com.chirvi.pocketlib.presentation.navigation.Screen
 
 fun NavGraphBuilder.homeNavGraph(
-    bookPageContent: @Composable () -> Unit,
+    homePageBookContent: @Composable () -> Unit,
     feedContent: @Composable () -> Unit
 ) {
     navigation(
@@ -15,7 +15,7 @@ fun NavGraphBuilder.homeNavGraph(
         route = Screen.Home.route
     ) {
         composable(Screen.PageBook.route) {
-            bookPageContent()
+            homePageBookContent()
         }
         composable(Screen.Feed.route) {
             feedContent()

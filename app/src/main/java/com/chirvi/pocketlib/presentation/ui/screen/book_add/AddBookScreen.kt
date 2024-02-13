@@ -38,14 +38,14 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 fun AddBookScreen() {
     val viewModel = hiltViewModel<AddBookViewModel>()
 
-
-    Scaffold(
-        containerColor = PocketLibTheme.colors.primary,
-        topBar = { AddBookTopAppBar() }
-    ) { paddingValues ->
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = PocketLibTheme.colors.primary)
+    ) {
+        AddBookTopAppBar()
         Column(
             modifier = Modifier
-                .padding(paddingValues)
                 .padding(all = 16.dp)
                 .fillMaxSize()
         ) {
@@ -89,7 +89,7 @@ private fun AddPicture() {
                     shape = RoundedCornerShape(10.dp)
                 )
                 .clip(RoundedCornerShape(10.dp))
-                .clickable{
+                .clickable {
                     //todo
                 }
         ) {

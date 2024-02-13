@@ -11,10 +11,10 @@ import com.chirvi.pocketlib.presentation.navigation.Screen
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
-    profileScreenContent: @Composable () -> Unit,
     addBookScreenContent: @Composable () -> Unit,
-    bookPageContent: @Composable () -> Unit,
-    feedContent: @Composable () -> Unit
+    pageBookContent: @Composable () -> Unit,
+    feedContent: @Composable () -> Unit,
+    userContent: @Composable () -> Unit,
     ) {
     NavHost(
         navController = navHostController,
@@ -24,11 +24,12 @@ fun AppNavGraph(
     ) {
         homeNavGraph(
             feedContent = feedContent,
-            bookPageContent = bookPageContent
+            homePageBookContent = pageBookContent
         )
-        composable(route = Screen.Profile.route) {
-            profileScreenContent()
-        }
+        profileNavGraph(
+            profilePageBookContent = pageBookContent,
+            userContent = userContent
+        )
         composable(route = Screen.AddBook.route) {
             addBookScreenContent()
         }

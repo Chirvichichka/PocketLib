@@ -1,10 +1,12 @@
-package com.chirvi.pocketlib.presentation.ui.screen.profile
+package com.chirvi.pocketlib.presentation.ui.screen.profile.user
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,25 +37,27 @@ import com.chirvi.pocketlib.presentation.common.BookColumn
 import com.chirvi.pocketlib.presentation.common.ButtonWithText
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
+import com.chirvi.pocketlib.presentation.navigation.Screen
 import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun ProfileScreen() {
-    val viewModel = hiltViewModel<ProfileViewModel>()
+fun UserScreen(
+    onClickPreview: () -> Unit
+) {
+    val viewModel = hiltViewModel<UserViewModel>()
 
-    Scaffold(
-        containerColor = PocketLibTheme.colors.primary,
-
-        topBar = { ProfileTopAppBar() },
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = PocketLibTheme.colors.primary)
     ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-        ) {
-            UserInfo()
-            ProfileTabRow(viewModel = viewModel)
-        }
+        ProfileTopAppBar()
+        UserInfo()
+        ProfileTabRow(
+            viewModel = viewModel,
+            onClickPreview = onClickPreview
+        )
     }
 }
 
@@ -134,7 +138,8 @@ private fun UserInfo() {
 
 @Composable
 private fun ProfileTabRow(
-    viewModel: ProfileViewModel
+    viewModel: UserViewModel,
+    onClickPreview: () -> Unit
 ) {
     val tabRowIndex by viewModel.tabRowItem.observeAsState(0)
 
@@ -178,13 +183,15 @@ private fun ProfileTabRow(
         0 -> {
             BookColumn(
                 book = Book(),
+                onClickPreview = onClickPreview
             )
         }
         1 -> {
             BookColumn(
                 grid = false,
                 count = 5,
-                book = Book()
+                book = Book(),
+                onClickPreview = onClickPreview
             )
         }
     }

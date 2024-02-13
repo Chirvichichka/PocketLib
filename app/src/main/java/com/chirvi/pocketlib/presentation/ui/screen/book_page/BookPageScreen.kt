@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.home.book_page
+package com.chirvi.pocketlib.presentation.ui.screen.book_page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -9,14 +9,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
-import com.chirvi.pocketlib.presentation.navigation.state.BookPageScreenState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
@@ -25,20 +22,14 @@ fun BookPageScreen(
 ) {
     val viewModel = hiltViewModel<BookPageViewModel>()
 
-    Scaffold(
-        containerColor = PocketLibTheme.colors.primary,
-        topBar = {  }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            FeedAppTopBar(onBackPressed = onBackPressed)
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = PocketLibTheme.colors.primary)
+    ) {
+        FeedAppTopBar(onBackPressed = onBackPressed)
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -3,11 +3,9 @@ package com.chirvi.pocketlib.presentation.common.book_card
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,9 +19,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
+
 @Composable
 fun VerticalBookCard(
     book: Book,
+    onClickPreview: () -> Unit
 ) {
     Card(
         elevation = CardDefaults.cardElevation(
@@ -37,6 +37,9 @@ fun VerticalBookCard(
                 horizontal = 8.dp,
                 vertical = 4.dp
             )
+            .clickable {
+                onClickPreview()
+            }
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),

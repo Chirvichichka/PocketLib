@@ -18,28 +18,24 @@ import com.chirvi.pocketlib.presentation.models.Book
 fun BookColumn(
     book: Book,
     grid: Boolean = true,
-    paddingValues: PaddingValues = PaddingValues(0.dp),
     count: Int = 30,
     onClickPreview: () -> Unit = {}
 ) {
     if (grid) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+            modifier = Modifier.fillMaxSize()
         ) {
             items( count ) {
                 VerticalBookCard(
                     book = book,
+                    onClickPreview = onClickPreview
                 )
             }
         }
     } else {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(paddingValues)
+            modifier = Modifier.fillMaxWidth()
         ){
             items ( count ) {
                 HorizontalBookCard(

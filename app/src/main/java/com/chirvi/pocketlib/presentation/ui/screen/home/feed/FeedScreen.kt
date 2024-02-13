@@ -1,5 +1,8 @@
 package com.chirvi.pocketlib.presentation.ui.screen.home.feed
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,9 +36,9 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedScreen(
-    onClickPreview: () -> Unit
+    onClickPreview: () -> Unit,
+    scroll: TopAppBarScrollBehavior
 ) {
-    val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior() //todo вот это
     val viewModel = hiltViewModel<FeedViewModel>()
     val books = mutableListOf<Book>().apply {
         repeat(21) { add(Book(id = it)) }
@@ -44,19 +47,17 @@ fun FeedScreen(
 
     when( currentState ) {
         is FeedScreenState.Feed -> {
-            Scaffold(
-                modifier = Modifier.nestedScroll(scroll.nestedScrollConnection), //todo вот это
-                containerColor = PocketLibTheme.colors.primary,
-                topBar = {
-                    FeedTopAppBar(
-                        viewModel = viewModel,
-                        scroll = scroll
-                    )
-                }
-            ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = PocketLibTheme.colors.primary)
+            ) {
+                FeedTopAppBar(
+                    viewModel = viewModel,
+                    scroll = scroll
+                )
                 BookColumn(
                     grid = false,
-                    paddingValues = paddingValues,
                     book = books[0],
                     onClickPreview = onClickPreview
                 )

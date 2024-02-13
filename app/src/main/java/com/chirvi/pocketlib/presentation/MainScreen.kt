@@ -30,18 +30,19 @@ import com.chirvi.pocketlib.presentation.navigation.item.BottomNavigationItem
 import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationState
 import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
-import com.chirvi.pocketlib.presentation.ui.screen.home.book_page.BookPageScreen
+import com.chirvi.pocketlib.presentation.ui.screen.book_page.BookPageScreen
 import com.chirvi.pocketlib.presentation.ui.screen.home.feed.FeedScreen
-import com.chirvi.pocketlib.presentation.ui.screen.profile.ProfileScreen
+import com.chirvi.pocketlib.presentation.ui.screen.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val navigationState = rememberNavigationState()
-
+    val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior() //todo вот это
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scroll.nestedScrollConnection), //todo вот это
         containerColor = PocketLibTheme.colors.primary,
         bottomBar = {
             BottomNavigation(
@@ -57,16 +58,21 @@ fun MainScreen() {
         ) {
             AppNavGraph(
                 navHostController = navigationState.navHostController,
-                profileScreenContent = { ProfileScreen() },
                 addBookScreenContent = { AddBookScreen() },
                 feedContent = {
                     FeedScreen(
+                        scroll = scroll,
                         onClickPreview = { navigationState.navigateTo(Screen.PageBook.route) }
                     )
                 },
-                bookPageContent = {
+                pageBookContent = {
                     BookPageScreen(
                         onBackPressed = { navigationState.navHostController.popBackStack() }
+                    )
+                },
+                userContent = {
+                    UserScreen(
+                        onClickPreview = { navigationState.navigateTo(Screen.PageBook.route) }
                     )
                 }
             )

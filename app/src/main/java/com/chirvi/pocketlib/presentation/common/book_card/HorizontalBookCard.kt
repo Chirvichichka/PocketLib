@@ -70,11 +70,15 @@ fun HorizontalBookCard(
             ) {
                 Text(
                     text = book.name,
-                    style = PocketLibTheme.textStyles.primaryLarge
+                    style = PocketLibTheme.textStyles.primaryLarge.copy(
+                        color = PocketLibTheme.colors.black
+                    )
                 )
                 Text(
                     text = book.author,
-                    style = PocketLibTheme.textStyles.primary
+                    style = PocketLibTheme.textStyles.primary.copy(
+                        color = PocketLibTheme.colors.black
+                    )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at neque sem. Sed placerat vitae massa ac consequat. Pellentesque vehicula orci in justo ultricies suscipit. Donec vehicula neque in justo feugiat placerat. Nam pharetra dolor felis, quis varius neque interdum viverra. Cras quis dolor bibendum, vehicula augue non, molestie leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur nec libero vel neque pellentesque congue. Vivamus placerat feugiat faucibus. Nam non rutrum dolor. Curabitur quam tellus, pretium vitae convallis vel, tempor vitae ex. Sed in quam risus. Nam rhoncus velit et risus aliquet consectetur. Nam."
@@ -82,7 +86,9 @@ fun HorizontalBookCard(
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 5,
                     text = text,
-                    style = PocketLibTheme.textStyles.primarySmall
+                    style = PocketLibTheme.textStyles.primarySmall.copy(
+                        color = PocketLibTheme.colors.black
+                    )
                 )
             }
         }
