@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.feed
+package com.chirvi.pocketlib.presentation.ui.screen.home.feed
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,12 +10,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -31,9 +33,9 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedScreen(
-    scroll: TopAppBarScrollBehavior,
     onClickPreview: () -> Unit
 ) {
+    val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior() //todo вот это
     val viewModel = hiltViewModel<FeedViewModel>()
     val books = mutableListOf<Book>().apply {
         repeat(21) { add(Book(id = it)) }
@@ -43,6 +45,7 @@ fun FeedScreen(
     when( currentState ) {
         is FeedScreenState.Feed -> {
             Scaffold(
+                modifier = Modifier.nestedScroll(scroll.nestedScrollConnection), //todo вот это
                 containerColor = PocketLibTheme.colors.primary,
                 topBar = {
                     FeedTopAppBar(

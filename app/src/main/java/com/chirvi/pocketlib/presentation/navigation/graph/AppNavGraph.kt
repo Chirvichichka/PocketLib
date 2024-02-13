@@ -13,7 +13,8 @@ fun AppNavGraph(
     navHostController: NavHostController,
     profileScreenContent: @Composable () -> Unit,
     addBookScreenContent: @Composable () -> Unit,
-    homeScreenContent: @Composable () -> Unit,
+    bookPageContent: @Composable () -> Unit,
+    feedContent: @Composable () -> Unit
     ) {
     NavHost(
         navController = navHostController,
@@ -21,9 +22,10 @@ fun AppNavGraph(
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None }
     ) {
-        composable(route = Screen.Home.route) {
-            homeScreenContent()
-        }
+        homeNavGraph(
+            feedContent = feedContent,
+            bookPageContent = bookPageContent
+        )
         composable(route = Screen.Profile.route) {
             profileScreenContent()
         }

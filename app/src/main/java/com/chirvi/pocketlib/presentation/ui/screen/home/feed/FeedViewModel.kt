@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.feed
+package com.chirvi.pocketlib.presentation.ui.screen.home.feed
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,9 +21,7 @@ class FeedViewModel @Inject constructor() : ViewModel() {
 
 
 
-
-
-    private val _isGrid = MutableLiveData(false)
+    private val _isGrid = MutableLiveData(false) //todo переименовать
     val isGrid: LiveData<Boolean> = _isGrid
 
     private val _newText = MutableLiveData("")

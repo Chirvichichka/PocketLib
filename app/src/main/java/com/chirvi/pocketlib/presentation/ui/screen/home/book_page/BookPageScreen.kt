@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.book_page
+package com.chirvi.pocketlib.presentation.ui.screen.home.book_page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -24,24 +24,21 @@ fun BookPageScreen(
     onBackPressed: () -> Unit
 ) {
     val viewModel = hiltViewModel<BookPageViewModel>()
-    val screenState by viewModel.screenState.observeAsState(BookPageScreenState.Initial)
-    val currentState = screenState
 
-    if ( currentState is BookPageScreenState.BookPage ) {
-        Scaffold(
-            containerColor = PocketLibTheme.colors.primary,
-            topBar = {  }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                FeedAppTopBar(onBackPressed = onBackPressed)
-            }
+    Scaffold(
+        containerColor = PocketLibTheme.colors.primary,
+        topBar = {  }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            FeedAppTopBar(onBackPressed = onBackPressed)
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

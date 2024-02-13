@@ -15,24 +15,23 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.chirvi.pocketlib.presentation.navigation.Screen
 import com.chirvi.pocketlib.presentation.navigation.graph.AppNavGraph
 import com.chirvi.pocketlib.presentation.navigation.item.BottomNavigationItem
-import com.chirvi.pocketlib.presentation.navigation.state.FeedScreenState
 import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationState
 import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
-import com.chirvi.pocketlib.presentation.ui.screen.home.HomeScreen
+import com.chirvi.pocketlib.presentation.ui.screen.home.book_page.BookPageScreen
+import com.chirvi.pocketlib.presentation.ui.screen.home.feed.FeedScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.ProfileScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -40,14 +39,10 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun MainScreen() {
     val navigationState = rememberNavigationState()
-    val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior() //todo перенести в HomeScreen
-    val bookPageToFeed: MutableState<FeedScreenState?> = remember {
-        mutableStateOf(null)
-    }
+
 
     Scaffold(
         containerColor = PocketLibTheme.colors.primary,
-        modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
         bottomBar = {
             BottomNavigation(
                 navigationState = navigationState
@@ -64,7 +59,16 @@ fun MainScreen() {
                 navHostController = navigationState.navHostController,
                 profileScreenContent = { ProfileScreen() },
                 addBookScreenContent = { AddBookScreen() },
-                homeScreenContent = { HomeScreen(scroll = scroll) }
+                feedContent = {
+                    FeedScreen(
+                        onClickPreview = { navigationState.navigateTo(Screen.PageBook.route) }
+                    )
+                },
+                bookPageContent = {
+                    BookPageScreen(
+                        onBackPressed = { navigationState.navHostController.popBackStack() }
+                    )
+                }
             )
         }
     }
@@ -75,7 +79,6 @@ private fun BottomNavigation(
     navigationState: NavigationState
 ) {
     val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
 
     val items = listOf(
         BottomNavigationItem.Home,
@@ -87,13 +90,20 @@ private fun BottomNavigation(
         containerColor = PocketLibTheme.colors.tertiary,
         actions = {
             items.forEach{ item ->
+
+                val selected = navBackStackEntry?.destination?.hierarchy?.any {
+                    it.route == item.screen.route
+                } ?: false
+
                 NavigationBarItem(
                     colors = NavigationBarItemDefaults.colors(
                         indicatorColor = PocketLibTheme.colors.secondary
                     ),
-                    selected = currentRoute == item.screen.route,
+                    selected = selected,
                     onClick = {
-                        navigationState.navigateTo(item.screen.route)
+                        if(!selected) {
+                            navigationState.navigateTo(item.screen.route)
+                        }
                     },
                     icon = {
                        Icon(
@@ -114,6 +124,7 @@ private fun BottomNavigation(
             }
         },
         floatingActionButton = {
+            val currentRoute = navBackStackEntry?.destination?.route
             val containerColor: Color
             val tint: Color
 

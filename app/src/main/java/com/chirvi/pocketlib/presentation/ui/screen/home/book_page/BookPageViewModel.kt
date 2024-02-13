@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.book_page
+package com.chirvi.pocketlib.presentation.ui.screen.home.book_page
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,9 +13,5 @@ class BookPageViewModel @Inject constructor() : ViewModel() {
 
     private val _screenState = MutableLiveData<BookPageScreenState>(BookPageScreenState.Initial)
     val screenState: LiveData<BookPageScreenState> = _screenState
-
-    fun loadBookPage() {
-        _screenState.value = BookPageScreenState.BookPage
-    }
 
 }
