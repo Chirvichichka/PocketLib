@@ -10,31 +10,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.common.BackButton
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    onBackPressed: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
-        SettingsAppBar()
+        SettingsAppBar(onBackPressed = onBackPressed)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsAppBar() {
+private fun SettingsAppBar(
+    onBackPressed: () -> Unit
+) {
     PocketLibTopAppBar(
         title = {
             Text(
                 text = stringResource(id = R.string.settings),
                 style = PocketLibTheme.textStyles.primaryLarge.copy(
-                    color = PocketLibTheme.colors.black,
+                    color = PocketLibTheme.colors.primary,
                     fontStyle = FontStyle.Italic
                 )
+            )
+        },
+        navigationIcon = {
+            BackButton(
+                onClickListener = onBackPressed
             )
         }
     )

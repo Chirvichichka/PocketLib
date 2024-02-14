@@ -77,7 +77,11 @@ fun MainScreen() {
                         onClickSettings = { navigationState.navigateTo(Screen.Settings.route) }
                     )
                 },
-                settingsContent = { SettingsScreen() }
+                settingsContent = {
+                    SettingsScreen(
+                        onBackPressed = { navigationState.navHostController.popBackStack() }
+                    )
+                }
             )
         }
     }

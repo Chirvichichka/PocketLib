@@ -25,10 +25,10 @@ fun AppNavGraph(
     ) {
         homeNavGraph(
             feedContent = feedContent,
-            homePageBookContent = pageBookContent
+            pageBookContent = pageBookContent
         )
         profileNavGraph(
-            profilePageBookContent = pageBookContent,
+            pageBookContent = pageBookContent,
             userContent = userContent,
             settingsContent = settingsContent
         )
