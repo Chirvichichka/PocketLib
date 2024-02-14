@@ -32,6 +32,7 @@ import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationStat
 import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
 import com.chirvi.pocketlib.presentation.ui.screen.book_page.BookPageScreen
 import com.chirvi.pocketlib.presentation.ui.screen.home.feed.FeedScreen
+import com.chirvi.pocketlib.presentation.ui.screen.profile.settings.SettingsScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -72,9 +73,11 @@ fun MainScreen() {
                 },
                 userContent = {
                     UserScreen(
-                        onClickPreview = { navigationState.navigateTo(Screen.PageBook.route) }
+                        onClickPreview = { navigationState.navigateTo(Screen.PageBook.route) },
+                        onClickSettings = { navigationState.navigateTo(Screen.Settings.route) }
                     )
-                }
+                },
+                settingsContent = { SettingsScreen() }
             )
         }
     }

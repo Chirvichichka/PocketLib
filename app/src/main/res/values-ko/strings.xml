@@ -11,5 +11,7 @@
     <string name="add_image">이미지 추가</string>
     <string name="enter_name">이름을 입력하세요</string>
     <string name="enter_author">이름을 입력하세요</string>
+    <string name="settings">설정</string>
+
 
 </resources>

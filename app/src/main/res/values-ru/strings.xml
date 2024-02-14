@@ -11,5 +11,7 @@
     <string name="add_image">Добавить изображение</string>
     <string name="enter_name">Укажите название</string>
     <string name="enter_author">Укажите автора</string>
+    <string name="settings">Настройки</string>
+
 
 </resources>

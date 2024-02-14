@@ -11,5 +11,6 @@
     <string name="add_image">Add image</string>
     <string name="enter_name">Enter the name</string>
     <string name="enter_author">Enter the author</string>
+    <string name="settings">Settings</string>
 
 </resources>

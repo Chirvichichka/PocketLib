@@ -15,7 +15,8 @@ fun AppNavGraph(
     pageBookContent: @Composable () -> Unit,
     feedContent: @Composable () -> Unit,
     userContent: @Composable () -> Unit,
-    ) {
+    settingsContent: @Composable () -> Unit
+) {
     NavHost(
         navController = navHostController,
         startDestination = Screen.Home.route,
@@ -28,7 +29,8 @@ fun AppNavGraph(
         )
         profileNavGraph(
             profilePageBookContent = pageBookContent,
-            userContent = userContent
+            userContent = userContent,
+            settingsContent = settingsContent
         )
         composable(route = Screen.AddBook.route) {
             addBookScreenContent()

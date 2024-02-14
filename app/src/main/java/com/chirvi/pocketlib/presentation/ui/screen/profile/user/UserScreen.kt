@@ -43,7 +43,8 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun UserScreen(
-    onClickPreview: () -> Unit
+    onClickPreview: () -> Unit,
+    onClickSettings: () -> Unit,
 ) {
     val viewModel = hiltViewModel<UserViewModel>()
 
@@ -52,7 +53,9 @@ fun UserScreen(
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
-        ProfileTopAppBar()
+        ProfileTopAppBar(
+            onClickSettings = onClickSettings
+        )
         UserInfo()
         ProfileTabRow(
             viewModel = viewModel,
@@ -63,7 +66,9 @@ fun UserScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ProfileTopAppBar() {
+private fun ProfileTopAppBar(
+    onClickSettings: () -> Unit
+) {
     PocketLibTopAppBar(
         title = {
             Text(
@@ -77,7 +82,7 @@ private fun ProfileTopAppBar() {
         actions = {
             IconButton(
                 onClick = {
-                    /*TODO*/
+                    onClickSettings()
                 }
             ) {
                 Icon(
