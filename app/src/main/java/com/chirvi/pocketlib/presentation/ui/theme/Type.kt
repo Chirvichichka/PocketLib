@@ -3,6 +3,7 @@ package com.chirvi.pocketlib.presentation.ui.theme
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.chirvi.pocketlib.R
@@ -12,24 +13,27 @@ val merriweatherFamily = FontFamily(
 )
 
 
-val primaryStyle = TextStyle(
+val normalStyle = TextStyle(
     fontSize = 14.sp,
-//    letterSpacing = 0.5.sp,
     fontFamily = merriweatherFamily,
     fontWeight = FontWeight.Normal
 )
 
-val primaryLargeStyle = TextStyle(
+val largeStyle = TextStyle(
     fontSize = 16.sp,
-//    letterSpacing = 0.5.sp,
     fontFamily = merriweatherFamily,
     fontWeight = FontWeight.Normal
 )
 
-val primarySmallStyle = TextStyle(
+val smallStyle = TextStyle(
     fontSize = 12.sp,
     fontFamily = merriweatherFamily,
     fontWeight = FontWeight.Normal
 )
 
-//    lineHeight = 24.sp,
+val topAppBarStyle = TextStyle(
+    fontSize = 16.sp,
+    fontStyle = FontStyle.Italic,
+    fontFamily = merriweatherFamily,
+    fontWeight = FontWeight.Normal
+)

@@ -36,9 +36,8 @@ private fun SettingsAppBar(
         title = {
             Text(
                 text = stringResource(id = R.string.settings),
-                style = PocketLibTheme.textStyles.primaryLarge.copy(
+                style = PocketLibTheme.textStyles.topAppBarStyle.copy(
                     color = PocketLibTheme.colors.primary,
-                    fontStyle = FontStyle.Italic
                 )
             )
         },
@@ -49,3 +48,4 @@ private fun SettingsAppBar(
         }
     )
 }
+

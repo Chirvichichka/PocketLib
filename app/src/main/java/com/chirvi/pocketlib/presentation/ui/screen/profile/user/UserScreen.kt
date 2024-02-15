@@ -71,10 +71,8 @@ private fun ProfileTopAppBar(
         title = {
             Text(
                 text = stringResource(id = R.string.profile),
-                style = PocketLibTheme.textStyles.primaryLarge.copy(
-                    color = PocketLibTheme.colors.primary,
-                    fontStyle = FontStyle.Italic
-                )
+                style = PocketLibTheme.textStyles.topAppBarStyle.copy(
+                    color = PocketLibTheme.colors.primary,)
             )
         },
         actions = {
@@ -123,11 +121,11 @@ private fun UserInfo() {
             ) {
                 Text(
                     text = "User name",
-                    style = PocketLibTheme.textStyles.primaryLarge
+                    style = PocketLibTheme.textStyles.largeStyle
                 )
                 Text(
                     text = "User id",
-                    style = PocketLibTheme.textStyles.primary,
+                    style = PocketLibTheme.textStyles.normalStyle,
                 )
             }
         }

@@ -14,7 +14,7 @@ fun NavGraphBuilder.homeNavGraph(
         startDestination = Screen.Feed.route,
         route = Screen.Home.route
     ) {
-        composable(Screen.PageBook.route) {
+        composable(Screen.PageBookHome.route) {
             pageBookContent()
         }
         composable(Screen.Feed.route) {

@@ -105,7 +105,7 @@ private fun SearchBook(
     viewModel: FeedViewModel
 ) {
     val text by viewModel.newText.observeAsState("")
-    val textStyle = PocketLibTheme.textStyles.primary.copy(
+    val textStyle = PocketLibTheme.textStyles.normalStyle.copy(
         color = PocketLibTheme.colors.black
     )
 

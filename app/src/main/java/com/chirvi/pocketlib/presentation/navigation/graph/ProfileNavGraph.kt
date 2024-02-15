@@ -18,7 +18,7 @@ fun NavGraphBuilder.profileNavGraph(
         composable(Screen.User.route) {
             userContent()
         }
-        composable(Screen.PageBook.route) {
+        composable(Screen.PageBookProfile.route) {
             pageBookContent()
         }
         composable(Screen.Settings.route) {

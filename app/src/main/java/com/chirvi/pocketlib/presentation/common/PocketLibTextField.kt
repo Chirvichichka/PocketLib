@@ -20,7 +20,7 @@ fun PocketLibTextField(
     leadingIconId: Int,
     onValueChange: (String) -> Unit
 ) {
-    val textStyle = PocketLibTheme.textStyles.primary.copy(
+    val textStyle = PocketLibTheme.textStyles.normalStyle.copy(
         color = PocketLibTheme.colors.black
     )
 

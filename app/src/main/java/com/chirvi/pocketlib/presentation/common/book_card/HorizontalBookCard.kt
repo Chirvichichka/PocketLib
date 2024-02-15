@@ -70,13 +70,13 @@ fun HorizontalBookCard(
             ) {
                 Text(
                     text = book.name,
-                    style = PocketLibTheme.textStyles.primaryLarge.copy(
+                    style = PocketLibTheme.textStyles.largeStyle.copy(
                         color = PocketLibTheme.colors.black
                     )
                 )
                 Text(
                     text = book.author,
-                    style = PocketLibTheme.textStyles.primary.copy(
+                    style = PocketLibTheme.textStyles.normalStyle.copy(
                         color = PocketLibTheme.colors.black
                     )
                 )
@@ -86,7 +86,7 @@ fun HorizontalBookCard(
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 5,
                     text = text,
-                    style = PocketLibTheme.textStyles.primarySmall.copy(
+                    style = PocketLibTheme.textStyles.smallStyle.copy(
                         color = PocketLibTheme.colors.black
                     )
                 )

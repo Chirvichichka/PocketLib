@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.common.BackButton
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -36,16 +37,9 @@ fun FeedAppTopBar(
 ) {
     PocketLibTopAppBar(
         navigationIcon = {
-            IconButton(
-                onClick = {
-                    onBackPressed()
-                }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_back),
-                    contentDescription = null
-                )
-            }
+            BackButton(
+                onClickListener = onBackPressed
+            )
         }
     )
 }

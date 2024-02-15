@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation
+package com.chirvi.pocketlib.presentation.ui.screen.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -63,7 +63,7 @@ fun MainScreen() {
                 feedContent = {
                     FeedScreen(
                         scroll = scroll,
-                        onClickPreview = { navigationState.navigateTo(Screen.PageBook.route) }
+                        onClickPreview = { navigationState.navigateToIn(Screen.PageBookHome.route) }
                     )
                 },
                 pageBookContent = {
@@ -73,8 +73,8 @@ fun MainScreen() {
                 },
                 userContent = {
                     UserScreen(
-                        onClickPreview = { navigationState.navigateTo(Screen.PageBook.route) },
-                        onClickSettings = { navigationState.navigateTo(Screen.Settings.route) }
+                        onClickPreview = { navigationState.navigateToIn(Screen.PageBookProfile.route) },
+                        onClickSettings = { navigationState.navigateToIn(Screen.Settings.route) }
                     )
                 },
                 settingsContent = {
@@ -128,7 +128,7 @@ private fun BottomNavigation(
                     label = {
                         Text(
                             text = stringResource(id = item.title),
-                            style = PocketLibTheme.textStyles.primarySmall.copy(
+                            style = PocketLibTheme.textStyles.smallStyle.copy(
                                 color = PocketLibTheme.colors.secondary
                             )
                         )

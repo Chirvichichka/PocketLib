@@ -22,15 +22,17 @@ private val MainColorScheme = Colors(
 )
 
 data class TextStyles(
-    val primarySmall: TextStyle,
-    val primaryLarge: TextStyle,
-    val primary: TextStyle,
+    val smallStyle: TextStyle,
+    val largeStyle: TextStyle,
+    val normalStyle: TextStyle,
+    val topAppBarStyle: TextStyle
 )
 
 val TextStyleType = TextStyles(
-    primary = primaryStyle,
-    primaryLarge = primaryLargeStyle,
-    primarySmall = primarySmallStyle
+    normalStyle = normalStyle,
+    largeStyle = largeStyle,
+    smallStyle = smallStyle,
+    topAppBarStyle = topAppBarStyle
 )
 
 val LocalNavController = staticCompositionLocalOf<NavHostController> {

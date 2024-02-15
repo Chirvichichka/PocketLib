@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation
+package com.chirvi.pocketlib.presentation.ui.screen.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

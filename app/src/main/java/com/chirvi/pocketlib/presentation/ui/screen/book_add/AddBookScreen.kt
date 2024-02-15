@@ -63,9 +63,8 @@ private fun AddBookTopAppBar() {
         title = {
             Text(
                 text = stringResource(id = R.string.add_book),
-                style = PocketLibTheme.textStyles.primaryLarge.copy(
+                style = PocketLibTheme.textStyles.topAppBarStyle.copy(
                     color = PocketLibTheme.colors.primary,
-                    fontStyle = FontStyle.Italic
                 )
             )
         }
@@ -101,7 +100,7 @@ private fun AddPicture() {
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = stringResource(id = R.string.add_image),
-            style = PocketLibTheme.textStyles.primaryLarge.copy(
+            style = PocketLibTheme.textStyles.largeStyle.copy(
                 color = PocketLibTheme.colors.black
             )
         )

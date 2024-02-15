@@ -15,15 +15,20 @@ class NavigationState(
         route: String
     ) {
         navHostController.navigate(route) {
-            navHostController.graph.parent?.let {
-                popUpTo(it.id) {
-                    saveState = true
-                }
+            popUpTo(navHostController.graph.findStartDestination().id) {
+                saveState = true
             }
             launchSingleTop = true
             restoreState = true
         }
     }
+
+    fun navigateToIn(
+        route: String
+    ) {
+        navHostController.navigate(route = route)
+    }
+
 }
 
 @Composable
