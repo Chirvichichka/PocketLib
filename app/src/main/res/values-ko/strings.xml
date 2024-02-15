@@ -12,6 +12,8 @@
     <string name="enter_name">이름을 입력하세요</string>
     <string name="enter_author">이름을 입력하세요</string>
     <string name="settings">설정</string>
+    <string name="feed_checkbox">기본 피드의 표 형식 표시</string>
+
 
 
 </resources>

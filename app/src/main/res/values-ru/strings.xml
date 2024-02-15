@@ -12,6 +12,8 @@
     <string name="enter_name">Укажите название</string>
     <string name="enter_author">Укажите автора</string>
     <string name="settings">Настройки</string>
+    <string name="feed_checkbox">Табличное отображение в главное ленте</string>
+
 
 
 </resources>
