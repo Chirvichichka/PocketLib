@@ -12,6 +12,9 @@
     <string name="enter_name">Enter the name</string>
     <string name="enter_author">Enter the author</string>
     <string name="settings">Settings</string>
-    <string name="feed_checkbox">Tabular display in the main feed</string>
+    <string name="feed_switch">Tabular display in the main feed</string>
+    <string name="my_books_switch" >Tabular display in the MyBooks section</string>
+    <string name="favorite_switch" >Tabular display in the Favorite section</string>
+    <string name="card_display">Display card</string>
 
 </resources>

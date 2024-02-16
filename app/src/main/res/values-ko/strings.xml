@@ -12,7 +12,10 @@
     <string name="enter_name">이름을 입력하세요</string>
     <string name="enter_author">이름을 입력하세요</string>
     <string name="settings">설정</string>
-    <string name="feed_checkbox">기본 피드의 표 형식 표시</string>
+    <string name="feed_switch">기본 피드의 표 형식 표시</string>
+    <string name="my_books_switch" >내 책 섹션의 표 형식 표시</string>
+    <string name="favorite_switch" >즐겨찾기 섹션의 표 형식 표시</string>
+    <string name="card_display">디스플레이 카드</string>
 
 
 

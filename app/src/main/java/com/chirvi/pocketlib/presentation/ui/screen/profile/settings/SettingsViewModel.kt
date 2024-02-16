@@ -9,10 +9,21 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor() : ViewModel() {
 
-    private val _feedCheckBoxState = MutableLiveData(false)
-    val feedCheckBoxState: LiveData<Boolean> = _feedCheckBoxState
+    private val _feedCSwitchState = MutableLiveData(false)
+    val feedSwitchState: LiveData<Boolean> = _feedCSwitchState
 
-    fun feedCheckBoxStateChanged() {
-        _feedCheckBoxState.value = !_feedCheckBoxState.value!!
+    private val _myBooksCSwitchState = MutableLiveData(false)
+    val myBooksCSwitchState: LiveData<Boolean> = _myBooksCSwitchState
+
+    private val _favoriteSwitchState = MutableLiveData(false)
+    val favoriteSwitchState: LiveData<Boolean> = _favoriteSwitchState
+    fun feedSwitchStateChanged() {
+        _feedCSwitchState.value = !_feedCSwitchState.value!! //todo разобраться
+    }
+    fun myBooksSwitchStateChanged() {
+        _myBooksCSwitchState.value = !_myBooksCSwitchState.value!!
+    }
+    fun favoriteSwitchStateChanged() {
+        _favoriteSwitchState.value = !_favoriteSwitchState.value!!
     }
 }

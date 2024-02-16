@@ -12,8 +12,9 @@
     <string name="enter_name">Укажите название</string>
     <string name="enter_author">Укажите автора</string>
     <string name="settings">Настройки</string>
-    <string name="feed_checkbox">Табличное отображение в главное ленте</string>
-
-
+    <string name="feed_switch">Табличное отображение в главной ленте</string>
+    <string name="my_books_switch" >Табличное отображение в разделе Мои Книги</string>
+    <string name="favorite_switch" >Табличное отображение в разделе Избранное</string>
+    <string name="card_display">Отображение карточек</string>
 
 </resources>

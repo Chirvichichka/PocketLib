@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,6 +17,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
@@ -70,32 +71,42 @@ private fun SettingsAppBar(
 private fun DisplayBooks(
    viewModel: SettingsViewModel
 ) {
-    val feedCheckBoxState by viewModel.feedCheckBoxState.observeAsState(false)
+    val feedCheckBoxState by viewModel.feedSwitchState.observeAsState(false)
+    val myBooksCheckBoxState by viewModel.myBooksCSwitchState.observeAsState(false)
+    val favoriteCheckBoxState by viewModel.favoriteSwitchState.observeAsState(false)
 
     Column(
+        modifier = Modifier
+            .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
     ) {
-        RowCheckBox(
-            textId = R.string.feed_checkbox,
-            state = feedCheckBoxState,
-            onClickListener = { viewModel.feedCheckBoxStateChanged() }
+        Text(
+            text = stringResource(id = R.string.card_display),
+            style = PocketLibTheme.textStyles.largeStyle.copy(
+                color = PocketLibTheme.colors.black,
+                fontWeight = FontWeight.Bold
+            )
         )
-        RowCheckBox(
-            textId = R.string.feed_checkbox,
+        RowSwitch(
+            textId = R.string.feed_switch,
             state = feedCheckBoxState,
-            onClickListener = { viewModel.feedCheckBoxStateChanged() }
+            onClickListener = { viewModel.feedSwitchStateChanged() }
         )
-        RowCheckBox(
-            textId = R.string.feed_checkbox,
-            state = feedCheckBoxState,
-            onClickListener = { viewModel.feedCheckBoxStateChanged() }
+        RowSwitch(
+            textId = R.string.my_books_switch,
+            state = myBooksCheckBoxState,
+            onClickListener = { viewModel.myBooksSwitchStateChanged() }
+        )
+        RowSwitch(
+            textId = R.string.favorite_switch,
+            state = favoriteCheckBoxState,
+            onClickListener = { viewModel.favoriteSwitchStateChanged() }
         )
     }
-
 }
 
 @Composable
-private fun RowCheckBox(
+private fun RowSwitch(
     textId: Int,
     state: Boolean,
     onClickListener: () -> Unit
@@ -103,22 +114,26 @@ private fun RowCheckBox(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(start = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            modifier = Modifier.fillMaxWidth(0.6f),
+            modifier = Modifier.fillMaxWidth(0.7f),
             text = stringResource(id = textId),
             style = PocketLibTheme.textStyles.normalStyle.copy(
                 color = PocketLibTheme.colors.black
             )
         )
-        Checkbox(
+        Switch(
             checked = state,
             onCheckedChange = { onClickListener() },
-            colors = CheckboxDefaults.colors(
-                checkedColor = PocketLibTheme.colors.tertiary
+            colors = SwitchDefaults.colors(
+                checkedTrackColor = PocketLibTheme.colors.tertiary,
+                uncheckedTrackColor = PocketLibTheme.colors.black,
+                uncheckedBorderColor = PocketLibTheme.colors.black,
+                uncheckedIconColor = PocketLibTheme.colors.black,
+                uncheckedThumbColor = PocketLibTheme.colors.primary
             )
         )
     }
