@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Switch
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.common.BackButton
+import com.chirvi.pocketlib.presentation.common.ButtonWithText
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -36,12 +39,16 @@ fun SettingsScreen(
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
-        SettingsAppBar(
-            onBackPressed = onBackPressed
-        )
-        DisplayBooks(
-            viewModel = viewModel
-        )
+        SettingsAppBar(onBackPressed = onBackPressed)
+        Column(
+            modifier = Modifier
+                .padding(all = 16.dp)
+        ) {
+            UserSettings()
+            Line()
+            DisplayBooks(viewModel = viewModel)
+            Line()
+        }
     }
 }
 
@@ -76,8 +83,6 @@ private fun DisplayBooks(
     val favoriteCheckBoxState by viewModel.favoriteSwitchState.observeAsState(false)
 
     Column(
-        modifier = Modifier
-            .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
     ) {
         Text(
@@ -102,6 +107,36 @@ private fun DisplayBooks(
             state = favoriteCheckBoxState,
             onClickListener = { viewModel.favoriteSwitchStateChanged() }
         )
+    }
+}
+
+@Composable
+private fun UserSettings() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = "Настройки аккаунта",
+            style = PocketLibTheme.textStyles.largeStyle.copy(
+                color = PocketLibTheme.colors.black,
+                fontWeight = FontWeight.Bold
+            )
+        )
+        Column(
+            modifier = Modifier.padding(start = 4.dp, top = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
+        ) {
+            ButtonWithText(
+                text = "Создать новый аккаунт",
+                onClickListener = {  }
+            )
+            ButtonWithText(
+                text = "Войти",
+                onClickListener = {  }
+            )
+        }
+
     }
 }
 
@@ -137,4 +172,15 @@ private fun RowSwitch(
             )
         )
     }
+}
+
+@Composable
+private fun Line() {
+    Spacer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
+            .height(1.dp)
+            .background(color = PocketLibTheme.colors.black)
+    )
 }

@@ -17,13 +17,8 @@ class SettingsViewModel @Inject constructor() : ViewModel() {
 
     private val _favoriteSwitchState = MutableLiveData(false)
     val favoriteSwitchState: LiveData<Boolean> = _favoriteSwitchState
-    fun feedSwitchStateChanged() {
-        _feedCSwitchState.value = !_feedCSwitchState.value!! //todo разобраться
-    }
-    fun myBooksSwitchStateChanged() {
-        _myBooksCSwitchState.value = !_myBooksCSwitchState.value!!
-    }
-    fun favoriteSwitchStateChanged() {
-        _favoriteSwitchState.value = !_favoriteSwitchState.value!!
-    }
+    //todo разобраться
+    fun feedSwitchStateChanged() { _feedCSwitchState.value = !_feedCSwitchState.value!! }
+    fun myBooksSwitchStateChanged() { _myBooksCSwitchState.value = !_myBooksCSwitchState.value!! }
+    fun favoriteSwitchStateChanged() { _favoriteSwitchState.value = !_favoriteSwitchState.value!! }
 }

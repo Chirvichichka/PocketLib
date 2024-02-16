@@ -49,7 +49,7 @@ fun AddBookScreen() {
                 .fillMaxSize()
         ) {
             AddPicture()
-            TextFields(viewModel = viewModel)
+            TextFields(viewModel = viewModel) //todo disable
             Spacer(modifier = Modifier.weight(1f))
             ButtonWithText(text = "Сохранить", onClickListener = {})
         }
