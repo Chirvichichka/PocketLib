@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +29,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
@@ -84,7 +84,7 @@ private fun ProfileTopAppBar(
                 Icon(
                     painter = painterResource(id = R.drawable.settings),
                     contentDescription = null,
-                    tint = PocketLibTheme.colors.black
+                    tint = PocketLibTheme.colors.dark
                 )
             }
         }
@@ -152,9 +152,9 @@ private fun ProfileTabRow(
     TabRow(
         containerColor = PocketLibTheme.colors.primary,
         selectedTabIndex = tabRowIndex,
-        contentColor = PocketLibTheme.colors.black,
+        contentColor = PocketLibTheme.colors.dark,
         indicator = { tabPosition ->
-            TabRowDefaults.Indicator(
+            SecondaryIndicator(
                 modifier = Modifier.tabIndicatorOffset(tabPosition[tabRowIndex]),
                 color = PocketLibTheme.colors.tertiary
             )

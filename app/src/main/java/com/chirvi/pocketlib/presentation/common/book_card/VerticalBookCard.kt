@@ -65,13 +65,13 @@ fun VerticalBookCard(
             Text(
                 text = book.name,
                 style = PocketLibTheme.textStyles.largeStyle.copy(
-                    color = PocketLibTheme.colors.black
+                    color = PocketLibTheme.colors.dark
                 )
             )
             Text(
                 text = book.author,
                 style = PocketLibTheme.textStyles.normalStyle.copy(
-                    color = PocketLibTheme.colors.black
+                    color = PocketLibTheme.colors.dark
                 )
             )
         }

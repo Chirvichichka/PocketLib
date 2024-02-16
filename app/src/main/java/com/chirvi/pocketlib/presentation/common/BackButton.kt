@@ -19,7 +19,7 @@ fun BackButton(
         Icon(
             painter = painterResource(id = R.drawable.arrow_back),
             contentDescription = null,
-            tint = PocketLibTheme.colors.black
+            tint = PocketLibTheme.colors.dark
         )
     }
 }

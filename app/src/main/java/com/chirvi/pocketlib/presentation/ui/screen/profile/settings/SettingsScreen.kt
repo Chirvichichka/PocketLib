@@ -26,6 +26,7 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.common.BackButton
 import com.chirvi.pocketlib.presentation.common.ButtonWithText
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.theme.Gray
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
@@ -88,7 +89,7 @@ private fun DisplayBooks(
         Text(
             text = stringResource(id = R.string.card_display),
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.black,
+                color = PocketLibTheme.colors.dark,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -119,7 +120,7 @@ private fun UserSettings() {
         Text(
             text = "Настройки аккаунта",
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.black,
+                color = PocketLibTheme.colors.dark,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -157,7 +158,7 @@ private fun RowSwitch(
             modifier = Modifier.fillMaxWidth(0.7f),
             text = stringResource(id = textId),
             style = PocketLibTheme.textStyles.normalStyle.copy(
-                color = PocketLibTheme.colors.black
+                color = PocketLibTheme.colors.dark
             )
         )
         Switch(
@@ -165,9 +166,8 @@ private fun RowSwitch(
             onCheckedChange = { onClickListener() },
             colors = SwitchDefaults.colors(
                 checkedTrackColor = PocketLibTheme.colors.tertiary,
-                uncheckedTrackColor = PocketLibTheme.colors.black,
-                uncheckedBorderColor = PocketLibTheme.colors.black,
-                uncheckedIconColor = PocketLibTheme.colors.black,
+                uncheckedTrackColor = PocketLibTheme.colors.dark,
+                uncheckedBorderColor = PocketLibTheme.colors.dark,
                 uncheckedThumbColor = PocketLibTheme.colors.primary
             )
         )
@@ -180,7 +180,7 @@ private fun Line() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp)
-            .height(1.dp)
-            .background(color = PocketLibTheme.colors.black)
+            .height(0.4.dp)
+            .background(color = Gray)
     )
 }

@@ -122,7 +122,7 @@ private fun BottomNavigation(
                        Icon(
                            painter = painterResource(id = item.iconId),
                            contentDescription = null,
-                           tint = PocketLibTheme.colors.black
+                           tint = PocketLibTheme.colors.dark
                        )
                     },
                     label = {
@@ -143,9 +143,9 @@ private fun BottomNavigation(
 
             if(currentRoute == addBook.screen.route) {
                 containerColor = PocketLibTheme.colors.secondary
-                tint = PocketLibTheme.colors.black
+                tint = PocketLibTheme.colors.dark
             } else {
-                containerColor = PocketLibTheme.colors.black
+                containerColor = PocketLibTheme.colors.dark
                 tint = PocketLibTheme.colors.secondary
             }
 

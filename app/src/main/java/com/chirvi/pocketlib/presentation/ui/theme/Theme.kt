@@ -18,7 +18,17 @@ private val MainColorScheme = Colors(
     secondary = SkyBlue,
     tertiary = Blue,
     selected = SkyBlue,
-    black = Black
+    dark = Black,
+    quaternary = Gray
+)
+
+private val SecondaryColorScheme = Colors(
+    primary = Light,
+    secondary = SkyBlue,
+    tertiary = Blue,
+    selected = SkyBlue,
+    dark = Black,
+    quaternary = Gray
 )
 
 data class TextStyles(
@@ -50,9 +60,8 @@ private val localColors = staticCompositionLocalOf<Colors> {
 @Composable
 fun PocketLibTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

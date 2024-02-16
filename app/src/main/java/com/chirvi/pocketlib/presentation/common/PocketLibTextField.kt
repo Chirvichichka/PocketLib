@@ -21,7 +21,7 @@ fun PocketLibTextField(
     onValueChange: (String) -> Unit
 ) {
     val textStyle = PocketLibTheme.textStyles.normalStyle.copy(
-        color = PocketLibTheme.colors.black
+        color = PocketLibTheme.colors.dark
     )
 
     TextField(
@@ -40,7 +40,7 @@ fun PocketLibTextField(
             Icon(
                 painter = painterResource(id = leadingIconId),
                 contentDescription = null,
-                tint = PocketLibTheme.colors.black
+                tint = PocketLibTheme.colors.dark
             )
         },
         shape = RoundedCornerShape(10.dp),
@@ -49,7 +49,7 @@ fun PocketLibTextField(
             unfocusedContainerColor = PocketLibTheme.colors.secondary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            cursorColor = PocketLibTheme.colors.black
+            cursorColor = PocketLibTheme.colors.dark
         )
     )
 }

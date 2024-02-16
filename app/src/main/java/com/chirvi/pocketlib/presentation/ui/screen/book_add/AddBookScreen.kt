@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
@@ -51,7 +50,7 @@ fun AddBookScreen() {
             AddPicture()
             TextFields(viewModel = viewModel) //todo disable
             Spacer(modifier = Modifier.weight(1f))
-            ButtonWithText(text = "Сохранить", onClickListener = {})
+            ButtonWithText(colorScheme = false, text = "Сохранить", onClickListener = {})
         }
     }
 }
@@ -101,7 +100,7 @@ private fun AddPicture() {
         Text(
             text = stringResource(id = R.string.add_image),
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.black
+                color = PocketLibTheme.colors.dark
             )
         )
     }

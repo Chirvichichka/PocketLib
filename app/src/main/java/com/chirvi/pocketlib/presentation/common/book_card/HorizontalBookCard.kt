@@ -71,13 +71,13 @@ fun HorizontalBookCard(
                 Text(
                     text = book.name,
                     style = PocketLibTheme.textStyles.largeStyle.copy(
-                        color = PocketLibTheme.colors.black
+                        color = PocketLibTheme.colors.dark
                     )
                 )
                 Text(
                     text = book.author,
                     style = PocketLibTheme.textStyles.normalStyle.copy(
-                        color = PocketLibTheme.colors.black
+                        color = PocketLibTheme.colors.dark
                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -87,7 +87,7 @@ fun HorizontalBookCard(
                     maxLines = 5,
                     text = text,
                     style = PocketLibTheme.textStyles.smallStyle.copy(
-                        color = PocketLibTheme.colors.black
+                        color = PocketLibTheme.colors.quaternary
                     )
                 )
             }

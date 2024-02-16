@@ -76,7 +76,7 @@ private fun FeedTopAppBar(
     val tint = if (isGrid) {
         PocketLibTheme.colors.secondary
     } else {
-        PocketLibTheme.colors.black
+        PocketLibTheme.colors.dark
     }
 
     PocketLibTopAppBar(
@@ -106,7 +106,7 @@ private fun SearchBook(
 ) {
     val text by viewModel.newText.observeAsState("")
     val textStyle = PocketLibTheme.textStyles.normalStyle.copy(
-        color = PocketLibTheme.colors.black
+        color = PocketLibTheme.colors.dark
     )
 
     TextField(
@@ -129,7 +129,7 @@ private fun SearchBook(
             Icon(
                 painter = painterResource(id = R.drawable.search),
                 contentDescription = null,
-                tint = PocketLibTheme.colors.black
+                tint = PocketLibTheme.colors.dark
             )
         },
         shape = RoundedCornerShape(10.dp),
@@ -138,7 +138,7 @@ private fun SearchBook(
             unfocusedContainerColor = PocketLibTheme.colors.secondary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            cursorColor = PocketLibTheme.colors.black
+            cursorColor = PocketLibTheme.colors.dark
         )
     )
 }
