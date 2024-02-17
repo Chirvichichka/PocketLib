@@ -15,6 +15,10 @@ class AddBookViewModel @Inject constructor() : ViewModel() {
     private val _textAuthor = MutableLiveData("")
     val textAuthor: LiveData<String> = _textAuthor
 
+    private val _textDescription = MutableLiveData("")
+    val textDescription: LiveData<String> = _textDescription
+    fun onValueChangeDescription(text: String) { _textDescription.value = text }
+
     fun onValueChangeName(text: String) { _textName.value = text }
     fun onValueChangeAuthor(text: String) { _textAuthor.value = text }
 

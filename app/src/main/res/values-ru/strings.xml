@@ -16,5 +16,6 @@
     <string name="my_books_switch" >Табличное отображение в разделе Мои Книги</string>
     <string name="favorite_switch" >Табличное отображение в разделе Избранное</string>
     <string name="card_display">Отображение карточек</string>
+    <string name="enter_description">Укажите описание</string>
 
 </resources>

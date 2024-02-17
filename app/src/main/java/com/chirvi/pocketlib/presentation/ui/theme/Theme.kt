@@ -13,7 +13,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
-private val MainColorScheme = Colors(
+private val MainColorScheme = Colors( //todo узнать как меня тему
     primary = Light,
     secondary = SkyBlue,
     tertiary = Blue,
@@ -45,10 +45,6 @@ val TextStyleType = TextStyles(
     topAppBarStyle = topAppBarStyle
 )
 
-val LocalNavController = staticCompositionLocalOf<NavHostController> {
-    error("No NavController provided")
-}
-
 private val localTextStyles = staticCompositionLocalOf<TextStyles> {
     error("No text styles provided")
 }
@@ -73,7 +69,6 @@ fun PocketLibTheme(
     }
 
     CompositionLocalProvider(
-        LocalNavController provides rememberNavController(),
         localColors provides MainColorScheme,
         localTextStyles provides TextStyleType,
         content = content

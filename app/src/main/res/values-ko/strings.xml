@@ -16,7 +16,6 @@
     <string name="my_books_switch" >내 책 섹션의 표 형식 표시</string>
     <string name="favorite_switch" >즐겨찾기 섹션의 표 형식 표시</string>
     <string name="card_display">디스플레이 카드</string>
-
-
+    <string name="enter_description">설명을 입력하세요</string>
 
 </resources>

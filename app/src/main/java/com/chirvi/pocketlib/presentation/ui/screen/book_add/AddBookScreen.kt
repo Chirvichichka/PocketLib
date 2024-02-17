@@ -32,6 +32,7 @@ import com.chirvi.pocketlib.presentation.common.PocketLibTextField
 import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
+
 @Composable
 fun AddBookScreen() {
     val viewModel = hiltViewModel<AddBookViewModel>()
@@ -112,20 +113,26 @@ private fun TextFields(
 ) {
     val textName by viewModel.textName.observeAsState("")
     val textAuthor by viewModel.textAuthor.observeAsState("")
+    val textDescription by viewModel.textDescription.observeAsState("")
 
     Spacer(modifier = Modifier.height(16.dp))
     PocketLibTextField(
         text = textName,
         placeHolderText = stringResource(id = R.string.enter_name),
-        leadingIconId = R.drawable.add,
         onValueChange = { newText -> viewModel.onValueChangeName(newText) }
     )
     Spacer(modifier = Modifier.height(16.dp))
     PocketLibTextField(
         text = textAuthor,
         placeHolderText = stringResource(id = R.string.enter_author),
-        leadingIconId = R.drawable.add,
         onValueChange = { newText -> viewModel.onValueChangeAuthor(newText) }
     )
     Spacer(modifier = Modifier.height(16.dp))
+    PocketLibTextField(
+        modifier = Modifier.height(120.dp),
+        text = textDescription,
+        singleLine = false,
+        placeHolderText = stringResource(id = R.string.enter_description),
+        onValueChange = { newText -> viewModel.onValueChangeDescription(newText) }
+    )
 }

@@ -16,5 +16,6 @@
     <string name="my_books_switch" >Tabular display in the MyBooks section</string>
     <string name="favorite_switch" >Tabular display in the Favorite section</string>
     <string name="card_display">Display card</string>
+    <string name="enter_description">Enter the description</string>
 
 </resources>
