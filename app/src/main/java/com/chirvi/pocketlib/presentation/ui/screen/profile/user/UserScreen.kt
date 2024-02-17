@@ -32,9 +32,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.common.BookColumn
-import com.chirvi.pocketlib.presentation.common.ButtonWithText
-import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.BookColumn
+import com.chirvi.pocketlib.presentation.ui.common.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme

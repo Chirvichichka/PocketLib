@@ -23,19 +23,12 @@ private val MainColorScheme = Colors( //todo узнать как меня тем
 )
 
 private val SecondaryColorScheme = Colors(
-    primary = Light,
-    secondary = SkyBlue,
-    tertiary = Blue,
-    selected = SkyBlue,
-    dark = Black,
-    quaternary = Gray
-)
-
-data class TextStyles(
-    val smallStyle: TextStyle,
-    val largeStyle: TextStyle,
-    val normalStyle: TextStyle,
-    val topAppBarStyle: TextStyle
+    primary = Light2,
+    secondary = Green,
+    tertiary = DarkGreen,
+    selected = Green,
+    dark = Black2,
+    quaternary = Black2
 )
 
 val TextStyleType = TextStyles(
@@ -44,6 +37,10 @@ val TextStyleType = TextStyles(
     smallStyle = smallStyle,
     topAppBarStyle = topAppBarStyle
 )
+
+private val localColorScheme = staticCompositionLocalOf<TextStyles> {
+    error("No text styles provided")
+}
 
 private val localTextStyles = staticCompositionLocalOf<TextStyles> {
     error("No text styles provided")
@@ -55,21 +52,28 @@ private val localColors = staticCompositionLocalOf<Colors> {
 
 @Composable
 fun PocketLibTheme(
+    greenTheme: Boolean = false,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
+    val colorScheme: Colors = if (!greenTheme) {
+        MainColorScheme
+    } else {
+        SecondaryColorScheme
+    }
+
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = MainColorScheme.tertiary.toArgb()
-            window.navigationBarColor = MainColorScheme.tertiary.toArgb()
+            window.statusBarColor = colorScheme.tertiary.toArgb()
+            window.navigationBarColor = colorScheme.tertiary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 
     CompositionLocalProvider(
-        localColors provides MainColorScheme,
+        localColors provides colorScheme,
         localTextStyles provides TextStyleType,
         content = content
     )
@@ -83,4 +87,5 @@ object PocketLibTheme {
     val textStyles: TextStyles
         @Composable
         get() = localTextStyles.current
+
 }

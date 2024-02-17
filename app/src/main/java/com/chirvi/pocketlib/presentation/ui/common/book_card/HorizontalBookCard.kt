@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.common.book_card
+package com.chirvi.pocketlib.presentation.ui.common.book_card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

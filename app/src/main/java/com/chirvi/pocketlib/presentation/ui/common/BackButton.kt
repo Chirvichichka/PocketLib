@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.common
+package com.chirvi.pocketlib.presentation.ui.common
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

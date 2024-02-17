@@ -23,9 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.common.BackButton
-import com.chirvi.pocketlib.presentation.common.ButtonWithText
-import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.BackButton
+import com.chirvi.pocketlib.presentation.ui.common.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.Gray
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -113,12 +113,13 @@ private fun DisplayBooks(
 
 @Composable
 private fun UserSettings() {
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
         Text(
-            text = "Настройки аккаунта",
+            text = "Настройки аккаунта", //todo занести в стрингс
             style = PocketLibTheme.textStyles.largeStyle.copy(
                 color = PocketLibTheme.colors.dark,
                 fontWeight = FontWeight.Bold

@@ -6,8 +6,7 @@ val Light = Color(0xFFFFF7F1)
 val SkyBlue = Color(0xFFFFE4C9)
 val Blue = Color(0xFFE78895)
 val Black = Color(0xFF1D242B)
-
-val Gray = Color(0xFF607274)
+val Gray = Color(0xFF7D7C7C)
 
 val Light2 = Color(0xFFFFF7F1)
 val Green = Color(0xFF739072)

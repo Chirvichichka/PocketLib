@@ -12,6 +12,12 @@ val merriweatherFamily = FontFamily(
     Font(R.font.robotoslab_variablefont_wght, FontWeight.Normal)
 )
 
+data class TextStyles(
+    val smallStyle: TextStyle,
+    val largeStyle: TextStyle,
+    val normalStyle: TextStyle,
+    val topAppBarStyle: TextStyle
+)
 
 val normalStyle = TextStyle(
     fontSize = 14.sp,

@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.common
+package com.chirvi.pocketlib.presentation.ui.common
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,8 +9,8 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.chirvi.pocketlib.presentation.common.book_card.HorizontalBookCard
-import com.chirvi.pocketlib.presentation.common.book_card.VerticalBookCard
+import com.chirvi.pocketlib.presentation.ui.common.book_card.HorizontalBookCard
+import com.chirvi.pocketlib.presentation.ui.common.book_card.VerticalBookCard
 import com.chirvi.pocketlib.presentation.models.Book
 
 @Composable
@@ -33,7 +33,8 @@ fun BookColumn(
             }
         }
     } else {
-        LazyColumn(
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(1),
             modifier = Modifier.fillMaxWidth()
         ){
             items ( count ) {

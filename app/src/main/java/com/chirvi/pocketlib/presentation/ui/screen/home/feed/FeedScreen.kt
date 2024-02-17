@@ -24,8 +24,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.common.BookColumn
-import com.chirvi.pocketlib.presentation.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.BookColumn
+import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.navigation.state.FeedScreenState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme

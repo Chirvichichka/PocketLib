@@ -16,7 +16,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            PocketLibTheme{
+            PocketLibTheme(
+                greenTheme = true
+            ){
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
