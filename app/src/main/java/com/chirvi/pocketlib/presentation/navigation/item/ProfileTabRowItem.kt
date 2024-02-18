@@ -12,6 +12,6 @@ sealed class ProfileTabRowItem(
     )
     data object Favorite : ProfileTabRowItem(
         title = R.string.favorite,
-        iconId = R.drawable.favorite
+        iconId = R.drawable.favorites
     )
 }

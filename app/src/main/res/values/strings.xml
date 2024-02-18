@@ -17,5 +17,11 @@
     <string name="favorite_switch" >Tabular display in the Favorite section</string>
     <string name="card_display">Display card</string>
     <string name="enter_description">Enter the description</string>
+    <string name="read">Read</string>
+    <string name="save">Save</string>
+    <string name="account_settings">Account settings</string>
+    <string name="create_a_new_account">Create a new account</string>
+    <string name="log_in">Log in</string>
+    <string name="edit">Edit</string>
 
 </resources>

@@ -17,5 +17,12 @@
     <string name="favorite_switch" >즐겨찾기 섹션의 표 형식 표시</string>
     <string name="card_display">디스플레이 카드</string>
     <string name="enter_description">설명을 입력하세요</string>
+    <string name="read">읽다</string>
+    <string name="save">구하다</string>
+    <string name="account_settings">계정 설정</string>
+    <string name="create_a_new_account">새 계정 생성</string>
+    <string name="log_in">로그인</string>
+    <string name="edit">편집하다</string>
+
 
 </resources>

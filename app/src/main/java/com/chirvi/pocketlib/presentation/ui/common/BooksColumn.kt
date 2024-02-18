@@ -18,7 +18,7 @@ fun BookColumn(
     book: Book,
     grid: Boolean = true,
     count: Int = 30,
-    onClickPreview: () -> Unit = {}
+    onClickPreview: () -> Unit
 ) {
     if (grid) {
         LazyVerticalGrid(

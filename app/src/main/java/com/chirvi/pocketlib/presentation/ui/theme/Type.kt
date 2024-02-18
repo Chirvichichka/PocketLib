@@ -41,5 +41,5 @@ val topAppBarStyle = TextStyle(
     fontSize = 16.sp,
     fontStyle = FontStyle.Italic,
     fontFamily = merriweatherFamily,
-    fontWeight = FontWeight.Normal
+    fontWeight = FontWeight.Normal,
 )

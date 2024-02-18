@@ -3,6 +3,7 @@ package com.chirvi.pocketlib.presentation.ui.common.book_card
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.presentation.models.Book
+import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
@@ -59,21 +61,28 @@ fun VerticalBookCard(
                 contentDescription = null
             )
         }
-        Column(
-            modifier = Modifier.padding(all = 8.dp)
-        ) {
-            Text(
-                text = book.name,
-                style = PocketLibTheme.textStyles.largeStyle.copy(
-                    color = PocketLibTheme.colors.dark
+        Row (
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Column(
+                modifier = Modifier.padding(all = 8.dp)
+            ) {
+                Text(
+                    text = book.name,
+                    style = PocketLibTheme.textStyles.largeStyle.copy(
+                        color = PocketLibTheme.colors.dark
+                    )
                 )
-            )
-            Text(
-                text = book.author,
-                style = PocketLibTheme.textStyles.normalStyle.copy(
-                    color = PocketLibTheme.colors.dark
+                Text(
+                    text = book.author,
+                    style = PocketLibTheme.textStyles.normalStyle.copy(
+                        color = PocketLibTheme.colors.dark
+                    )
                 )
-            )
+            }
+            ButtonIconFavorite {
+                //todo
+            }
         }
     }
 }

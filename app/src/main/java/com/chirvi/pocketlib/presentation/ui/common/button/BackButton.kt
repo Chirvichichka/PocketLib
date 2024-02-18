@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.common
+package com.chirvi.pocketlib.presentation.ui.common.button
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,7 +19,7 @@ fun BackButton(
         Icon(
             painter = painterResource(id = R.drawable.arrow_back),
             contentDescription = null,
-            tint = PocketLibTheme.colors.dark
+            tint = PocketLibTheme.colors.primary
         )
     }
 }

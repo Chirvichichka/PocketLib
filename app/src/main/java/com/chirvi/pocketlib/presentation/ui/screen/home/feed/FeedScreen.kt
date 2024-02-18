@@ -27,7 +27,6 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
-import com.chirvi.pocketlib.presentation.navigation.state.FeedScreenState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,28 +39,21 @@ fun FeedScreen(
     val books = mutableListOf<Book>().apply {
         repeat(21) { add(Book(id = it)) }
     }
-    val currentState by viewModel.screenState.observeAsState()
 
-    when( currentState ) {
-        is FeedScreenState.Feed -> {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = PocketLibTheme.colors.primary)
-            ) {
-                FeedTopAppBar(
-                    viewModel = viewModel,
-                    scroll = scroll
-                )
-                BookColumn(
-                    grid = false,
-                    book = books[0],
-                    onClickPreview = onClickPreview
-                )
-            }
-        }
-        FeedScreenState.Initial -> {}
-        null -> TODO()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = PocketLibTheme.colors.primary)
+    ) {
+        FeedTopAppBar(
+            viewModel = viewModel,
+            scroll = scroll
+        )
+        BookColumn(
+            grid = false,
+            book = books[0],
+            onClickPreview = onClickPreview
+        )
     }
 }
 

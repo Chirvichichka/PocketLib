@@ -17,5 +17,12 @@
     <string name="favorite_switch" >Табличное отображение в разделе Избранное</string>
     <string name="card_display">Отображение карточек</string>
     <string name="enter_description">Укажите описание</string>
+    <string name="read">Читать</string>
+    <string name="save">Сохрнаить</string>
+    <string name="account_settings">Настройки аккаунта</string>
+    <string name="create_a_new_account">Создать новый аккаунт</string>
+    <string name="log_in">Войти</string>
+    <string name="edit">Редактировать</string>
+
 
 </resources>

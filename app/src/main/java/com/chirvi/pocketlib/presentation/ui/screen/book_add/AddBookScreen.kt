@@ -2,41 +2,35 @@ package com.chirvi.pocketlib.presentation.ui.screen.book_add
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.ui.common.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTextField
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -61,7 +55,7 @@ fun AddBookScreen() {
             TextFields(viewModel = viewModel) //todo disable
             Spacer(modifier = Modifier.weight(1f))
             Genres()
-            ButtonWithText(colorScheme = false, text = "Сохранить", onClickListener = {})
+            ButtonWithText(colorScheme = false, text = stringResource(id = R.string.save), onClickListener = {})
         }
     }
 }
@@ -125,21 +119,27 @@ private fun TextFields(
     val textAuthor by viewModel.textAuthor.observeAsState("")
     val textDescription by viewModel.textDescription.observeAsState("")
 
+    val focusRequesterAuthor = remember { FocusRequester() }
+    val focusRequesterDescription = remember { FocusRequester() }
+
     Spacer(modifier = Modifier.height(16.dp))
     PocketLibTextField(
+        onKeyboardActions = { focusRequesterAuthor.requestFocus() },
         text = textName,
         placeHolderText = stringResource(id = R.string.enter_name),
         onValueChange = { newText -> viewModel.onValueChangeName(newText) }
     )
     Spacer(modifier = Modifier.height(16.dp))
     PocketLibTextField(
+        onKeyboardActions = { focusRequesterDescription.requestFocus() },
+        modifier = Modifier.focusRequester(focusRequesterAuthor),
         text = textAuthor,
         placeHolderText = stringResource(id = R.string.enter_author),
         onValueChange = { newText -> viewModel.onValueChangeAuthor(newText) }
     )
     Spacer(modifier = Modifier.height(16.dp))
     PocketLibTextField(
-        modifier = Modifier.height(120.dp),
+        modifier = Modifier.height(120.dp).focusRequester(focusRequesterDescription),
         text = textDescription,
         singleLine = false,
         placeHolderText = stringResource(id = R.string.enter_description),

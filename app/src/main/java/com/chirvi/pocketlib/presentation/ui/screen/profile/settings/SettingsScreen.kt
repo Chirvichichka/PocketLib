@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.ui.common.BackButton
-import com.chirvi.pocketlib.presentation.ui.common.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
+import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.Gray
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -119,7 +119,7 @@ private fun UserSettings() {
             .fillMaxWidth()
     ) {
         Text(
-            text = "Настройки аккаунта", //todo занести в стрингс
+            text = stringResource(id = R.string.account_settings),
             style = PocketLibTheme.textStyles.largeStyle.copy(
                 color = PocketLibTheme.colors.dark,
                 fontWeight = FontWeight.Bold
@@ -130,11 +130,11 @@ private fun UserSettings() {
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
         ) {
             ButtonWithText(
-                text = "Создать новый аккаунт",
+                text = stringResource(id = R.string.create_a_new_account),
                 onClickListener = {  }
             )
             ButtonWithText(
-                text = "Войти",
+                text = stringResource(id = R.string.log_in),
                 onClickListener = {  }
             )
         }

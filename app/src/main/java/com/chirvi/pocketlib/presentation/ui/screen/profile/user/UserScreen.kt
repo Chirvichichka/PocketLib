@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
@@ -33,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
-import com.chirvi.pocketlib.presentation.ui.common.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
@@ -131,7 +130,7 @@ private fun UserInfo() {
         }
         Spacer(modifier = Modifier.height(8.dp))
         ButtonWithText(
-            text = "Редактировать",
+            text = stringResource(id = R.string.edit),
             onClickListener = { /*TODO*/ }
         )
     }

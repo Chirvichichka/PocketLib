@@ -2,6 +2,8 @@ package com.chirvi.pocketlib.presentation.ui.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -15,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -25,7 +28,8 @@ fun PocketLibTextField(
     text: String,
     placeHolderText: String,
     singleLine: Boolean = true,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    onKeyboardActions: () -> Unit = {}
 ) {
     val textStyle = PocketLibTheme.textStyles.normalStyle
     var enabled by remember{ mutableStateOf(true) }
@@ -47,11 +51,15 @@ fun PocketLibTextField(
             )
         },
         enabled = enabled,
+        keyboardActions = KeyboardActions(
+            onDone = {
+                enabled = !enabled
+                onKeyboardActions()
+            },
+        ),
         trailingIcon = {
             IconButton(
-                onClick = {
-                    enabled = !enabled
-                }
+                onClick = { enabled = !enabled }
             ) {
                 Icon(
                     painter = painterResource(id = iconId),

@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.common
+package com.chirvi.pocketlib.presentation.ui.common.button
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
