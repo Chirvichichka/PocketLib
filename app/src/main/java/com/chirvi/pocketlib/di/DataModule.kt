@@ -1,8 +1,12 @@
 package com.chirvi.pocketlib.di
 
 import android.content.Context
-import com.chirvi.data.repository.SettingsRepositoryImpl
-import com.chirvi.domain.repository.SettingsRepository
+import com.chirvi.data.repository.settings.SettingsFavoritesRepositoryImpl
+import com.chirvi.data.repository.settings.SettingsFeedRepositoryImpl
+import com.chirvi.data.repository.settings.SettingsMyBooksRepositoryImpl
+import com.chirvi.domain.repository.settings.SettingsFavoritesRepository
+import com.chirvi.domain.repository.settings.SettingsFeedRepository
+import com.chirvi.domain.repository.settings.SettingsMyBooksRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +20,19 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideSettingsRepository(@ApplicationContext context: Context) : SettingsRepository {
-        return SettingsRepositoryImpl(context = context)
+    fun provideSettingsFeedRepository(@ApplicationContext context: Context) : SettingsFeedRepository {
+        return SettingsFeedRepositoryImpl(context = context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsFavoritesRepository(@ApplicationContext context: Context) : SettingsFavoritesRepository {
+        return SettingsFavoritesRepositoryImpl(context = context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsMyBooksRepository(@ApplicationContext context: Context) : SettingsMyBooksRepository {
+        return SettingsMyBooksRepositoryImpl(context = context)
     }
 }

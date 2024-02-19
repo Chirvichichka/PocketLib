@@ -63,7 +63,7 @@ fun MainScreen() {
                 feedContent = {
                     FeedScreen(
                         scroll = scroll,
-                        onClickPreview = { navigationState.navigateToIn(Screen.PageBookHome.route) }
+                        onClickPreview = { navigationState.navigateToIn(Screen.PageBookHome.route) },
                     )
                 },
                 pageBookContent = {

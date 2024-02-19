@@ -23,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.chirvi.domain.models.DisplayMode
+import com.chirvi.domain.usecase.settings.GetSettingsFeedUseCase
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
@@ -33,12 +35,13 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun FeedScreen(
     onClickPreview: () -> Unit,
-    scroll: TopAppBarScrollBehavior
+    scroll: TopAppBarScrollBehavior,
 ) {
     val viewModel = hiltViewModel<FeedViewModel>()
     val books = mutableListOf<Book>().apply {
         repeat(21) { add(Book(id = it)) }
     }
+    val displayMode by viewModel.feedDisplayMode.observeAsState(DisplayMode.LIST)
 
     Column(
         modifier = Modifier
@@ -50,7 +53,7 @@ fun FeedScreen(
             scroll = scroll
         )
         BookColumn(
-            grid = false,
+            displayMode = displayMode,
             book = books[0],
             onClickPreview = onClickPreview
         )
@@ -63,13 +66,6 @@ private fun FeedTopAppBar(
     viewModel: FeedViewModel,
     scroll: TopAppBarScrollBehavior
 ) {
-    val isGrid by viewModel.isGrid.observeAsState(false)
-
-    val tint = if (isGrid) {
-        PocketLibTheme.colors.secondary
-    } else {
-        PocketLibTheme.colors.dark
-    }
 
     PocketLibTopAppBar(
         scroll = scroll,
@@ -79,13 +75,12 @@ private fun FeedTopAppBar(
         actions = {
             IconButton(
                 onClick = {
-                    viewModel.gridChange()
                 }
             ) {
                 Icon(
                     painter =  painterResource(id = R.drawable.filter),
                     contentDescription = null,
-                    tint = tint
+                    tint = PocketLibTheme.colors.dark
                 )
             }
         }

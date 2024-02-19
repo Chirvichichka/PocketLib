@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
@@ -143,6 +144,10 @@ private fun ProfileTabRow(
 ) {
     val tabRowIndex by viewModel.tabRowItem.observeAsState(0)
 
+    val myBooksDisplayMode by viewModel.myBooksDisplayMode.observeAsState(DisplayMode.LIST)
+    val favoritesDisplayMode by viewModel.favoritesDisplayMode.observeAsState(DisplayMode.LIST)
+
+
     val items = listOf(
         ProfileTabRowItem.MyBooks,
         ProfileTabRowItem.Favorite
@@ -182,13 +187,14 @@ private fun ProfileTabRow(
     when(tabRowIndex) {
         0 -> {
             BookColumn(
+                displayMode = myBooksDisplayMode,
                 book = Book(),
                 onClickPreview = onClickPreview
             )
         }
         1 -> {
             BookColumn(
-                grid = false,
+                displayMode = favoritesDisplayMode,
                 count = 5,
                 book = Book(),
                 onClickPreview = onClickPreview
