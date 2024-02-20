@@ -68,7 +68,7 @@ fun HorizontalBookCard(
             Column(
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .fillMaxWidth(0.8f)
+                    .weight(1f)
             ) {
                 Text(
                     text = book.name,
@@ -93,6 +93,7 @@ fun HorizontalBookCard(
                     )
                 )
             }
+                // Spacer(modifier = Modifier.weight(1f))
             ButtonIconFavorite {
                 //todo
             }
