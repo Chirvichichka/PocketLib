@@ -14,13 +14,13 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun ButtonWithText(
     text: String,
-    colorScheme: Boolean = true,
+    alternativeColorScheme: Boolean = true,
     onClickListener: () -> Unit
 ) {
     val containerColor: Color
     val textColor: Color
 
-    if (colorScheme) {
+    if (alternativeColorScheme) {
         containerColor = PocketLibTheme.colors.tertiary
         textColor = PocketLibTheme.colors.primary
     } else {

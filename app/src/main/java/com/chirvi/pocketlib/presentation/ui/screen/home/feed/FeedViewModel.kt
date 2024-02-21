@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.home.feed
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,6 @@ class FeedViewModel @Inject constructor(
     private val getSettingsFeedUseCase: GetSettingsFeedUseCase,
 ) : ViewModel()
 {
-
     private val _newText = MutableLiveData("")
     val newText: LiveData<String> = _newText
 
@@ -25,5 +25,4 @@ class FeedViewModel @Inject constructor(
     }
 
     fun textChange(text: String) { _newText.value = text }
-
 }

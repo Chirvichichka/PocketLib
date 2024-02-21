@@ -40,10 +40,10 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun MainScreen() {
     val navigationState = rememberNavigationState()
-    val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior() //todo вот это
+    val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scroll.nestedScrollConnection), //todo вот это
+        modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
         containerColor = PocketLibTheme.colors.primary,
         bottomBar = {
             BottomNavigation(

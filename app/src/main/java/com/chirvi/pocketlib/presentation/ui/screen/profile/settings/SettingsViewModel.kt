@@ -27,7 +27,7 @@ class SettingsViewModel @Inject constructor(
     private val getSettingsMyBooksUseCase: GetSettingsMyBooksUseCase,
     private val saveSettingsMyBooksUseCase: SaveSettingsMyBooksUseCase,
 ) : ViewModel() {
-    //todo разобраться
+    //todo разобраться с !!
     private val _feedSwitchState = MutableLiveData(loadFeedSettings())
     val feedSwitchState: LiveData<Boolean> = _feedSwitchState
 

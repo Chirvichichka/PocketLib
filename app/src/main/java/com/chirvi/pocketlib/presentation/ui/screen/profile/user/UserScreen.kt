@@ -93,7 +93,6 @@ private fun ProfileTopAppBar(
 
 @Composable
 private fun UserInfo() {
-    Spacer(modifier = Modifier.height(0.dp))
     Column(
         modifier = Modifier
             .padding(all = 16.dp,)

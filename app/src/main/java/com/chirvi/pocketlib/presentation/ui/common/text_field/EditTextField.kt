@@ -1,12 +1,8 @@
-package com.chirvi.pocketlib.presentation.ui.common
+package com.chirvi.pocketlib.presentation.ui.common.text_field
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -14,61 +10,42 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun PocketLibTextField(
-    modifier: Modifier = Modifier,
+fun EditTextField(
     text: String,
-    placeHolderText: String,
-    singleLine: Boolean = true,
-    onValueChange: (String) -> Unit,
-    onKeyboardActions: () -> Unit = {}
-) {
+    onValueChange: () -> Unit,
+    ) {
     val textStyle = PocketLibTheme.textStyles.normalStyle
-    var enabled by remember{ mutableStateOf(true) }
+    var enabled by remember { mutableStateOf(false) }
 
-    val iconId: Int = if (enabled) {
-        R.drawable.check
+    val iconTint = if(enabled) {
+        PocketLibTheme.colors.dark
     } else {
-        R.drawable.close
+        PocketLibTheme.colors.primary
     }
 
     TextField(
-        modifier = modifier.fillMaxWidth(),
         value = text,
-        onValueChange = { onValueChange(it) },
-        placeholder = {
-            Text(
-                text = placeHolderText,
-                style = textStyle
-            )
-        },
+        onValueChange = { onValueChange() },
         enabled = enabled,
-        keyboardActions = KeyboardActions(
-            onDone = {
-                enabled = !enabled
-                onKeyboardActions()
-            },
-        ),
         trailingIcon = {
             IconButton(
                 onClick = { enabled = !enabled }
             ) {
                 Icon(
-                    painter = painterResource(id = iconId),
-                    contentDescription = null
+                    painter = painterResource(id = R.drawable.edit),
+                    contentDescription = null,
+                    tint = iconTint
                 )
             }
         },
         textStyle = textStyle,
-        singleLine = singleLine,
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(
             cursorColor = PocketLibTheme.colors.dark,

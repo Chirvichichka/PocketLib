@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
-import com.chirvi.pocketlib.presentation.ui.common.PocketLibTextField
+import com.chirvi.pocketlib.presentation.ui.common.text_field.PocketLibTextField
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -41,8 +41,7 @@ fun AddBookScreen() {
     val viewModel = hiltViewModel<AddBookViewModel>()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
         AddBookTopAppBar()
@@ -55,7 +54,7 @@ fun AddBookScreen() {
             TextFields(viewModel = viewModel) //todo disable
             Spacer(modifier = Modifier.weight(1f))
             Genres()
-            ButtonWithText(colorScheme = false, text = stringResource(id = R.string.save), onClickListener = {})
+            ButtonWithText(alternativeColorScheme = false, text = stringResource(id = R.string.save), onClickListener = {})
         }
     }
 }
@@ -112,7 +111,7 @@ private fun AddPicture() {
 }
 
 @Composable
-private fun TextFields(
+private fun TextFields( //todo узнать как сократить код
     viewModel: AddBookViewModel
 ) {
     val textName by viewModel.textName.observeAsState("")

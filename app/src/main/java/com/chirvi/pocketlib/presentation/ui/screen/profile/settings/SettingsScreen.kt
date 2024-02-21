@@ -1,6 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.profile.settings
 
-import androidx.activity.ComponentActivity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -19,7 +24,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,6 +35,7 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.text_field.EditTextField
 import com.chirvi.pocketlib.presentation.ui.theme.Gray
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -41,16 +49,20 @@ fun SettingsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
+
     ) {
         SettingsAppBar(onBackPressed = onBackPressed)
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .padding(all = 16.dp)
         ) {
-            UserSettings()
-            Line()
+            Account()
+            SeparativeLine()
+            UserEdit()
+            SeparativeLine()
             DisplayBooks(viewModel = viewModel)
-            Line()
+            SeparativeLine()
         }
     }
 }
@@ -114,8 +126,7 @@ private fun DisplayBooks(
 }
 
 @Composable
-private fun UserSettings() {
-
+private fun Account() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -132,17 +143,61 @@ private fun UserSettings() {
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
         ) {
             ButtonWithText(
+                alternativeColorScheme = false,
                 text = stringResource(id = R.string.create_a_new_account),
                 onClickListener = {  }
             )
             ButtonWithText(
+                alternativeColorScheme = false,
                 text = stringResource(id = R.string.log_in),
                 onClickListener = {  }
             )
         }
-
     }
 }
+
+@Composable
+private fun UserEdit() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(start = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape),
+                    painter = painterResource(id = R.drawable.test_image),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = "Изменить аватар",
+                    style = PocketLibTheme.textStyles.normalStyle.copy(
+                        color = PocketLibTheme.colors.dark
+                    )
+                )
+            }
+            EditTextField(
+                text = "Имя",
+                onValueChange = {  }
+            )
+            EditTextField(
+                text = "Никнейм",
+                onValueChange = {  }
+            )
+        }
+    }
+}
+
 
 @Composable
 private fun RowSwitch(
@@ -178,7 +233,7 @@ private fun RowSwitch(
 }
 
 @Composable
-private fun Line() {
+private fun SeparativeLine() {
     Spacer(
         modifier = Modifier
             .fillMaxWidth()
