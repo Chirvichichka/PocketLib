@@ -23,6 +23,10 @@
     <string name="create_a_new_account">새 계정 생성</string>
     <string name="log_in">로그인</string>
     <string name="edit">편집하다</string>
+    <string name="edit_user">프로필 수정</string>
+    <string name="edit_avatar">아바타 변경</string>
+    <string name="filter">필터</string>
+
 
 
 </resources>

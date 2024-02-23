@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.home.feed
 
+import android.content.DialogInterface.OnClickListener
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +36,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun FeedScreen(
     onClickPreview: () -> Unit,
+    onFilterClick: () -> Unit,
     scroll: TopAppBarScrollBehavior,
 ) {
     val viewModel = hiltViewModel<FeedViewModel>()
@@ -50,7 +52,8 @@ fun FeedScreen(
     ) {
         FeedTopAppBar(
             viewModel = viewModel,
-            scroll = scroll
+            scroll = scroll,
+            onClickListener = onFilterClick
         )
         BookColumn(
             displayMode = displayMode,
@@ -64,7 +67,8 @@ fun FeedScreen(
 @Composable
 private fun FeedTopAppBar(
     viewModel: FeedViewModel,
-    scroll: TopAppBarScrollBehavior
+    scroll: TopAppBarScrollBehavior,
+    onClickListener: () -> Unit,
 ) {
 
     PocketLibTopAppBar(
@@ -74,8 +78,7 @@ private fun FeedTopAppBar(
         },
         actions = {
             IconButton(
-                onClick = {
-                }
+                onClick = { onClickListener() }
             ) {
                 Icon(
                     painter =  painterResource(id = R.drawable.filter),

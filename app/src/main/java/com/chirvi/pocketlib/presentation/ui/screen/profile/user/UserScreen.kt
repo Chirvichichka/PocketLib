@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.profile.user
 
+import android.content.DialogInterface.OnClickListener
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 fun UserScreen(
     onClickPreview: () -> Unit,
     onClickSettings: () -> Unit,
+    onClickEdit: () -> Unit,
 ) {
     val viewModel = hiltViewModel<UserViewModel>()
 
@@ -54,7 +56,7 @@ fun UserScreen(
         ProfileTopAppBar(
             onClickSettings = onClickSettings
         )
-        UserInfo()
+        UserInfo(onClickListener = onClickEdit)
         ProfileTabRow(
             viewModel = viewModel,
             onClickPreview = onClickPreview
@@ -77,9 +79,7 @@ private fun ProfileTopAppBar(
         },
         actions = {
             IconButton(
-                onClick = {
-                    onClickSettings()
-                }
+                onClick = { onClickSettings() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.settings),
@@ -92,7 +92,9 @@ private fun ProfileTopAppBar(
 }
 
 @Composable
-private fun UserInfo() {
+private fun UserInfo(
+    onClickListener: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .padding(all = 16.dp,)
@@ -131,7 +133,7 @@ private fun UserInfo() {
         Spacer(modifier = Modifier.height(8.dp))
         ButtonWithText(
             text = stringResource(id = R.string.edit),
-            onClickListener = { /*TODO*/ }
+            onClickListener = { onClickListener() }
         )
     }
 }
@@ -194,7 +196,6 @@ private fun ProfileTabRow(
         1 -> {
             BookColumn(
                 displayMode = favoritesDisplayMode,
-                count = 5,
                 book = Book(),
                 onClickPreview = onClickPreview
             )

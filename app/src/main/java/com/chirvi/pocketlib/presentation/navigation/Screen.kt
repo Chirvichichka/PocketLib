@@ -8,13 +8,14 @@ sealed class Screen(
     data object AddBook : Screen(ROUTE_ADD_BOOK)
     data object PageBookHome : Screen(ROUTE_PAGE_BOOK_HOME)
     data object PageBookProfile : Screen(ROUTE_PAGE_BOOK_PROFILE)
-
     data object Feed : Screen(ROUTE_FEED)
     data object User : Screen(ROUTE_USER)
     data object Settings : Screen(ROUTE_SETTINGS)
+    data object Filter : Screen(ROUTE_FILTER)
 
     private companion object {
         const val ROUTE_SETTINGS = "settings"
+        const val ROUTE_FILTER = "filter"
         const val ROUTE_USER = "user"
         const val ROUTE_PAGE_BOOK_HOME = "book_page_home"
         const val ROUTE_PAGE_BOOK_PROFILE = "book_page_profile"

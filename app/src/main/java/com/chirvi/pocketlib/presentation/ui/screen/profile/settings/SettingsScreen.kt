@@ -51,7 +51,7 @@ fun SettingsScreen(
             .background(color = PocketLibTheme.colors.primary)
 
     ) {
-        SettingsAppBar(onBackPressed = onBackPressed)
+        SettingsTopAppBar(onBackPressed = onBackPressed)
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -69,7 +69,7 @@ fun SettingsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsAppBar(
+private fun SettingsTopAppBar(
     onBackPressed: () -> Unit
 ) {
     PocketLibTopAppBar(
@@ -162,9 +162,16 @@ private fun UserEdit() {
         modifier = Modifier
             .fillMaxWidth(),
     ) {
+        Text(
+            text = stringResource(id = R.string.edit_user),
+            style = PocketLibTheme.textStyles.largeStyle.copy(
+                color = PocketLibTheme.colors.dark,
+                fontWeight = FontWeight.Bold
+            )
+        )
         Column(
             modifier = Modifier
-                .padding(start = 4.dp),
+                .padding(start = 4.dp,  top = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
         ) {
             Row(
@@ -180,7 +187,7 @@ private fun UserEdit() {
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "Изменить аватар",
+                    text = stringResource(id = R.string.edit_avatar),
                     style = PocketLibTheme.textStyles.normalStyle.copy(
                         color = PocketLibTheme.colors.dark
                     )

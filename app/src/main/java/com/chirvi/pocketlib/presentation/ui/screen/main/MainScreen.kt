@@ -31,6 +31,7 @@ import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationState
 import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
 import com.chirvi.pocketlib.presentation.ui.screen.book_page.BookPageScreen
+import com.chirvi.pocketlib.presentation.ui.screen.filter.FilterScreen
 import com.chirvi.pocketlib.presentation.ui.screen.home.feed.FeedScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.settings.SettingsScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.user.UserScreen
@@ -64,6 +65,7 @@ fun MainScreen() {
                     FeedScreen(
                         scroll = scroll,
                         onClickPreview = { navigationState.navigateToIn(Screen.PageBookHome.route) },
+                        onFilterClick = { navigationState.navigateToIn(Screen.Filter.route) }
                     )
                 },
                 pageBookContent = {
@@ -74,11 +76,17 @@ fun MainScreen() {
                 userContent = {
                     UserScreen(
                         onClickPreview = { navigationState.navigateToIn(Screen.PageBookProfile.route) },
-                        onClickSettings = { navigationState.navigateToIn(Screen.Settings.route) }
+                        onClickSettings = { navigationState.navigateToIn(Screen.Settings.route) },
+                        onClickEdit = { navigationState.navigateToIn(Screen.Settings.route) }
                     )
                 },
                 settingsContent = {
                     SettingsScreen(
+                        onBackPressed = { navigationState.navHostController.popBackStack() }
+                    )
+                },
+                filterContent = {
+                    FilterScreen(
                         onBackPressed = { navigationState.navHostController.popBackStack() }
                     )
                 }

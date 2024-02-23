@@ -23,5 +23,8 @@
     <string name="create_a_new_account">Create a new account</string>
     <string name="log_in">Log in</string>
     <string name="edit">Edit</string>
+    <string name="edit_user">Edit profile</string>
+    <string name="edit_avatar">Change avatar</string>
+    <string name="filter">Filter</string>
 
 </resources>

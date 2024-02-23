@@ -23,6 +23,10 @@
     <string name="create_a_new_account">Создать новый аккаунт</string>
     <string name="log_in">Войти</string>
     <string name="edit">Редактировать</string>
+    <string name="edit_user">Редактировать профиль</string>
+    <string name="edit_avatar">Изменить аватар</string>
+    <string name="filter">Фильтр</string>
+
 
 
 </resources>
