@@ -41,7 +41,8 @@ fun AddBookScreen() {
     val viewModel = hiltViewModel<AddBookViewModel>()
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
         AddBookTopAppBar()
@@ -50,8 +51,9 @@ fun AddBookScreen() {
                 .padding(all = 16.dp)
                 .fillMaxSize()
         ) {
+            LoadButton()
             AddPicture()
-            TextFields(viewModel = viewModel) //todo disable
+            TextFields(viewModel = viewModel)
             Spacer(modifier = Modifier.weight(1f))
             Genres()
             ButtonWithText(alternativeColorScheme = false, text = stringResource(id = R.string.save), onClickListener = {})
@@ -70,6 +72,16 @@ private fun AddBookTopAppBar() {
                     color = PocketLibTheme.colors.primary,
                 )
             )
+        }
+    )
+}
+
+@Composable
+private fun LoadButton() {
+    ButtonWithText(
+        text = "Загрузить",
+        onClickListener = {
+            //todo
         }
     )
 }
@@ -111,7 +123,7 @@ private fun AddPicture() {
 }
 
 @Composable
-private fun TextFields( //todo узнать как сократить код
+private fun TextFields(
     viewModel: AddBookViewModel
 ) {
     val textName by viewModel.textName.observeAsState("")
@@ -138,7 +150,9 @@ private fun TextFields( //todo узнать как сократить код
     )
     Spacer(modifier = Modifier.height(16.dp))
     PocketLibTextField(
-        modifier = Modifier.height(120.dp).focusRequester(focusRequesterDescription),
+        modifier = Modifier
+            .height(120.dp)
+            .focusRequester(focusRequesterDescription),
         text = textDescription,
         singleLine = false,
         placeHolderText = stringResource(id = R.string.enter_description),
