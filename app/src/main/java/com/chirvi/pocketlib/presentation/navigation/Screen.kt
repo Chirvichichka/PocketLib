@@ -12,8 +12,10 @@ sealed class Screen(
     data object User : Screen(ROUTE_USER)
     data object Settings : Screen(ROUTE_SETTINGS)
     data object Filter : Screen(ROUTE_FILTER)
+    data object Registration : Screen(ROUTE_REGISTRATION)
 
     private companion object {
+        const val ROUTE_REGISTRATION = "registration"
         const val ROUTE_SETTINGS = "settings"
         const val ROUTE_FILTER = "filter"
         const val ROUTE_USER = "user"

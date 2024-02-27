@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,21 +32,24 @@ fun BookPageScreen(
     book: Book = Book(),
     onBackPressed: () -> Unit
 ) {
-    val viewModel = hiltViewModel<BookPageViewModel>()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
         FeedAppTopBar(book = book, onBackPressed = onBackPressed)
-        Poster()
         Column(
-            modifier = Modifier.padding(all = 16.dp)
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
         ) {
-            ButtonWithText(text = stringResource(id = R.string.read)) {}
-            Spacer(modifier = Modifier.height(16.dp))
-            TextInfo(book = book)
+            Poster()
+            Column(
+                modifier = Modifier.padding(all = 16.dp)
+            ) {
+                ButtonWithText(text = stringResource(id = R.string.read)) {}
+                Spacer(modifier = Modifier.height(16.dp))
+                TextInfo(book = book)
+            }
         }
     }
 }
@@ -82,7 +87,7 @@ private fun Poster() {
     Image(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(400.dp)
             .background(color = PocketLibTheme.colors.dark),
         painter = painterResource(id = R.drawable.test_image),
         contentDescription = null,

@@ -9,7 +9,8 @@ import com.chirvi.pocketlib.presentation.navigation.Screen
 fun NavGraphBuilder.profileNavGraph(
     pageBookContent: @Composable () -> Unit,
     userContent: @Composable () -> Unit,
-    settingsContent: @Composable () -> Unit
+    settingsContent: @Composable () -> Unit,
+    registrationContent: @Composable () -> Unit,
     ) {
     navigation(
         startDestination = Screen.User.route,
@@ -23,6 +24,9 @@ fun NavGraphBuilder.profileNavGraph(
         }
         composable(Screen.Settings.route) {
             settingsContent()
+        }
+        composable(Screen.Registration.route) {
+            registrationContent()
         }
     }
 }

@@ -33,6 +33,7 @@ import com.chirvi.pocketlib.presentation.ui.screen.book_add.AddBookScreen
 import com.chirvi.pocketlib.presentation.ui.screen.book_page.BookPageScreen
 import com.chirvi.pocketlib.presentation.ui.screen.filter.FilterScreen
 import com.chirvi.pocketlib.presentation.ui.screen.home.feed.FeedScreen
+import com.chirvi.pocketlib.presentation.ui.screen.profile.settings.create_account.CreateAccountScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.settings.SettingsScreen
 import com.chirvi.pocketlib.presentation.ui.screen.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -82,11 +83,17 @@ fun MainScreen() {
                 },
                 settingsContent = {
                     SettingsScreen(
-                        onBackPressed = { navigationState.navHostController.popBackStack() }
+                        onBackPressed = { navigationState.navHostController.popBackStack() },
+                        onCreateAccountClick = { navigationState.navigateToIn(Screen.Registration.route) }
                     )
                 },
                 filterContent = {
                     FilterScreen(
+                        onBackPressed = { navigationState.navHostController.popBackStack() }
+                    )
+                },
+                registrationContent = {
+                    CreateAccountScreen(
                         onBackPressed = { navigationState.navHostController.popBackStack() }
                     )
                 }

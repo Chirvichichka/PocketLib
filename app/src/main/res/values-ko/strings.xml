@@ -26,7 +26,11 @@
     <string name="edit_user">프로필 수정</string>
     <string name="edit_avatar">아바타 변경</string>
     <string name="filter">필터</string>
-
+    <string name="registration">새 계정 생성</string>
+    <string name="account_name">별명</string>
+    <string name="enter_e_mail">이메일을 입력하세요</string>
+    <string name="enter_password">비밀번호 만들기</string>
+    <string name="enter_confirm_password">비밀번호를 확인하세요</string>
 
 
 </resources>

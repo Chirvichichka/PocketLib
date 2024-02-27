@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.book_add
+package com.chirvi.pocketlib.presentation.ui.screen.profile.settings.create_account
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,76 +20,112 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
-import com.chirvi.pocketlib.presentation.ui.common.text_field.PocketLibTextField
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
+import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
-
 @Composable
-fun AddBookScreen() {
-    val viewModel = hiltViewModel<AddBookViewModel>()
-
+fun CreateAccountScreen(
+    onBackPressed: () -> Unit,
+    ) {
+    val viewModel = hiltViewModel<CreateAccountViewModel>()
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
+            .fillMaxSize()
     ) {
-        AddBookTopAppBar()
+        CreateAccountAppTopBar(onBackPressed = onBackPressed)
         Column(
-            modifier = Modifier
-                .padding(all = 16.dp)
-                .fillMaxSize()
+            modifier = Modifier.padding(all = 16.dp)
         ) {
-            LoadButton()
+            AddAvatar()
             Spacer(modifier = Modifier.height(16.dp))
-            AddPicture()
             TextFields(viewModel = viewModel)
             Spacer(modifier = Modifier.weight(1f))
-            Genres()
-            ButtonWithText(alternativeColorScheme = false, text = stringResource(id = R.string.save), onClickListener = {})
+            ButtonWithText(
+                text = "Добавить аккаунт",
+                onClickListener = {  } //todo
+            )
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AddBookTopAppBar() {
+private fun CreateAccountAppTopBar(
+    onBackPressed: () -> Unit,
+) {
     PocketLibTopAppBar(
         title = {
             Text(
-                text = stringResource(id = R.string.add_book),
+                text = stringResource(id = R.string.create_a_new_account),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.primary,
+                    color = PocketLibTheme.colors.primary
                 )
+            )
+        },
+        navigationIcon = {
+            BackButton(
+                onClickListener = onBackPressed
             )
         }
     )
 }
 
 @Composable
-private fun LoadButton() {
-    ButtonWithText(
-        text = "Загрузить",
-        onClickListener = {
-            //todo
-        }
+private fun TextFields(
+    viewModel: CreateAccountViewModel
+) {
+
+    val textName by viewModel.textName.observeAsState("")
+    val textEMail by viewModel.textEMail.observeAsState("")
+    val textPassword by viewModel.textPassword.observeAsState("")
+    val textConfirmPassword by viewModel.textConfirmPassword.observeAsState("")
+
+    TextFieldWithLabel(
+        text = textName,
+        textLabel = stringResource(id = R.string.account_name),
+        onValueChange = { newText -> viewModel.onValueChangeName(newText) }
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    TextFieldWithLabel(
+        text = textEMail,
+        textLabel = stringResource(id = R.string.enter_e_mail),
+        keyboardType = KeyboardType.Email,
+        onValueChange = { newText -> viewModel.onValueChangeEMail(newText) }
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    TextFieldWithLabel(
+        text = textPassword,
+        textLabel = stringResource(id = R.string.enter_password),
+        keyboardType = KeyboardType.Password,
+        visualTransformation = PasswordVisualTransformation(),
+        onValueChange = { newText -> viewModel.onValueChangePassword(newText) }
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    TextFieldWithLabel(
+        text = textConfirmPassword,
+        textLabel = stringResource(id = R.string.enter_confirm_password),
+        keyboardType = KeyboardType.Password,
+        visualTransformation = PasswordVisualTransformation(),
+        onValueChange = { newText -> viewModel.onValueChangeConfirmPassword(newText) }
     )
 }
 
 @Composable
-private fun AddPicture() {
+private fun AddAvatar() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -111,7 +148,8 @@ private fun AddPicture() {
                 modifier = Modifier.size(60.dp),
                 tint = PocketLibTheme.colors.tertiary,
                 painter = painterResource(id = R.drawable.add),
-                contentDescription = null)
+                contentDescription = null
+            )
         }
         Spacer(modifier = Modifier.width(16.dp))
         Text(
@@ -121,47 +159,4 @@ private fun AddPicture() {
             )
         )
     }
-}
-
-@Composable
-private fun TextFields(
-    viewModel: AddBookViewModel
-) {
-    val textName by viewModel.textName.observeAsState("")
-    val textAuthor by viewModel.textAuthor.observeAsState("")
-    val textDescription by viewModel.textDescription.observeAsState("")
-
-    val focusRequesterAuthor = remember { FocusRequester() }
-    val focusRequesterDescription = remember { FocusRequester() }
-
-    Spacer(modifier = Modifier.height(16.dp))
-    PocketLibTextField(
-        onKeyboardActions = { focusRequesterAuthor.requestFocus() },
-        text = textName,
-        placeHolderText = stringResource(id = R.string.enter_name),
-        onValueChange = { newText -> viewModel.onValueChangeName(newText) }
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    PocketLibTextField(
-        onKeyboardActions = { focusRequesterDescription.requestFocus() },
-        modifier = Modifier.focusRequester(focusRequesterAuthor),
-        text = textAuthor,
-        placeHolderText = stringResource(id = R.string.enter_author),
-        onValueChange = { newText -> viewModel.onValueChangeAuthor(newText) }
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    PocketLibTextField(
-        modifier = Modifier
-            .height(120.dp)
-            .focusRequester(focusRequesterDescription),
-        text = textDescription,
-        singleLine = false,
-        placeHolderText = stringResource(id = R.string.enter_description),
-        onValueChange = { newText -> viewModel.onValueChangeDescription(newText) }
-    )
-}
-
-@Composable
-private fun Genres() {
-
 }

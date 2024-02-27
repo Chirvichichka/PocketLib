@@ -26,6 +26,12 @@
     <string name="edit_user">Редактировать профиль</string>
     <string name="edit_avatar">Изменить аватар</string>
     <string name="filter">Фильтр</string>
+    <string name="registration">Создание нового аккаунта</string>
+    <string name="account_name">Никнейм</string>
+    <string name="enter_e_mail">Укажите вашу почту</string>
+    <string name="enter_password">Придумайте пароль</string>
+    <string name="enter_confirm_password">Подтвердите пароль</string>
+
 
 
 

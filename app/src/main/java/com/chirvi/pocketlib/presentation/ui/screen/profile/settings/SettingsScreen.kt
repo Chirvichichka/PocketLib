@@ -35,16 +35,17 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.SeparativeLine
 import com.chirvi.pocketlib.presentation.ui.common.text_field.EditTextField
+import com.chirvi.pocketlib.presentation.ui.screen.profile.settings.settings_display.DisplayScreen
 import com.chirvi.pocketlib.presentation.ui.theme.Gray
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun SettingsScreen(
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    onCreateAccountClick: () -> Unit
 ) {
-    val viewModel = hiltViewModel<SettingsViewModel>()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,11 +58,11 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(all = 16.dp)
         ) {
-            Account()
+            Account(onCreateAccountClick = onCreateAccountClick)
             SeparativeLine()
             UserEdit()
             SeparativeLine()
-            DisplayBooks(viewModel = viewModel)
+            DisplayScreen()
             SeparativeLine()
         }
     }
@@ -90,43 +91,9 @@ private fun SettingsTopAppBar(
 }
 
 @Composable
-private fun DisplayBooks(
-   viewModel: SettingsViewModel
+private fun Account(
+    onCreateAccountClick: () -> Unit,
 ) {
-    val feedCheckBoxState by viewModel.feedSwitchState.observeAsState(false)
-    val myBooksCheckBoxState by viewModel.myBooksCSwitchState.observeAsState(false)
-    val favoriteCheckBoxState by viewModel.favoriteSwitchState.observeAsState(false)
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
-    ) {
-        Text(
-            text = stringResource(id = R.string.card_display),
-            style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.dark,
-                fontWeight = FontWeight.Bold
-            )
-        )
-        RowSwitch(
-            textId = R.string.feed_switch,
-            state = feedCheckBoxState,
-            onClickListener = { viewModel.feedSwitchStateChanged() }
-        )
-        RowSwitch(
-            textId = R.string.my_books_switch,
-            state = myBooksCheckBoxState,
-            onClickListener = { viewModel.myBooksSwitchStateChanged() }
-        )
-        RowSwitch(
-            textId = R.string.favorite_switch,
-            state = favoriteCheckBoxState,
-            onClickListener = { viewModel.favoriteSwitchStateChanged() }
-        )
-    }
-}
-
-@Composable
-private fun Account() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -145,7 +112,9 @@ private fun Account() {
             ButtonWithText(
                 alternativeColorScheme = false,
                 text = stringResource(id = R.string.create_a_new_account),
-                onClickListener = {  }
+                onClickListener = {
+                    onCreateAccountClick()
+                }
             )
             ButtonWithText(
                 alternativeColorScheme = false,
@@ -203,49 +172,4 @@ private fun UserEdit() {
             )
         }
     }
-}
-
-
-@Composable
-private fun RowSwitch(
-    textId: Int,
-    state: Boolean,
-    onClickListener: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(0.7f),
-            text = stringResource(id = textId),
-            style = PocketLibTheme.textStyles.normalStyle.copy(
-                color = PocketLibTheme.colors.dark
-            )
-        )
-        Switch(
-            checked = state,
-            onCheckedChange = { onClickListener() },
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = PocketLibTheme.colors.tertiary,
-                uncheckedTrackColor = PocketLibTheme.colors.dark,
-                uncheckedBorderColor = PocketLibTheme.colors.dark,
-                uncheckedThumbColor = PocketLibTheme.colors.primary
-            )
-        )
-    }
-}
-
-@Composable
-private fun SeparativeLine() {
-    Spacer(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp)
-            .height(0.4.dp)
-            .background(color = Gray)
-    )
 }

@@ -26,5 +26,11 @@
     <string name="edit_user">Edit profile</string>
     <string name="edit_avatar">Change avatar</string>
     <string name="filter">Filter</string>
+    <string name="registration">Create a new account</string>
+    <string name="account_name">Nickname</string>
+    <string name="enter_e_mail">Enter your e-mail</string>
+    <string name="enter_password">Create a password</string>
+    <string name="enter_confirm_password">Confirm a password</string>
+
 
 </resources>
