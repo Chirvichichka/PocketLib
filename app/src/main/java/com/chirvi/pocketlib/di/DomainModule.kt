@@ -3,6 +3,7 @@ package com.chirvi.pocketlib.di
 import com.chirvi.domain.repository.settings.SettingsFavoritesRepository
 import com.chirvi.domain.repository.settings.SettingsFeedRepository
 import com.chirvi.domain.repository.settings.SettingsMyBooksRepository
+import com.chirvi.domain.usecase.ConfirmPasswordUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsFavoritesUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsFeedUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsMyBooksUseCase
@@ -17,6 +18,11 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 @InstallIn(ViewModelComponent::class)
 class DomainModule {
+
+    @Provides
+    fun provideConfirmPasswordUseCase() : ConfirmPasswordUseCase {
+        return ConfirmPasswordUseCase()
+    }
 
     @Provides
     fun provideGetSettingsFeedUseCase(settingsRepository: SettingsFeedRepository) : GetSettingsFeedUseCase {

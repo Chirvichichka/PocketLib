@@ -163,10 +163,6 @@ private fun UserEdit() {
                 )
             }
             EditTextField(
-                text = "Имя",
-                onValueChange = {  }
-            )
-            EditTextField(
                 text = "Никнейм",
                 onValueChange = {  }
             )
