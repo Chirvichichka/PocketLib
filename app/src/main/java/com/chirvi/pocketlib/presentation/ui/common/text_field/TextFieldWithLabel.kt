@@ -65,7 +65,16 @@ fun TextFieldWithLabel(
             }
         },
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
-        visualTransformation = if (checkPassword) { PasswordVisualTransformation() } else { VisualTransformation.None },
+        visualTransformation =
+            if (passwordTextField) {
+                if (checkPassword) {
+                    PasswordVisualTransformation()
+                } else {
+                    VisualTransformation.None
+                }
+            } else {
+                VisualTransformation.None
+            },
         textStyle = PocketLibTheme.textStyles.normalStyle,
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(

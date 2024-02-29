@@ -18,7 +18,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -63,7 +65,9 @@ fun CreateAccountScreen(
     ) {
         CreateAccountAppTopBar(onBackPressed = onBackPressed)
         Column(
-            modifier = Modifier.padding(all = 16.dp)
+            modifier = Modifier
+     //           .verticalScroll(rememberScrollState()) //todo
+                .padding(all = 16.dp)
         ) {
             AddAvatar()
             Spacer(modifier = Modifier.height(16.dp))
@@ -141,7 +145,7 @@ private fun TextFields(
         textLabel = stringResource(id = R.string.enter_confirm_password),
         keyboardType = KeyboardType.Password,
         passwordTextField = true,
-        onValueChange = { newText -> viewModel.onValueChangeConfirmPassword(newText) }
+        onValueChange = { newText -> viewModel.onValueChangeConfirmPassword(newText) },
     )
 }
 

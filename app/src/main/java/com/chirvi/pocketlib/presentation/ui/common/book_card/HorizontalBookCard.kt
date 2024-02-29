@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.R
@@ -70,32 +71,37 @@ fun HorizontalBookCard(
                     .padding(start = 8.dp)
                     .weight(1f)
             ) {
-                Text(
-                    text = book.name,
-                    style = PocketLibTheme.textStyles.largeStyle.copy(
-                        color = PocketLibTheme.colors.dark
-                    )
-                )
-                Text(
-                    text = book.author,
-                    style = PocketLibTheme.textStyles.normalStyle.copy(
-                        color = PocketLibTheme.colors.dark
-                    )
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Row {
+                    Column{
+                        Text(
+                            text = book.name,
+                            style = PocketLibTheme.textStyles.largeStyle.copy(
+                                color = PocketLibTheme.colors.dark
+                            )
+                        )
+                        Text(
+                            text = book.author,
+                            style = PocketLibTheme.textStyles.normalStyle.copy(
+                                color = PocketLibTheme.colors.dark
+                            )
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    ButtonIconFavorite {
+                        //todo
+                    }
+                }
                 val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at neque sem. Sed placerat vitae massa ac consequat. Pellentesque vehicula orci in justo ultricies suscipit. Donec vehicula neque in justo feugiat placerat. Nam pharetra dolor felis, quis varius neque interdum viverra. Cras quis dolor bibendum, vehicula augue non, molestie leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur nec libero vel neque pellentesque congue. Vivamus placerat feugiat faucibus. Nam non rutrum dolor. Curabitur quam tellus, pretium vitae convallis vel, tempor vitae ex. Sed in quam risus. Nam rhoncus velit et risus aliquet consectetur. Nam."
                 Text(
+                    modifier = Modifier.padding(end = 8.dp),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 5,
                     text = text,
                     style = PocketLibTheme.textStyles.smallStyle.copy(
-                        color = PocketLibTheme.colors.quaternary
+                        color = PocketLibTheme.colors.quaternary,
+                        textAlign = TextAlign.Justify
                     )
                 )
-            }
-                // Spacer(modifier = Modifier.weight(1f))
-            ButtonIconFavorite {
-                //todo
             }
         }
     }
