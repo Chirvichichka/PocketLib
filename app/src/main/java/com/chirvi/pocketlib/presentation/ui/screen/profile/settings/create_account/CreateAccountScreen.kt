@@ -1,31 +1,22 @@
 package com.chirvi.pocketlib.presentation.ui.screen.profile.settings.create_account
 
-import android.media.Image
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,16 +26,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.ui.common.AddPictureFromGallery
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
@@ -56,7 +44,6 @@ fun CreateAccountScreen(
     onBackPressed: () -> Unit,
     ) {
     val viewModel = hiltViewModel<CreateAccountViewModel>()
-    val confirm by viewModel.isPasswordConfirm.observeAsState(false)
 
     Column(
         modifier = Modifier
@@ -65,23 +52,15 @@ fun CreateAccountScreen(
     ) {
         CreateAccountAppTopBar(onBackPressed = onBackPressed)
         Column(
-            modifier = Modifier
-     //           .verticalScroll(rememberScrollState()) //todo
-                .padding(all = 16.dp)
+            modifier = Modifier.padding(all = 16.dp)
         ) {
             AddAvatar()
             Spacer(modifier = Modifier.height(16.dp))
             TextFields(viewModel = viewModel)
             Spacer(modifier = Modifier.weight(1f))
             ButtonWithText(
-                text = if (confirm) {
-                    "true"
-                } else {
-                    "false"
-                }, //todo
-                onClickListener = {
-                    viewModel.confirmPassword()
-                } //todo
+                text = stringResource(id = R.string.create_a_new_account),
+                onClickListener = { viewModel.registration() }
             )
         }
     }
@@ -119,7 +98,7 @@ private fun TextFields(
     val textPassword by viewModel.textPassword.observeAsState("")
     val textConfirmPassword by viewModel.textConfirmPassword.observeAsState("")
 
-    TextFieldWithLabel(
+    TextFieldWithLabel(//todo разделить password
         text = textName,
         textLabel = stringResource(id = R.string.account_name),
         onValueChange = { newText -> viewModel.onValueChangeName(newText) }
@@ -152,9 +131,7 @@ private fun TextFields(
 @Composable
 private fun AddAvatar() {
 
-    var imageUri by remember {
-        mutableStateOf<Uri?>(null)
-    }
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
@@ -166,57 +143,30 @@ private fun AddAvatar() {
     )
 
     Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(110.dp)
-                .background(
-                    color = PocketLibTheme.colors.secondary,
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .clip(RoundedCornerShape(10.dp))
-                .clickable {
-                    galleryLauncher.launch("image/*")
-                }
-        ) {
-            if (imageUri != null) {
-                Image(
-                    painter = rememberAsyncImagePainter(model = imageUri),
-                    contentDescription = null,
-                    modifier = Modifier.size(110.dp),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Icon(
-                    modifier = Modifier.size(60.dp),
-                    tint = PocketLibTheme.colors.tertiary,
-                    painter = painterResource(id = R.drawable.add),
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                modifier = Modifier
-                    .align(Alignment.TopStart),
-                onClick = {
-                    imageUri = null
-                }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.delete),
-                    contentDescription = null
-                )
-            }
-        }
+        AddPictureFromGallery(
+            load = {
+                galleryLauncher.launch("image/*")
+            },
+            imageUri = imageUri
+        )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
+            modifier = Modifier.fillMaxWidth(0.8f),
             text = stringResource(id = R.string.add_image),
             style = PocketLibTheme.textStyles.largeStyle.copy(
                 color = PocketLibTheme.colors.dark
             )
         )
+        IconButton(onClick = { imageUri = null }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.delete),
+                contentDescription = null
+            )
+        }
     }
 }

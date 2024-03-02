@@ -18,7 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.ui.screen.profile.settings.SettingsViewModel
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable

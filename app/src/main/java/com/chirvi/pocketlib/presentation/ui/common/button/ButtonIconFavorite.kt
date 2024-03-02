@@ -1,6 +1,5 @@
 package com.chirvi.pocketlib.presentation.ui.common.button
 
-import android.content.DialogInterface.OnClickListener
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable

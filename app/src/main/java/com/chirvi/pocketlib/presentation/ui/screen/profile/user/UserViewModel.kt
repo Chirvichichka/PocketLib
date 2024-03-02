@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.domain.usecase.settings.GetSettingsFavoritesUseCase
-import com.chirvi.domain.usecase.settings.GetSettingsFeedUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsMyBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

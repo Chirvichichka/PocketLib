@@ -1,9 +1,11 @@
 package com.chirvi.pocketlib.di
 
+import com.chirvi.domain.repository.auth.RegistrationRepository
 import com.chirvi.domain.repository.settings.SettingsFavoritesRepository
 import com.chirvi.domain.repository.settings.SettingsFeedRepository
 import com.chirvi.domain.repository.settings.SettingsMyBooksRepository
 import com.chirvi.domain.usecase.ConfirmPasswordUseCase
+import com.chirvi.domain.usecase.auth.RegistrationUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsFavoritesUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsFeedUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsMyBooksUseCase
@@ -22,6 +24,11 @@ class DomainModule {
     @Provides
     fun provideConfirmPasswordUseCase() : ConfirmPasswordUseCase {
         return ConfirmPasswordUseCase()
+    }
+
+    @Provides
+    fun providesRegistrationUseCase(repository: RegistrationRepository) : RegistrationUseCase {
+        return RegistrationUseCase(repository = repository)
     }
 
     @Provides

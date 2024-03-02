@@ -1,6 +1,5 @@
 package com.chirvi.pocketlib.presentation.ui.screen.profile.user
 
-import android.content.DialogInterface.OnClickListener
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,11 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.ui.common.BookColumn
-import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
-import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
+import com.chirvi.pocketlib.presentation.ui.common.BookColumn
+import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
