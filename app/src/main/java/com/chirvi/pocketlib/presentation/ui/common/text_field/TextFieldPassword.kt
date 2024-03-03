@@ -26,12 +26,13 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun TextFieldWithLabel(
+fun TextFieldPassword(
     text: String,
     textLabel: String,
-    keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
 ) {
+    var checkPassword by remember { mutableStateOf(true) }
+
     TextField(
         modifier = Modifier
             .height(60.dp)
@@ -47,7 +48,24 @@ fun TextFieldWithLabel(
                 )
             )
         },
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+        trailingIcon = {
+            IconButton(
+                onClick = { checkPassword = !checkPassword }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.eye),
+                    contentDescription = null,
+                    tint = PocketLibTheme.colors.dark
+                )
+            }
+        },
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+        visualTransformation =
+        if (checkPassword) {
+            PasswordVisualTransformation()
+        } else {
+            VisualTransformation.None
+        },
         textStyle = PocketLibTheme.textStyles.normalStyle,
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(

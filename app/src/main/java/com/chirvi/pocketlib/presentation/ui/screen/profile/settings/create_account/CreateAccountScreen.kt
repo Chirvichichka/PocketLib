@@ -36,6 +36,7 @@ import com.chirvi.pocketlib.presentation.ui.common.AddPictureFromGallery
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldPassword
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
@@ -44,6 +45,7 @@ fun CreateAccountScreen(
     onBackPressed: () -> Unit,
     ) {
     val viewModel = hiltViewModel<CreateAccountViewModel>()
+    val error by viewModel.errorMessage.observeAsState("")
 
     Column(
         modifier = Modifier
@@ -57,6 +59,17 @@ fun CreateAccountScreen(
             AddAvatar()
             Spacer(modifier = Modifier.height(16.dp))
             TextFields(viewModel = viewModel)
+            Text(
+                modifier = Modifier
+                    .padding(
+                        vertical = 4.dp,
+                        horizontal = 8.dp
+                    ),
+                text = error,
+                style = PocketLibTheme.textStyles.normalStyle.copy(
+                    color = PocketLibTheme.colors.dark
+                )
+            )
             Spacer(modifier = Modifier.weight(1f))
             ButtonWithText(
                 text = stringResource(id = R.string.create_a_new_account),
@@ -111,19 +124,15 @@ private fun TextFields(
         onValueChange = { newText -> viewModel.onValueChangeEMail(newText) }
     )
     Spacer(modifier = Modifier.height(16.dp))
-    TextFieldWithLabel(
+    TextFieldPassword(
         text = textPassword,
         textLabel = stringResource(id = R.string.enter_password),
-        keyboardType = KeyboardType.Password,
-        passwordTextField = true,
         onValueChange = { newText -> viewModel.onValueChangePassword(newText) }
     )
     Spacer(modifier = Modifier.height(16.dp))
-    TextFieldWithLabel(
+    TextFieldPassword(
         text = textConfirmPassword,
         textLabel = stringResource(id = R.string.enter_confirm_password),
-        keyboardType = KeyboardType.Password,
-        passwordTextField = true,
         onValueChange = { newText -> viewModel.onValueChangeConfirmPassword(newText) },
     )
 }
