@@ -31,6 +31,10 @@
     <string name="enter_e_mail">Enter your e-mail</string>
     <string name="enter_password">Create a password</string>
     <string name="enter_confirm_password">Confirm a password</string>
+    <string name="password_short_length">Password is too short</string>
+    <string name="password_mismatch">Password mismatch</string>
+    <string name="password_is_empty" >Password field is empty</string>
+    <string name="password_not_error" />
 
 
 </resources>

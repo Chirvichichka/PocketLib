@@ -31,6 +31,10 @@
     <string name="enter_e_mail">이메일을 입력하세요</string>
     <string name="enter_password">비밀번호 만들기</string>
     <string name="enter_confirm_password">비밀번호를 확인하세요</string>
+    <string name="password_short_length" >비밀번호가 너무 짧습니다</string>
+    <string name="password_mismatch" >암호 불일치</string>
+    <string name="password_is_empty" >비밀번호 입력란이 비어 있습니다.</string>
+    <string name="password_not_error" />
 
 
 </resources>

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,7 +44,7 @@ fun CreateAccountScreen(
     onBackPressed: () -> Unit,
     ) {
     val viewModel = hiltViewModel<CreateAccountViewModel>()
-    val error by viewModel.errorMessage.observeAsState("")
+    val errorId by viewModel.errorMessageId.observeAsState(0)
 
     Column(
         modifier = Modifier
@@ -65,7 +64,7 @@ fun CreateAccountScreen(
                         vertical = 4.dp,
                         horizontal = 8.dp
                     ),
-                text = error,
+                text = stringResource(id = errorId),
                 style = PocketLibTheme.textStyles.normalStyle.copy(
                     color = PocketLibTheme.colors.dark
                 )

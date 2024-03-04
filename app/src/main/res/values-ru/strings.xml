@@ -31,8 +31,10 @@
     <string name="enter_e_mail">Укажите вашу почту</string>
     <string name="enter_password">Придумайте пароль</string>
     <string name="enter_confirm_password">Подтвердите пароль</string>
-
-
+    <string name="password_short_length" >Пароль слишком короткий</string>
+    <string name="password_mismatch" >Пароли не совпадают</string>
+    <string name="password_is_empty" >Поле пароля пустое</string>
+    <string name="password_not_error" />
 
 
 </resources>

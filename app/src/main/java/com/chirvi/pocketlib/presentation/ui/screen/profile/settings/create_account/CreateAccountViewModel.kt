@@ -34,6 +34,9 @@ class CreateAccountViewModel @Inject constructor(
     private val _textConfirmPassword = MutableLiveData("")
     val textConfirmPassword: LiveData<String> = _textConfirmPassword
 
+    private val _errorMessageId = MutableLiveData(R.string.password_not_error)
+    val errorMessageId: LiveData<Int> = _errorMessageId
+
     fun onValueChangeName(text: String) { _textName.value = text }
 
     fun onValueChangeEMail(text: String) { _textEMail.value = text }
@@ -49,6 +52,7 @@ class CreateAccountViewModel @Inject constructor(
     }
     fun registration() {
         confirmPassword()
+        currentError(_errorMessage.value?: "")
         if (errorMessage.value == "") {
             viewModelScope.launch {
                 registrationCoroutine()
@@ -60,5 +64,23 @@ class CreateAccountViewModel @Inject constructor(
             email = textEMail.value ?: "",
             password = textPassword.value ?: ""
         )
+    }
+
+    private fun currentError(error: String) {
+        _errorMessageId.value =
+            when(error) {
+                "Short password length" -> {
+                    R.string.password_short_length
+                }
+                "Password mismatch" -> {
+                    R.string.password_mismatch
+                }
+                "Field is empty" -> {
+                    R.string.password_is_empty
+                }
+                else -> {
+                    R.string.password_not_error
+                }
+            }
     }
 }
