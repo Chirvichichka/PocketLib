@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.models.Book
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -38,9 +37,7 @@ fun FeedScreen(
     scroll: TopAppBarScrollBehavior,
 ) {
     val viewModel = hiltViewModel<FeedViewModel>()
-    val books = mutableListOf<Book>().apply {
-        repeat(21) { add(Book(id = it)) }
-    }
+    val books by viewModel.postsList.observeAsState(emptyList())
     val displayMode by viewModel.feedDisplayMode.observeAsState(DisplayMode.LIST)
 
     Column(
@@ -55,7 +52,7 @@ fun FeedScreen(
         )
         BookColumn(
             displayMode = displayMode,
-            book = books[0],
+            books = books,
             onClickPreview = onClickPreview
         )
     }

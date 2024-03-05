@@ -9,5 +9,4 @@ class SettingsViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-
 }

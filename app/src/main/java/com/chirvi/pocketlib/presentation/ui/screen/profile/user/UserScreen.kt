@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.models.Book
+import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
@@ -188,14 +188,12 @@ private fun ProfileTabRow(
         0 -> {
             BookColumn(
                 displayMode = myBooksDisplayMode,
-                book = Book(),
                 onClickPreview = onClickPreview
             )
         }
         1 -> {
             BookColumn(
                 displayMode = favoritesDisplayMode,
-                book = Book(),
                 onClickPreview = onClickPreview
             )
         }

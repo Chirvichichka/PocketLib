@@ -22,13 +22,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.models.Book
+import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun HorizontalBookCard(
-    book: Book,
+    book: BookPresentation,
     onClickPreview: () -> Unit
 ) {
     Card(

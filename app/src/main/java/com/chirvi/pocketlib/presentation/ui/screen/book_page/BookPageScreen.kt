@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.R
-import com.chirvi.pocketlib.presentation.models.Book
+import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
@@ -28,7 +28,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun BookPageScreen(
-    book: Book = Book(),
+ //   book: BookPresentation,
     onBackPressed: () -> Unit
 ) {
     Column(
@@ -36,7 +36,7 @@ fun BookPageScreen(
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
-        FeedAppTopBar(book = book, onBackPressed = onBackPressed)
+        FeedAppTopBar( onBackPressed = onBackPressed)
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -47,7 +47,7 @@ fun BookPageScreen(
             ) {
                 ButtonWithText(text = stringResource(id = R.string.read)) {}
                 Spacer(modifier = Modifier.height(16.dp))
-                TextInfo(book = book)
+            //    TextInfo(book = book)
             }
         }
     }
@@ -56,13 +56,13 @@ fun BookPageScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedAppTopBar(
-    book: Book,
+  //  book: BookPresentation,
     onBackPressed: () -> Unit
 ) {
     PocketLibTopAppBar(
         title = {
           Text(
-              text = book.name,
+              text = "book.name,",
               style = PocketLibTheme.textStyles.topAppBarStyle.copy(
                   color = PocketLibTheme.colors.primary
               )
@@ -96,7 +96,7 @@ private fun Poster() {
 
 @Composable
 private fun TextInfo(
-    book: Book
+    book: BookPresentation
 ) {
     Column(
     ) {

@@ -19,13 +19,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.chirvi.pocketlib.presentation.models.Book
+import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun VerticalBookCard(
-    book: Book,
+    book: BookPresentation,
     onClickPreview: () -> Unit
 ) {
     Card(
@@ -58,7 +59,7 @@ fun VerticalBookCard(
                     )
                     .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.FillWidth,
-                painter = painterResource(id = book.posterId),
+                painter = painterResource(id = R.drawable.test_image),
                 contentDescription = null
             )
         }

@@ -2,10 +2,12 @@ package com.chirvi.pocketlib.di
 
 import android.content.Context
 import com.chirvi.data.repository.auth.RegistrationRepositoryImpl
+import com.chirvi.data.repository.posts.PostsRepositoryImpl
 import com.chirvi.data.repository.settings.SettingsFavoritesRepositoryImpl
 import com.chirvi.data.repository.settings.SettingsFeedRepositoryImpl
 import com.chirvi.data.repository.settings.SettingsMyBooksRepositoryImpl
 import com.chirvi.domain.repository.auth.RegistrationRepository
+import com.chirvi.domain.repository.posts.PostsRepository
 import com.chirvi.domain.repository.settings.SettingsFavoritesRepository
 import com.chirvi.domain.repository.settings.SettingsFeedRepository
 import com.chirvi.domain.repository.settings.SettingsMyBooksRepository
@@ -24,6 +26,11 @@ class DataModule {
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    fun providePostsRepository() : PostsRepository {
+        return PostsRepositoryImpl()
     }
 
     @Provides
