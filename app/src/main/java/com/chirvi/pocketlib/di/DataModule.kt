@@ -6,11 +6,13 @@ import com.chirvi.data.repository.posts.PostsRepositoryImpl
 import com.chirvi.data.repository.settings.SettingsFavoritesRepositoryImpl
 import com.chirvi.data.repository.settings.SettingsFeedRepositoryImpl
 import com.chirvi.data.repository.settings.SettingsMyBooksRepositoryImpl
+import com.chirvi.data.repository.storage.StorageRepositoryImpl
 import com.chirvi.domain.repository.auth.RegistrationRepository
 import com.chirvi.domain.repository.posts.PostsRepository
 import com.chirvi.domain.repository.settings.SettingsFavoritesRepository
 import com.chirvi.domain.repository.settings.SettingsFeedRepository
 import com.chirvi.domain.repository.settings.SettingsMyBooksRepository
+import com.chirvi.domain.repository.storage.StorageRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -26,6 +28,12 @@ class DataModule {
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideStorageRepository() : StorageRepository {
+        return StorageRepositoryImpl()
     }
 
     @Provides

@@ -22,7 +22,8 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun AddPictureFromGallery(
     load: () -> Unit,
-    imageUri: Uri?
+    imageUri: Uri?,
+    avatar: Boolean = true,
 ) {
     Box(
         contentAlignment = Alignment.Center,

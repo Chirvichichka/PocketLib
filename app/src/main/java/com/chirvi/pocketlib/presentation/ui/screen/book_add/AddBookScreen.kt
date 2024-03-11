@@ -1,5 +1,8 @@
 package com.chirvi.pocketlib.presentation.ui.screen.book_add
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,7 +22,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.ui.common.AddPictureFromGallery
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.PocketLibTextField
@@ -40,6 +46,8 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 fun AddBookScreen() {
     val viewModel = hiltViewModel<AddBookViewModel>()
 
+    val imageUri by viewModel.image.observeAsState(null)
+   // var imageUri by remember { mutableStateOf<Uri?>(null) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,11 +61,18 @@ fun AddBookScreen() {
         ) {
             LoadButton()
             Spacer(modifier = Modifier.height(16.dp))
-            AddPicture()
+            AddPicture(
+                imageUri = imageUri,
+                loadImage = { viewModel.changeImage(it) }
+            )
             TextFields(viewModel = viewModel)
             Spacer(modifier = Modifier.weight(1f))
             Genres()
-            ButtonWithText(alternativeColorScheme = false, text = stringResource(id = R.string.save), onClickListener = {})
+            ButtonWithText(
+                alternativeColorScheme = false,
+                text = stringResource(id = R.string.save),
+                onClickListener = { viewModel.saveBook() }
+            )
         }
     }
 }
@@ -88,31 +103,26 @@ private fun LoadButton() {
 }
 
 @Composable
-private fun AddPicture() {
+private fun AddPicture(
+    imageUri: Uri?,
+    loadImage: (Uri) -> Unit,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(110.dp)
-                .background(
-                    color = PocketLibTheme.colors.secondary,
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .clip(RoundedCornerShape(10.dp))
-                .clickable {
-                    //todo
+        val galleryLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                uri?.let {
+                    loadImage(it)
                 }
-        ) {
-            Icon(
-                modifier = Modifier.size(60.dp),
-                tint = PocketLibTheme.colors.tertiary,
-                painter = painterResource(id = R.drawable.add),
-                contentDescription = null)
-        }
+            }
+        )
+        AddPictureFromGallery(
+            load = { galleryLauncher.launch("image/*") },
+            imageUri = imageUri
+        )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = stringResource(id = R.string.add_image),

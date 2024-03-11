@@ -1,29 +1,46 @@
 package com.chirvi.data.repository.posts
 
-import com.chirvi.domain.models.Book
+import android.util.Log
+import androidx.core.net.toUri
+import com.chirvi.domain.models.BookDomain
 import com.chirvi.domain.repository.posts.PostsRepository
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
+import com.chirvi.domain.usecase.posts.GetUrlUseCase
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.tasks.await
+import com.google.firebase.storage.FirebaseStorage
 
 class PostsRepositoryImpl : PostsRepository {
-    private val database = FirebaseDatabase.getInstance().reference.child("posts")
-
-    override suspend fun getAllBooks(): List<Book> {
-        val booksList = mutableListOf<Book>()
-        val dataSnapshot = database.get().await()
-        for (snapshot in dataSnapshot.children) {
-            val book = snapshot.getValue(Book::class.java)
-            book?.let { booksList.add(it) }
-        }
-        return booksList
+    private val database = FirebaseDatabase.getInstance()
+    private val postsReference = database.getReference("posts")
+    override fun createId(): String {
+        return postsReference.push().key?: ""
     }
 
-    override suspend fun getBookById(id: Int): Book? {
-        val dataSnapshot = database.child(id.toString()).get().await()
-        return dataSnapshot.getValue(Book::class.java)
+    override suspend fun saveBook(book: BookDomain) {
+        postsReference.child(book.id).setValue(book)
+            .addOnSuccessListener {
+                Log.e("AAA", "Data saved successfully")
+            }
+            .addOnFailureListener { error ->
+                Log.e("AAA", "Error saving data: ${error.message}")
+            }
+    }
+
+    override suspend fun loadBookById(id: String): BookDomain? {
+        var book: BookDomain? = null
+        postsReference.child(id).get().addOnSuccessListener {
+            val idBook = it.child("id").value.toString()
+            val author = it.child("author").value.toString()
+            val description = it.child("description").value.toString()
+            val name = it.child("name").value.toString()
+            val image = it.child("imageUri").value.toString()
+            book = BookDomain(
+                id = idBook,
+                author = author,
+                description = description,
+                name = name,
+                imageUri = image,
+            )
+        }
+        return book
     }
 }

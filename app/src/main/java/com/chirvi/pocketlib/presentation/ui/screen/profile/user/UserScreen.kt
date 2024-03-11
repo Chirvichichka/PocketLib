@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.profile.user
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.BookPresentation
@@ -46,6 +48,7 @@ fun UserScreen(
     onClickEdit: () -> Unit,
 ) {
     val viewModel = hiltViewModel<UserViewModel>()
+    val image by viewModel.image.observeAsState(Uri.EMPTY)
 
     Column(
         modifier = Modifier
@@ -55,7 +58,7 @@ fun UserScreen(
         ProfileTopAppBar(
             onClickSettings = onClickSettings
         )
-        UserInfo(onClickListener = onClickEdit)
+        UserInfo(onClickListener = onClickEdit, image = image)
         ProfileTabRow(
             viewModel = viewModel,
             onClickPreview = onClickPreview
@@ -92,6 +95,7 @@ private fun ProfileTopAppBar(
 
 @Composable
 private fun UserInfo(
+    image: Uri?,
     onClickListener: () -> Unit,
 ) {
     Column(
@@ -100,9 +104,15 @@ private fun UserInfo(
             .fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
+//            Image(
+//                painter = rememberAsyncImagePainter(model = image),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .size(80.dp)
+//                    .clip(shape = CircleShape),
+//            )
             Image(
                 modifier = Modifier
                     .size(80.dp)

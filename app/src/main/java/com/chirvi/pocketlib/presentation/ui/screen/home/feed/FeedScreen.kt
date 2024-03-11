@@ -50,6 +50,7 @@ fun FeedScreen(
             scroll = scroll,
             onClickListener = onFilterClick
         )
+        Text(text = viewModel.newText.observeAsState("").value)
         BookColumn(
             displayMode = displayMode,
             books = books,
