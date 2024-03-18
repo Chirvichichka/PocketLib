@@ -106,21 +106,22 @@ private fun UserInfo(
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-//            Image(
-//                painter = rememberAsyncImagePainter(model = image),
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .size(80.dp)
-//                    .clip(shape = CircleShape),
-//            )
             Image(
+                contentScale = ContentScale.Crop,
+                painter = rememberAsyncImagePainter(model = image),
+                contentDescription = null,
                 modifier = Modifier
                     .size(80.dp)
                     .clip(shape = CircleShape),
-                painter = painterResource(id = R.drawable.test_image),
-                contentScale = ContentScale.Crop,
-                contentDescription = null,
             )
+//            Image(
+//                modifier = Modifier
+//                    .size(80.dp)
+//                    .clip(shape = CircleShape),
+//                painter = painterResource(id = R.drawable.test_image),
+//                contentScale = ContentScale.Crop,
+//                contentDescription = null,
+//            )
             Column(
                 modifier = Modifier
                     .padding(

@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.models.BookDomain
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.domain.repository.posts.PostsRepository
-import com.chirvi.domain.usecase.posts.LoadBookByIdUseCase
+import com.chirvi.domain.repository.storage.StorageRepository
+import com.chirvi.domain.usecase.posts.GetAllBooksUseCase
+import com.chirvi.domain.usecase.posts.GetBookByIdUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsFeedUseCase
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation
@@ -19,8 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val getSettingsFeedUseCase: GetSettingsFeedUseCase,
-    private val loadBookByIdUseCase: LoadBookByIdUseCase,
-) : ViewModel() //-NscJV2P363ULw3uInZT
+    private val getAllBooksUseCase: GetAllBooksUseCase,
+) : ViewModel()
 {
     private val _postsList = MutableLiveData<List<BookPresentation>>()
     val postsList: LiveData<List<BookPresentation>> = _postsList
@@ -33,18 +35,13 @@ class FeedViewModel @Inject constructor(
     private fun loadFeedDisplayMode() : DisplayMode { return getSettingsFeedUseCase() }
     fun textChange(text: String) { _newText.value = text }
 
-        init {
+    init {
         viewModelScope.launch {
-            val book = loadBookByIdUseCase("-NscJV2P363ULw3uInZT")
-            val bookPresentation = book?.toPresentation()
-            val currentList = _postsList.value.orEmpty().toMutableList()
-            bookPresentation?.let {
-                currentList.add(it)
-            }
-
-            _postsList.value = currentList
-            Log.e("AAA", _postsList.value.toString())
+            val bookListDomain = getAllBooksUseCase()
+            val bookLIstPresentation = mutableListOf<BookPresentation>()
+            bookListDomain.forEach { bookLIstPresentation.add(it.toPresentation()) }
+            _postsList.value = bookLIstPresentation
         }
     }
-
 }
+

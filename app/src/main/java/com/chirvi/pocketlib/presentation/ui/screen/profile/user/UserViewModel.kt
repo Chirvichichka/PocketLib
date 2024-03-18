@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.models.DisplayMode
+import com.chirvi.domain.repository.storage.StorageRepository
 import com.chirvi.domain.usecase.posts.LoadImageUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsFavoritesUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsMyBooksUseCase
@@ -20,12 +21,14 @@ class UserViewModel @Inject constructor(
     private val getSettingsMyBooksUseCase: GetSettingsMyBooksUseCase,
     private val getSettingsFavoritesUseCase: GetSettingsFavoritesUseCase,
     private val loadImageUseCase: LoadImageUseCase,
-) : ViewModel() {
+    private val storageRepository: StorageRepository,
+
+    ) : ViewModel() {
     private val _image = MutableLiveData(Uri.EMPTY)
     val image: LiveData<Uri?> = _image
     init {
         viewModelScope.launch {
-            _image.value = loadImageUseCase("-NscJV2P363ULw3uInZT").toUri()
+            _image.value = storageRepository.loadImage("-NtFGWnCeoGPgPG8BK2Y").toUri()
         }
     }
 

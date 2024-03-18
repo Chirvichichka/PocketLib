@@ -17,11 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.chirvi.pocketlib.R
+import androidx.core.net.toUri
+import coil.compose.rememberAsyncImagePainter
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -62,7 +62,7 @@ fun HorizontalBookCard(
                     )
                     .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Crop,
-                painter = painterResource(id =  R.drawable.test_image),
+                painter  = rememberAsyncImagePainter(book.image.toUri()),
                 contentDescription = null
             )
             Column(
