@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.common.book_card
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,8 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -50,15 +53,15 @@ fun VerticalBookCard(
         ) {
             Image(
                 modifier = Modifier
-                    .height(150.dp,)
+                    .height(150.dp)
                     .padding(
                         top = 8.dp,
                         end = 8.dp,
                         start = 8.dp
                     )
                     .clip(RoundedCornerShape(10.dp)),
-                contentScale = ContentScale.FillWidth,
-                painter  = rememberAsyncImagePainter(book.image),
+                contentScale = ContentScale.Crop,
+                painter =  rememberAsyncImagePainter(book.image),
                 contentDescription = null
             )
         }

@@ -92,12 +92,11 @@ fun HorizontalBookCard(
                         }
                     )
                 }
-                val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at neque sem. Sed placerat vitae massa ac consequat. Pellentesque vehicula orci in justo ultricies suscipit. Donec vehicula neque in justo feugiat placerat. Nam pharetra dolor felis, quis varius neque interdum viverra. Cras quis dolor bibendum, vehicula augue non, molestie leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur nec libero vel neque pellentesque congue. Vivamus placerat feugiat faucibus. Nam non rutrum dolor. Curabitur quam tellus, pretium vitae convallis vel, tempor vitae ex. Sed in quam risus. Nam rhoncus velit et risus aliquet consectetur. Nam."
                 Text(
                     modifier = Modifier.padding(end = 8.dp),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 5,
-                    text = text,
+                    text = book.description,
                     style = PocketLibTheme.textStyles.smallStyle.copy(
                         color = PocketLibTheme.colors.quaternary,
                         textAlign = TextAlign.Justify

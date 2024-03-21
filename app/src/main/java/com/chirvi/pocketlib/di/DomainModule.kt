@@ -40,8 +40,8 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetAllBooksUseCase(repository: PostsRepository) : GetAllBooksUseCase {
-        return GetAllBooksUseCase(repository = repository)
+    fun provideGetAllBooksUseCase(repository: PostsRepository, storage: StorageRepository) : GetAllBooksUseCase {
+        return GetAllBooksUseCase(repository = repository, storageRepository = storage)
     }
 
     @Provides
