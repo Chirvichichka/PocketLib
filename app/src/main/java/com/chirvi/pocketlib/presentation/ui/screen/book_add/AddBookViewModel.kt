@@ -1,6 +1,7 @@
 package com.chirvi.pocketlib.presentation.ui.screen.book_add
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,7 +46,7 @@ class AddBookViewModel @Inject constructor(
             description = textDescription.value?:"",
             image = image.value.toString(),
         ).toDomain()
-
+        Log.e("image view model", image.value.toString())
         viewModelScope.launch{
             saveBookUseCase(book = book)
         }

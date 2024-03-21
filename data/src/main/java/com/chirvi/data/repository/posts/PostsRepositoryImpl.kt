@@ -37,7 +37,7 @@ class PostsRepositoryImpl : PostsRepository {
                     val author = snapshot.child("author").value.toString()
                     val description = snapshot.child("description").value.toString()
                     val name = snapshot.child("name").value.toString()
-                    val image = snapshot.child("imageUri").value.toString()
+                    val image = snapshot.child("image").value.toString()
                     book = BookDomain(
                         id = idBook,
                         author = author,
@@ -62,7 +62,7 @@ class PostsRepositoryImpl : PostsRepository {
                     val author = postSnapshot.child("author").value.toString()
                     val description = postSnapshot.child("description").value.toString()
                     val name = postSnapshot.child("name").value.toString()
-                    val image = postSnapshot.child("imageUri").value.toString()
+                    val image = postSnapshot.child("image").value.toString()
                     Log.e("image", image)
                     val book = BookDomain(
                         id = id,
