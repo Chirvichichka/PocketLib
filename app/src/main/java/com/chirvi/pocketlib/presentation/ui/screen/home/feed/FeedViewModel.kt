@@ -1,16 +1,11 @@
 package com.chirvi.pocketlib.presentation.ui.screen.home.feed
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chirvi.domain.models.BookDomain
 import com.chirvi.domain.models.DisplayMode
-import com.chirvi.domain.repository.posts.PostsRepository
-import com.chirvi.domain.repository.storage.StorageRepository
 import com.chirvi.domain.usecase.posts.GetAllBooksUseCase
-import com.chirvi.domain.usecase.posts.GetBookByIdUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsFeedUseCase
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation

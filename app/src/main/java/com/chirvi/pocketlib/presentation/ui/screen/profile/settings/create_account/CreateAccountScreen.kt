@@ -104,13 +104,12 @@ private fun CreateAccountAppTopBar(
 private fun TextFields(
     viewModel: CreateAccountViewModel
 ) {
-
     val textName by viewModel.textName.observeAsState("")
     val textEMail by viewModel.textEMail.observeAsState("")
     val textPassword by viewModel.textPassword.observeAsState("")
     val textConfirmPassword by viewModel.textConfirmPassword.observeAsState("")
 
-    TextFieldWithLabel(//todo разделить password
+    TextFieldWithLabel(
         text = textName,
         textLabel = stringResource(id = R.string.account_name),
         onValueChange = { newText -> viewModel.onValueChangeName(newText) }
@@ -139,13 +138,13 @@ private fun TextFields(
 @Composable
 private fun AddAvatar() {
 
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    var image by remember { mutableStateOf<Uri?>(null) }
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
             uri?.let {
-                imageUri = it
+                image = it
             }
         }
     )
@@ -156,10 +155,8 @@ private fun AddAvatar() {
         modifier = Modifier.fillMaxWidth()
     ) {
         AddPictureFromGallery(
-            load = {
-                galleryLauncher.launch("image/*")
-            },
-            imageUri = imageUri
+            load = { galleryLauncher.launch("image/*") },
+            image = image
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
@@ -169,7 +166,7 @@ private fun AddAvatar() {
                 color = PocketLibTheme.colors.dark
             )
         )
-        IconButton(onClick = { imageUri = null }
+        IconButton(onClick = { image = null }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.delete),

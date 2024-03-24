@@ -1,7 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.profile.user
 
 import android.net.Uri
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

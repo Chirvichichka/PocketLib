@@ -11,7 +11,6 @@ import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.book_card.HorizontalBookCard
 import com.chirvi.pocketlib.presentation.ui.common.book_card.VerticalBookCard
-import com.google.common.collect.Lists
 
 @Composable
 fun BookColumn(

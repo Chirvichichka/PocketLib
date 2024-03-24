@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.common.book_card
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,11 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
+import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -31,6 +34,7 @@ fun HorizontalBookCard(
     book: BookPresentation,
     onClickPreview: () -> Unit
 ) {
+    book.image?.let { Log.e("image book", it) }
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
@@ -44,9 +48,7 @@ fun HorizontalBookCard(
                 vertical = 6.dp
             )
             .fillMaxWidth()
-            .clickable {
-                onClickPreview()
-            }
+            .clickable { onClickPreview() }
     ) {
         Row(
             modifier = Modifier
@@ -62,7 +64,11 @@ fun HorizontalBookCard(
                     )
                     .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Crop,
-                painter  = rememberAsyncImagePainter(book.image.toUri()),
+                painter = if(book.image != "") {
+                    rememberAsyncImagePainter(book.image?.toUri())
+                } else {
+                    painterResource(id = R.drawable.default_book)
+                },
                 contentDescription = null
             )
             Column(

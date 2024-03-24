@@ -19,13 +19,7 @@ class PostsRepositoryImpl : PostsRepository {
     override fun createId(): String { return postsReference.push().key ?: "" }
 
     override suspend fun saveBook(book: BookDomain) {
-        postsReference.child(book.id).setValue(book)
-            .addOnSuccessListener {
-                Log.e("AAA", "Data saved successfully")
-            }
-            .addOnFailureListener { error ->
-                Log.e("AAA", "Error saving data: ${error.message}")
-            }
+        postsReference.child(book.id).setValue(book).await()
     }
 
     override suspend fun getBookById(id: String): BookDomain? {
@@ -51,7 +45,7 @@ class PostsRepositoryImpl : PostsRepository {
             }
         }
     }
-
+//todo поменять
     override suspend fun getAllBooks(): List<BookDomain> {
         return suspendCoroutine { continuation ->
             val booksList = mutableListOf<BookDomain>()

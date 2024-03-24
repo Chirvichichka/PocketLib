@@ -4,33 +4,25 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,42 +30,84 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.AddPictureFromGallery
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
-import com.chirvi.pocketlib.presentation.ui.common.text_field.PocketLibTextField
+import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 
 @Composable
 fun AddBookScreen() {
     val viewModel = hiltViewModel<AddBookViewModel>()
+    val state by viewModel.state.observeAsState(AddBookState.Initial)
 
-    val imageUri by viewModel.image.observeAsState(null)
-   // var imageUri by remember { mutableStateOf<Uri?>(null) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
         AddBookTopAppBar()
-        Column(
-            modifier = Modifier
-                .padding(all = 16.dp)
-                .fillMaxSize()
-        ) {
-            LoadButton()
-            Spacer(modifier = Modifier.height(16.dp))
-            AddPicture(
-                imageUri = imageUri,
-                loadImage = { viewModel.changeImage(it) }
-            )
-            TextFields(viewModel = viewModel)
-            Spacer(modifier = Modifier.weight(1f))
-            Genres()
-            ButtonWithText(
-                alternativeColorScheme = false,
-                text = stringResource(id = R.string.save),
-                onClickListener = { viewModel.saveBook() }
-            )
+        when(state) {
+            AddBookState.Initial -> { Initial(viewModel = viewModel) }
+            AddBookState.Loading -> { Loading() }
+            AddBookState.Saved -> { Saved() }
         }
+    }
+}
+
+@Composable
+private fun Initial(
+    viewModel: AddBookViewModel
+) {
+    val image by viewModel.image.observeAsState(null)
+    Column(
+        modifier = Modifier
+            .padding(all = 16.dp)
+            .fillMaxSize()
+    ) {
+        LoadButton()
+        Spacer(modifier = Modifier.height(16.dp))
+        AddPicture(
+            image = image,
+            loadImage = { viewModel.changeImage(it) }
+        )
+        TextFields(viewModel = viewModel)
+        Spacer(modifier = Modifier.weight(1f))
+        Genres()
+        ButtonWithText(
+            alternativeColorScheme = false,
+            text = stringResource(id = R.string.save),
+            onClickListener = { viewModel.saveBook() }
+        )
+    }
+}
+
+@Composable
+private fun Loading() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(
+            color = PocketLibTheme.colors.secondary
+        )
+    }
+}
+
+@Composable
+private fun Saved() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        Text(text = "Книга успешно сохранена")
+        Spacer(modifier = Modifier.fillMaxHeight(0.5f))
+        ButtonWithText(
+            text = "Перейти на главный экран",
+            onClickListener = {  }
+        )
     }
 }
 
@@ -104,7 +138,7 @@ private fun LoadButton() {
 
 @Composable
 private fun AddPicture(
-    imageUri: Uri?,
+    image: Uri?,
     loadImage: (Uri) -> Unit,
 ) {
     Row(
@@ -121,7 +155,7 @@ private fun AddPicture(
         )
         AddPictureFromGallery(
             load = { galleryLauncher.launch("image/*") },
-            imageUri = imageUri
+            image = image
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
@@ -141,32 +175,24 @@ private fun TextFields(
     val textAuthor by viewModel.textAuthor.observeAsState("")
     val textDescription by viewModel.textDescription.observeAsState("")
 
-    val focusRequesterAuthor = remember { FocusRequester() }
-    val focusRequesterDescription = remember { FocusRequester() }
-
     Spacer(modifier = Modifier.height(16.dp))
-    PocketLibTextField(
-        onKeyboardActions = { focusRequesterAuthor.requestFocus() },
+    TextFieldWithLabel(
         text = textName,
-        placeHolderText = stringResource(id = R.string.enter_name),
+        textLabel = stringResource(id = R.string.enter_name),
         onValueChange = { newText -> viewModel.onValueChangeName(newText) }
     )
     Spacer(modifier = Modifier.height(16.dp))
-    PocketLibTextField(
-        onKeyboardActions = { focusRequesterDescription.requestFocus() },
-        modifier = Modifier.focusRequester(focusRequesterAuthor),
+    TextFieldWithLabel(
         text = textAuthor,
-        placeHolderText = stringResource(id = R.string.enter_author),
+        textLabel = stringResource(id = R.string.enter_author),
         onValueChange = { newText -> viewModel.onValueChangeAuthor(newText) }
     )
     Spacer(modifier = Modifier.height(16.dp))
-    PocketLibTextField(
-        modifier = Modifier
-            .height(120.dp)
-            .focusRequester(focusRequesterDescription),
+    TextFieldWithLabel(
+        modifier = Modifier.height(120.dp),
         text = textDescription,
         singleLine = false,
-        placeHolderText = stringResource(id = R.string.enter_description),
+        textLabel = stringResource(id = R.string.enter_description),
         onValueChange = { newText -> viewModel.onValueChangeDescription(newText) }
     )
 }

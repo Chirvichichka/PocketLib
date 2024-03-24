@@ -22,8 +22,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun AddPictureFromGallery(
     load: () -> Unit,
-    imageUri: Uri?,
-    avatar: Boolean = true,
+    image: Uri?,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -38,9 +37,9 @@ fun AddPictureFromGallery(
                 load()
             }
     ) {
-        if (imageUri != null) {
+        if (image != null) {
             Image(
-                painter = rememberAsyncImagePainter(model = imageUri),
+                painter = rememberAsyncImagePainter(model = image),
                 contentDescription = null,
                 modifier = Modifier.size(80.dp),
                 contentScale = ContentScale.Crop

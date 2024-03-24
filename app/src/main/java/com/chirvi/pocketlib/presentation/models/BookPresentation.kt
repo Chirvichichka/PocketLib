@@ -7,7 +7,7 @@ data class BookPresentation(
     val name: String,
     val author: String,
     val description: String,
-    val image: String
+    val image: String? = null
 )
 fun BookPresentation.toDomain(): BookDomain {
     return BookDomain(

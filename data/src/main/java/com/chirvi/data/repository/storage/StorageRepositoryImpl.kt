@@ -1,5 +1,6 @@
 package com.chirvi.data.repository.storage
 
+import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import com.chirvi.domain.repository.storage.StorageRepository
@@ -10,13 +11,20 @@ import kotlinx.coroutines.tasks.await
 class StorageRepositoryImpl : StorageRepository {
     private val storage = FirebaseStorage.getInstance()
     private val storageReference = storage.getReference("image/")
-    override suspend fun saveImage(imageUri: String, postId: String) {
+    override suspend fun saveImage(imageUri: String?, postId: String) {
         val imageReference: StorageReference = storageReference.child("$postId.jpg")
-        imageReference.putFile(imageUri.toUri())
+        if (imageUri != null) {
+            imageReference.putFile(imageUri.toUri()).await()
+        }
     }
     override suspend fun loadImage(id: String): String  {
         val imageReference = storageReference.child("$id.jpg")
-        val downloadUrl = imageReference.downloadUrl.await()
-        return downloadUrl.toString()
+        val downloadUrl: Uri?
+        return try {
+            downloadUrl = imageReference.downloadUrl.await()
+            downloadUrl.toString()
+        } catch (e: Exception) {
+            ""
+        }
     }
 }

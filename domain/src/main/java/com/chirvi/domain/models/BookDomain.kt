@@ -5,5 +5,5 @@ data class BookDomain(
     val name: String,
     val author: String,
     val description: String,
-    val image: String,
+    val image: String? = null,
 )
