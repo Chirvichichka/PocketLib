@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.book_page
+package com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

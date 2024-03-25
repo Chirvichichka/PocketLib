@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.home.feed
+package com.chirvi.pocketlib.presentation.ui.screen.main.home.feed
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -28,6 +28,7 @@ import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,6 +52,9 @@ fun FeedScreen(
             scroll = scroll,
             onClickListener = onFilterClick
         )
+        ButtonWithText(text = "dsfds") {
+            viewModel.loadData()
+        }
         Text(text = viewModel.newText.observeAsState("").value)
         BookColumn(
             displayMode = displayMode,

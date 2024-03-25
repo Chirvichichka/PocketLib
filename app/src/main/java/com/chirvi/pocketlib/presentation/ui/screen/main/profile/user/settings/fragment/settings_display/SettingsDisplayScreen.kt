@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.profile.settings.settings_display
+package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.fragment.settings_display
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,8 +21,8 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun DisplayScreen() {
-    val viewModel = hiltViewModel<DisplayViewModel>()
+fun SettingsDisplayScreen() {
+    val viewModel = hiltViewModel<SettingsDisplayViewModel>()
 
     val feedCheckBoxState by viewModel.feedSwitchState.observeAsState(false)
     val myBooksCheckBoxState by viewModel.myBooksCSwitchState.observeAsState(false)

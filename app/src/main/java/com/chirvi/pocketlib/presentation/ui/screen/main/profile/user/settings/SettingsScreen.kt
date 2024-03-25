@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.profile.settings
+package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +15,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,7 +34,7 @@ import com.chirvi.pocketlib.presentation.ui.common.SeparativeLine
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.EditTextField
-import com.chirvi.pocketlib.presentation.ui.screen.profile.settings.settings_display.DisplayScreen
+import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.fragment.settings_display.SettingsDisplayScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
@@ -55,8 +58,7 @@ fun SettingsScreen(
             SeparativeLine()
             UserEdit()
             SeparativeLine()
-            DisplayScreen()
-            SeparativeLine()
+            SettingsDisplayScreen()
         }
     }
 }
@@ -74,6 +76,19 @@ private fun SettingsTopAppBar(
                     color = PocketLibTheme.colors.primary,
                 )
             )
+        },
+        actions = {
+            IconButton(
+                onClick = {
+                    /*TODO*/
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.check),
+                    contentDescription = null,
+                    tint = PocketLibTheme.colors.primary
+                )
+            }
         },
         navigationIcon = {
             BackButton(

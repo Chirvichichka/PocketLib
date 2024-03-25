@@ -16,7 +16,6 @@ fun AppNavGraph(
     feedContent: @Composable () -> Unit,
     userContent: @Composable () -> Unit,
     settingsContent: @Composable () -> Unit,
-    filterContent: @Composable () -> Unit,
     registrationContent: @Composable () -> Unit,
     ) {
     NavHost(
@@ -28,7 +27,6 @@ fun AppNavGraph(
         homeNavGraph(
             feedContent = feedContent,
             pageBookContent = pageBookContent,
-            filterContent = filterContent
         )
         profileNavGraph(
             pageBookContent = pageBookContent,

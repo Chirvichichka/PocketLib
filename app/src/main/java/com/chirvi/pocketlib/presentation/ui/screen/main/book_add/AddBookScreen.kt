@@ -1,8 +1,9 @@
-package com.chirvi.pocketlib.presentation.ui.screen.book_add
+package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,14 +32,16 @@ import com.chirvi.pocketlib.presentation.ui.common.AddPictureFromGallery
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
+import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedViewModel
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 
 @Composable
-fun AddBookScreen() {
+fun AddBookScreen(
+    toHomeScreen: () -> Unit,
+) {
     val viewModel = hiltViewModel<AddBookViewModel>()
     val state by viewModel.state.observeAsState(AddBookState.Initial)
-
 
     Column(
         modifier = Modifier
@@ -49,7 +52,7 @@ fun AddBookScreen() {
         when(state) {
             AddBookState.Initial -> { Initial(viewModel = viewModel) }
             AddBookState.Loading -> { Loading() }
-            AddBookState.Saved -> { Saved() }
+            AddBookState.Saved -> { Saved(toHomeScreen = toHomeScreen) }
         }
     }
 }
@@ -94,7 +97,9 @@ private fun Loading() {
 }
 
 @Composable
-private fun Saved() {
+private fun Saved(
+    toHomeScreen: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -102,11 +107,18 @@ private fun Saved() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom
     ) {
-        Text(text = "Книга успешно сохранена")
+        Text(
+            text = "Книга успешно сохранена",
+            style = PocketLibTheme.textStyles.largeStyle.copy(
+                color = PocketLibTheme.colors.dark
+            )
+        )
         Spacer(modifier = Modifier.fillMaxHeight(0.5f))
         ButtonWithText(
             text = "Перейти на главный экран",
-            onClickListener = {  }
+            onClickListener = {
+                toHomeScreen()
+            }
         )
     }
 }

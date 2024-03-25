@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.profile.user
+package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user
 
 import android.net.Uri
 import androidx.core.net.toUri

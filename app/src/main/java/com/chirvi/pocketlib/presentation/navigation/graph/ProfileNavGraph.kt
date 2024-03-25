@@ -22,11 +22,9 @@ fun NavGraphBuilder.profileNavGraph(
         composable(Screen.PageBookProfile.route) {
             pageBookContent()
         }
-        composable(Screen.Settings.route) {
-            settingsContent()
-        }
-        composable(Screen.Registration.route) {
-            registrationContent()
-        }
+        settingsNavGraph(
+            registrationContent = registrationContent,
+            settingsContent = settingsContent
+        )
     }
 }

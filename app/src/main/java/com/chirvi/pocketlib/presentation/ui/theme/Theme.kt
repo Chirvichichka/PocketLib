@@ -19,7 +19,7 @@ private val MainColorScheme = Colors( //todo узнать как меня тем
     quaternary = Gray
 )
 
-private val SecondaryColorScheme = Colors(
+private val SecondaryColorScheme = Colors( //todo переименовать
     primary = Light2,
     secondary = Green,
     tertiary = DarkGreen,
@@ -49,23 +49,16 @@ private val localColors = staticCompositionLocalOf<Colors> {
 
 @Composable
 fun PocketLibTheme(
-    greenTheme: Boolean = false,
-    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
-    val colorScheme: Colors = if (!greenTheme) {
-        MainColorScheme
-    } else {
-        SecondaryColorScheme
-    }
+    val colorScheme = SecondaryColorScheme
 
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.tertiary.toArgb()
             window.navigationBarColor = colorScheme.tertiary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 

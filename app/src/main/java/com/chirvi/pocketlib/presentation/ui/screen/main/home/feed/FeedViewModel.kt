@@ -1,5 +1,6 @@
-package com.chirvi.pocketlib.presentation.ui.screen.home.feed
+package com.chirvi.pocketlib.presentation.ui.screen.main.home.feed
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,14 +30,18 @@ class FeedViewModel @Inject constructor(
     val feedDisplayMode: LiveData<DisplayMode> = _feedDisplayMode
     private fun loadFeedDisplayMode() : DisplayMode { return getSettingsFeedUseCase() }
     fun textChange(text: String) { _newText.value = text }
-
-    init {
+    fun loadData() {
         viewModelScope.launch {
             val bookListDomain = getAllBooksUseCase()
             val bookLIstPresentation = mutableListOf<BookPresentation>()
             bookListDomain.forEach { bookLIstPresentation.add(it.toPresentation()) }
             _postsList.value = bookLIstPresentation
         }
+        Log.e("update", postsList.value.toString())
+    }
+
+    init {
+        loadData()
     }
 }
 

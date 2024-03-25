@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.book_add
+package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
 import android.net.Uri
 import android.util.Log
@@ -23,7 +23,7 @@ class AddBookViewModel @Inject constructor(
     private val _state = MutableLiveData<AddBookState>(AddBookState.Initial)
     val state: LiveData<AddBookState> = _state
 
-    private val _image = MutableLiveData<Uri>()
+    private val _image = MutableLiveData<Uri>(null)
     val image: LiveData<Uri> = _image
 
     private val _textName = MutableLiveData("")

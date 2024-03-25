@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.profile.settings.settings_display
+package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.fragment.settings_display
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DisplayViewModel @Inject constructor(
+class SettingsDisplayViewModel @Inject constructor(
 
     private val getSettingsFeedUseCase: GetSettingsFeedUseCase,
     private val saveSettingsFeedUseCase: SaveSettingsFeedUseCase,

@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.profile.settings.create_account
+package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.fragment.settings_account.create_account
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

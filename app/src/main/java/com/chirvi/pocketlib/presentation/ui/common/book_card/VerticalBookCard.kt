@@ -18,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
 import com.chirvi.pocketlib.R
@@ -79,13 +81,17 @@ fun VerticalBookCard(
                     text = book.name,
                     style = PocketLibTheme.textStyles.largeStyle.copy(
                         color = PocketLibTheme.colors.dark
-                    )
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = book.author,
                     style = PocketLibTheme.textStyles.normalStyle.copy(
                         color = PocketLibTheme.colors.dark
-                    )
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Spacer(modifier = Modifier.weight(1f))

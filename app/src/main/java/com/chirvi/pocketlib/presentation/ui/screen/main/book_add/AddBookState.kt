@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.book_add
+package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
 sealed class AddBookState {
     data object Initial : AddBookState()
