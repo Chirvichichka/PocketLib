@@ -23,8 +23,8 @@ class AddBookViewModel @Inject constructor(
     private val _state = MutableLiveData<AddBookState>(AddBookState.Initial)
     val state: LiveData<AddBookState> = _state
 
-    private val _image = MutableLiveData<Uri>(null)
-    val image: LiveData<Uri> = _image
+    private val _image = MutableLiveData<Uri?>()
+    val image: LiveData<Uri?> = _image
 
     private val _textName = MutableLiveData("")
     val textName: LiveData<String> = _textName
@@ -37,6 +37,7 @@ class AddBookViewModel @Inject constructor(
 
     private val postId = createIdUseCase()
 
+    fun stateChange() { _state.value = AddBookState.Initial }
     fun changeImage(imageUri: Uri) { _image.value = imageUri }
     fun onValueChangeDescription(text: String) { _textDescription.value = text }
     fun onValueChangeName(text: String) { _textName.value = text }
@@ -44,6 +45,7 @@ class AddBookViewModel @Inject constructor(
     fun saveBook() { viewModelScope.launch { suspendSaveBook() } }
     private suspend fun suspendSaveBook() {
         _state.value = AddBookState.Loading
+        Log.e("vm", image.value.toString())
         val book = BookPresentation(
             id = postId,
             name = textName.value?:"",

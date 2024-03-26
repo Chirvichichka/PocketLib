@@ -12,9 +12,12 @@ class StorageRepositoryImpl : StorageRepository {
     private val storage = FirebaseStorage.getInstance()
     private val storageReference = storage.getReference("image/")
     override suspend fun saveImage(imageUri: String?, postId: String) {
-        val imageReference: StorageReference = storageReference.child("$postId.jpg")
+        Log.e("imageUri", imageUri.toString())
         if (imageUri != null) {
-            imageReference.putFile(imageUri.toUri()).await()
+            val imageReference: StorageReference = storageReference.child("$postId.jpg")
+            val uri = imageUri.toUri()
+            Log.e("uri", uri.toString())
+            imageReference.putFile(uri).await()
         }
     }
     override suspend fun loadImage(id: String): String  {

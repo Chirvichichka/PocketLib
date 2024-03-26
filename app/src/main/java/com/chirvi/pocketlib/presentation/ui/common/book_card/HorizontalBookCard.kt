@@ -34,7 +34,6 @@ fun HorizontalBookCard(
     book: BookPresentation,
     onClickPreview: () -> Unit
 ) {
-    book.image?.let { Log.e("image book", it) }
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp

@@ -9,7 +9,9 @@ class SaveBookUseCase(
     private val storage: StorageRepository
 ) {
     suspend operator fun invoke(book: BookDomain) {
-        storage.saveImage(book.image, book.id)
+        if(book.image != "null") {
+            storage.saveImage(book.image, book.id)
+        }
         repository.saveBook(book = book)
     }
 }

@@ -52,7 +52,12 @@ fun AddBookScreen(
         when(state) {
             AddBookState.Initial -> { Initial(viewModel = viewModel) }
             AddBookState.Loading -> { Loading() }
-            AddBookState.Saved -> { Saved(toHomeScreen = toHomeScreen) }
+            AddBookState.Saved -> {
+                Saved(
+                    toHomeScreen = toHomeScreen,
+                    stateChange = { viewModel.stateChange() }
+                )
+            }
         }
     }
 }
@@ -98,6 +103,7 @@ private fun Loading() {
 
 @Composable
 private fun Saved(
+    stateChange: () -> Unit,
     toHomeScreen: () -> Unit
 ) {
     Column(
@@ -118,6 +124,7 @@ private fun Saved(
             text = "Перейти на главный экран",
             onClickListener = {
                 toHomeScreen()
+                stateChange()
             }
         )
     }
