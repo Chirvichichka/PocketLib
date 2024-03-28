@@ -1,13 +1,11 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -25,7 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.chirvi.pocketlib.presentation.navigation.Screen
@@ -34,13 +31,12 @@ import com.chirvi.pocketlib.presentation.navigation.item.BottomNavigationItem
 import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationState
 import com.chirvi.pocketlib.presentation.ui.screen.main.book_add.AddBookScreen
-import com.chirvi.pocketlib.presentation.ui.screen.main.book_add.AddBookViewModel
 import com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page.BookPageScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedViewModel
+import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.SettingsScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.fragment.settings_account.create_account.CreateAccountScreen
-import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,15 +67,14 @@ fun MainScreen() {
                     AddBookScreen(
                         toHomeScreen = {
                             feedViewModel.loadData()
-                            navigationState.navigateTo(Screen.Feed.route)
+                            navigationState.navigateToWithSaveState(Screen.Feed.route)
                         }
                     )
                 },
                 feedContent = {
                     FeedScreen(
                         scroll = scroll,
-                        onClickPreview = { navigationState.navigateToIn(Screen.PageBookHome.route) },
-                        onFilterClick = { navigationState.navigateToIn(Screen.Filter.route) }
+                        onClickPreview = { navigationState.navigateTo(Screen.PageBookHome.route) },
                     )
                 },
                 pageBookContent = {
@@ -89,15 +84,15 @@ fun MainScreen() {
                 },
                 userContent = {
                     UserScreen(
-                        onClickPreview = { navigationState.navigateToIn(Screen.PageBookProfile.route) },
-                        onClickSettings = { navigationState.navigateToIn(Screen.Settings.route) },
-                        onClickEdit = { navigationState.navigateToIn(Screen.Settings.route) }
+                        onClickPreview = { navigationState.navigateTo(Screen.PageBookProfile.route) },
+                        onClickSettings = { navigationState.navigateTo(Screen.Settings.route) },
+                        onClickEdit = { navigationState.navigateTo(Screen.Settings.route) }
                     )
                 },
                 settingsContent = {
                     SettingsScreen(
                         onBackPressed = { navigationState.navHostController.popBackStack() },
-                        onCreateAccountClick = { navigationState.navigateToIn(Screen.Registration.route) }
+                        onCreateAccountClick = { navigationState.navigateTo(Screen.Registration.route) }
                     )
                 },
                 registrationContent = {
@@ -138,7 +133,7 @@ private fun BottomNavigation(
                     selected = selected,
                     onClick = {
                         if(!selected) {
-                            navigationState.navigateTo(item.screen.route)
+                            navigationState.navigateToWithSaveState(item.screen.route)
                         }
                     },
                     icon = {
@@ -173,7 +168,7 @@ private fun BottomNavigation(
             }
 
             SmallFloatingActionButton(
-                onClick = { navigationState.navigateTo(addBook.screen.route) },
+                onClick = { navigationState.navigateToWithSaveState(addBook.screen.route) },
                 containerColor = containerColor,
                 elevation = FloatingActionButtonDefaults.elevation(
                     defaultElevation =  0.dp,

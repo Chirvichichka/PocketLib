@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
@@ -35,10 +36,10 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun FeedScreen(
     onClickPreview: () -> Unit,
-    onFilterClick: () -> Unit,
     scroll: TopAppBarScrollBehavior,
 ) {
     val viewModel = hiltViewModel<FeedViewModel>()
+    val state by viewModel.state.observeAsState(FeedState.Initial)
     val books by viewModel.postsList.observeAsState(emptyList())
     val displayMode by viewModel.feedDisplayMode.observeAsState(DisplayMode.LIST)
 
@@ -50,18 +51,36 @@ fun FeedScreen(
         FeedTopAppBar(
             viewModel = viewModel,
             scroll = scroll,
-            onClickListener = onFilterClick
         )
-        ButtonWithText(text = "dsfds") {
+        ButtonWithText(text = "load data") {
             viewModel.loadData()
         }
-        Text(text = viewModel.newText.observeAsState("").value)
-        BookColumn(
-            displayMode = displayMode,
-            books = books,
-            onClickPreview = onClickPreview
-        )
+        when(state) {
+            FeedState.Initial -> {  }
+            FeedState.Content -> {
+                Content(
+                    displayMode = displayMode,
+                    books = books,
+                    onClickPreview = { onClickPreview() }
+                )
+            }
+            FeedState.Loading -> { CircularProgressIndicator() }
+        }
     }
+}
+
+
+@Composable
+private fun Content(
+    displayMode: DisplayMode,
+    books: List<BookPresentation>,
+    onClickPreview: () -> Unit
+) {
+    BookColumn(
+        displayMode = displayMode,
+        books = books,
+        onClickPreview = onClickPreview
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,25 +88,12 @@ fun FeedScreen(
 private fun FeedTopAppBar(
     viewModel: FeedViewModel,
     scroll: TopAppBarScrollBehavior,
-    onClickListener: () -> Unit,
 ) {
-
     PocketLibTopAppBar(
         scroll = scroll,
         title = {
             SearchBook(viewModel = viewModel)
         },
-        actions = {
-            IconButton(
-                onClick = { onClickListener() }
-            ) {
-                Icon(
-                    painter =  painterResource(id = R.drawable.filter),
-                    contentDescription = null,
-                    tint = PocketLibTheme.colors.dark
-                )
-            }
-        }
     )
 }
 

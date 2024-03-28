@@ -3,7 +3,6 @@ package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,7 +31,6 @@ import com.chirvi.pocketlib.presentation.ui.common.AddPictureFromGallery
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
-import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedViewModel
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 

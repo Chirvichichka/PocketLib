@@ -1,7 +1,5 @@
 package com.chirvi.pocketlib.presentation.models
 
-import android.net.Uri
-import androidx.core.net.toUri
 import com.chirvi.domain.models.BookDomain
 
 data class BookPresentation(

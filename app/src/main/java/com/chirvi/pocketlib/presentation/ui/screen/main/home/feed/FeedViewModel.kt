@@ -20,6 +20,9 @@ class FeedViewModel @Inject constructor(
     private val getAllBooksUseCase: GetAllBooksUseCase,
 ) : ViewModel()
 {
+    private val _state = MutableLiveData<FeedState>(FeedState.Initial)
+    val state: LiveData<FeedState> = _state
+
     private val _postsList = MutableLiveData<List<BookPresentation>>()
     val postsList: LiveData<List<BookPresentation>> = _postsList
 
@@ -30,16 +33,18 @@ class FeedViewModel @Inject constructor(
     val feedDisplayMode: LiveData<DisplayMode> = _feedDisplayMode
     private fun loadFeedDisplayMode() : DisplayMode { return getSettingsFeedUseCase() }
     fun textChange(text: String) { _newText.value = text }
-    fun loadData() {
+    fun loadData() { viewModelScope.launch{ suspendLoadData() } }
+    private suspend fun suspendLoadData() {
+        _state.value = FeedState.Loading
         viewModelScope.launch {
             val bookListDomain = getAllBooksUseCase()
             val bookLIstPresentation = mutableListOf<BookPresentation>()
             bookListDomain.forEach { bookLIstPresentation.add(it.toPresentation()) }
             _postsList.value = bookLIstPresentation
-        }
+        }.join()
+        _state.value = FeedState.Content
         Log.e("update", postsList.value.toString())
     }
-
     init {
         loadData()
     }

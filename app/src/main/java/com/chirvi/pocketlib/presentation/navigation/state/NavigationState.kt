@@ -9,7 +9,7 @@ import androidx.navigation.compose.rememberNavController
 class NavigationState(
     val navHostController: NavHostController
 ) {
-    fun navigateTo(
+    fun navigateToWithSaveState(
         route: String
     ) {
         navHostController.navigate(route) {
@@ -21,7 +21,7 @@ class NavigationState(
         }
     }
 
-    fun navigateToIn(
+    fun navigateTo(
         route: String
     ) {
         navHostController.navigate(route = route)

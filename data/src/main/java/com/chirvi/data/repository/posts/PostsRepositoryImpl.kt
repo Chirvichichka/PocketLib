@@ -1,13 +1,9 @@
 package com.chirvi.data.repository.posts
 
 import android.util.Log
-import com.chirvi.data.repository.storage.StorageRepositoryImpl
 import com.chirvi.domain.models.BookDomain
 import com.chirvi.domain.repository.posts.PostsRepository
-import com.chirvi.domain.repository.storage.StorageRepository
-import com.chirvi.domain.usecase.posts.LoadImageUseCase
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
