@@ -27,12 +27,19 @@ class PostsRepositoryImpl : PostsRepository {
                     val author = snapshot.child("author").value.toString()
                     val description = snapshot.child("description").value.toString()
                     val name = snapshot.child("name").value.toString()
+                    val genres = mutableListOf<String>()
+                    val genresSnapshot = snapshot.child("genres")
+                    for (genreSnapshot in genresSnapshot.children) {
+                        val genre = genreSnapshot.value.toString()
+                        genres.add(genre)
+                    }
                     val image = snapshot.child("image").value.toString()
                     book = BookDomain(
                         id = idBook,
                         author = author,
                         description = description,
                         name = name,
+                        genres = genres,
                         image = image,
                     )
                     continuation.resume(book)
@@ -47,18 +54,24 @@ class PostsRepositoryImpl : PostsRepository {
             val booksList = mutableListOf<BookDomain>()
 
             postsReference.get().addOnSuccessListener { dataSnapshot ->
-                for (postSnapshot in dataSnapshot.children) {
-                    val id = postSnapshot.child("id").value.toString()
-                    val author = postSnapshot.child("author").value.toString()
-                    val description = postSnapshot.child("description").value.toString()
-                    val name = postSnapshot.child("name").value.toString()
-                    val image = postSnapshot.child("image").value.toString()
-                    Log.e("image", image)
+                for (snapshot in dataSnapshot.children) {
+                    val id = snapshot.child("id").value.toString()
+                    val author = snapshot.child("author").value.toString()
+                    val description = snapshot.child("description").value.toString()
+                    val name = snapshot.child("name").value.toString()
+                    val genres = mutableListOf<String>()
+                    val genresSnapshot = snapshot.child("genres")
+                    for (genreSnapshot in genresSnapshot.children) {
+                        val genre = genreSnapshot.value.toString()
+                        genres.add(genre)
+                    }
+                    val image = snapshot.child("image").value.toString()
                     val book = BookDomain(
                         id = id,
                         author = author,
                         description = description,
                         name = name,
+                        genres = genres,
                         image = image
                     )
                     booksList.add(book)

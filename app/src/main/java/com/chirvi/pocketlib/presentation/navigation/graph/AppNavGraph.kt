@@ -12,7 +12,7 @@ import com.chirvi.pocketlib.presentation.navigation.Screen
 fun AppNavGraph(
     navHostController: NavHostController,
     addBookScreenContent: @Composable () -> Unit,
-    pageBookContent: @Composable () -> Unit,
+    pageBookContent: @Composable (idPost: String) -> Unit,
     feedContent: @Composable () -> Unit,
     userContent: @Composable () -> Unit,
     settingsContent: @Composable () -> Unit,

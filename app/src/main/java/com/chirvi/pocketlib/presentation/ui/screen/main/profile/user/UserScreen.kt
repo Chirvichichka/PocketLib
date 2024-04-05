@@ -42,7 +42,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun UserScreen(
-    onClickPreview: () -> Unit,
+    onClickPreview: (String) -> Unit,
     onClickSettings: () -> Unit,
     onClickEdit: () -> Unit,
 ) {
@@ -150,7 +150,7 @@ private fun UserInfo(
 @Composable
 private fun ProfileTabRow(
     viewModel: UserViewModel,
-    onClickPreview: () -> Unit
+    onClickPreview: (String) -> Unit
 ) {
     val tabRowIndex by viewModel.tabRowItem.observeAsState(0)
 

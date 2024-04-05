@@ -43,7 +43,6 @@ class FeedViewModel @Inject constructor(
             _postsList.value = bookLIstPresentation
         }.join()
         _state.value = FeedState.Content
-        Log.e("update", postsList.value.toString())
     }
     init {
         loadData()

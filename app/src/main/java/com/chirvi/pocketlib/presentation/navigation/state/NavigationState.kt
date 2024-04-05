@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.chirvi.pocketlib.presentation.navigation.Screen
 
 class NavigationState(
     val navHostController: NavHostController
@@ -19,6 +20,14 @@ class NavigationState(
             launchSingleTop = true
             restoreState = true
         }
+    }
+
+    fun navigateToPost(
+        id: String,
+    ) {
+        navHostController.navigate(
+            route = Screen.PageBookHome.getRouteWithArgs(id = id)
+        )
     }
 
     fun navigateTo(

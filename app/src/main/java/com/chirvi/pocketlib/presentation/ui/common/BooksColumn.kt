@@ -15,36 +15,57 @@ import com.chirvi.pocketlib.presentation.ui.common.book_card.VerticalBookCard
 @Composable
 fun BookColumn(
     books: List<BookPresentation> = emptyList(),
-    count: Int = 30,
-    onClickPreview: () -> Unit,
+    onClickPreview: (String) -> Unit,
     displayMode: DisplayMode
 ) {
     when(displayMode.name) {
         DisplayMode.LIST.name -> {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(books) { book ->
-                    VerticalBookCard(
-                        book = book,
-                        onClickPreview = onClickPreview
-                    )
-                }
-            }
+            ListDisplay(
+                books = books,
+                onClickPreview = onClickPreview
+            )
         }
         DisplayMode.GRID.name -> {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(1),
-                modifier = Modifier.fillMaxWidth()
-            ){
-                items ( books ) {book ->
-                    HorizontalBookCard(
-                        book = book,
-                        onClickPreview = onClickPreview
-                    )
-                }
-            }
+            GridDisplay(
+                books = books,
+                onClickPreview = onClickPreview
+            )
+        }
+    }
+}
+
+@Composable
+private fun ListDisplay(
+    books: List<BookPresentation>,
+    onClickPreview: (String) -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier.fillMaxSize()
+    ) {
+        items(books) { book ->
+            VerticalBookCard(
+                book = book,
+                onClickPreview = { onClickPreview(book.id) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun GridDisplay(
+    books: List<BookPresentation>,
+    onClickPreview: (String) -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(1),
+        modifier = Modifier.fillMaxWidth()
+    ){
+        items ( books ) {book ->
+            HorizontalBookCard(
+                book = book,
+                onClickPreview = { onClickPreview(book.id) }
+            )
         }
     }
 }

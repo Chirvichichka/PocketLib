@@ -66,25 +66,30 @@ fun MainScreen() {
                     val feedViewModel = hiltViewModel<FeedViewModel>()
                     AddBookScreen(
                         toHomeScreen = {
+                            navigationState.navigateTo(Screen.Feed.route)
                             feedViewModel.loadData()
-                            navigationState.navigateToWithSaveState(Screen.Feed.route)
                         }
                     )
                 },
                 feedContent = {
                     FeedScreen(
                         scroll = scroll,
-                        onClickPreview = { navigationState.navigateTo(Screen.PageBookHome.route) },
+                        onClickPreview = {
+                            navigationState.navigateToPost(
+                                id = it,
+                            )
+                        },
                     )
                 },
                 pageBookContent = {
                     BookPageScreen(
+                        idPost = it,
                         onBackPressed = { navigationState.navHostController.popBackStack() }
                     )
                 },
                 userContent = {
                     UserScreen(
-                        onClickPreview = { navigationState.navigateTo(Screen.PageBookProfile.route) },
+                        onClickPreview = { navigationState.navigateTo(route = Screen.PageBookProfile.route) },
                         onClickSettings = { navigationState.navigateTo(Screen.Settings.route) },
                         onClickEdit = { navigationState.navigateTo(Screen.Settings.route) }
                     )

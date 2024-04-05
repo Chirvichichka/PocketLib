@@ -3,10 +3,11 @@ package com.chirvi.pocketlib.presentation.models
 import com.chirvi.domain.models.BookDomain
 
 data class BookPresentation(
-    val id: String,
-    val name: String,
-    val author: String,
-    val description: String,
+    val id: String = "",
+    val name: String = "",
+    val author: String = "",
+    val description: String = "",
+    val genres: List<String> = emptyList(),
     val image: String? = null
 )
 fun BookPresentation.toDomain(): BookDomain {
@@ -15,6 +16,7 @@ fun BookPresentation.toDomain(): BookDomain {
         name = this.name,
         author = this.author,
         description = this.description,
+        genres = this.genres,
         image = this.image
     )
 }
@@ -24,6 +26,7 @@ fun BookDomain.toPresentation(): BookPresentation {
         name = this.name,
         author = this.author,
         description = this.description,
+        genres = this.genres,
         image = this.image
     )
 }

@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -28,6 +30,7 @@ import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
+import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -35,14 +38,13 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedScreen(
-    onClickPreview: () -> Unit,
+    onClickPreview: (String) -> Unit,
     scroll: TopAppBarScrollBehavior,
 ) {
     val viewModel = hiltViewModel<FeedViewModel>()
     val state by viewModel.state.observeAsState(FeedState.Initial)
     val books by viewModel.postsList.observeAsState(emptyList())
     val displayMode by viewModel.feedDisplayMode.observeAsState(DisplayMode.LIST)
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,29 +54,25 @@ fun FeedScreen(
             viewModel = viewModel,
             scroll = scroll,
         )
-        ButtonWithText(text = "load data") {
-            viewModel.loadData()
-        }
         when(state) {
             FeedState.Initial -> {  }
             FeedState.Content -> {
                 Content(
                     displayMode = displayMode,
                     books = books,
-                    onClickPreview = { onClickPreview() }
+                    onClickPreview = onClickPreview
                 )
             }
-            FeedState.Loading -> { CircularProgressIndicator() }
+            FeedState.Loading -> { LoadingCircle() }
         }
     }
 }
-
 
 @Composable
 private fun Content(
     displayMode: DisplayMode,
     books: List<BookPresentation>,
-    onClickPreview: () -> Unit
+    onClickPreview: (String) -> Unit
 ) {
     BookColumn(
         displayMode = displayMode,
@@ -89,6 +87,7 @@ private fun FeedTopAppBar(
     viewModel: FeedViewModel,
     scroll: TopAppBarScrollBehavior,
 ) {
+
     PocketLibTopAppBar(
         scroll = scroll,
         title = {

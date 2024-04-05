@@ -49,7 +49,7 @@ private val localColors = staticCompositionLocalOf<Colors> {
 fun PocketLibTheme(
     content: @Composable () -> Unit,
 ) {
-    val view = LocalView.current
+        val view = LocalView.current
     val colorScheme = SecondaryColorScheme
 
     if (!view.isInEditMode) {

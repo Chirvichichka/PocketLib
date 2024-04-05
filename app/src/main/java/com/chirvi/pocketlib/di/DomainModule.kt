@@ -45,8 +45,8 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetBookByIdUseCase(repository: PostsRepository) : GetBookByIdUseCase {
-        return GetBookByIdUseCase(repository = repository)
+    fun provideGetBookByIdUseCase(repository: PostsRepository, storage: StorageRepository) : GetBookByIdUseCase {
+        return GetBookByIdUseCase(repository = repository, storageRepository = storage)
     }
     @Provides
     fun provideLoadImageUseCase(storage: StorageRepository) : LoadImageUseCase {

@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,11 +14,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
@@ -28,26 +34,33 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun BookPageScreen(
- //   book: BookPresentation,
+    idPost: String,
     onBackPressed: () -> Unit
 ) {
+    val viewModel = hiltViewModel<BookPageViewModel>()
+    viewModel.getBookById(id =idPost)
+    val book by viewModel.book.observeAsState(BookPresentation())
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.primary)
     ) {
-        FeedAppTopBar( onBackPressed = onBackPressed)
+        FeedAppTopBar(
+            onBackPressed = onBackPressed,
+            bookName = book.name
+        )
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
         ) {
-            Poster()
+            Poster(image = book.image?:"")
             Column(
                 modifier = Modifier.padding(all = 16.dp)
             ) {
-                ButtonWithText(text = stringResource(id = R.string.read)) {}
+                ButtonWithText(text = stringResource(id = R.string.read)) { /*todo*/ }
                 Spacer(modifier = Modifier.height(16.dp))
-            //    TextInfo(book = book)
+                TextInfo(book = book)
             }
         }
     }
@@ -56,22 +69,20 @@ fun BookPageScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedAppTopBar(
-  //  book: BookPresentation,
+    bookName: String,
     onBackPressed: () -> Unit
 ) {
     PocketLibTopAppBar(
         title = {
-          Text(
-              text = "book.name,",
-              style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                  color = PocketLibTheme.colors.primary
-              )
-          )
+            Text(
+                text = bookName,
+                style = PocketLibTheme.textStyles.topAppBarStyle.copy(
+                    color = PocketLibTheme.colors.primary
+                )
+            )
         },
         navigationIcon = {
-            BackButton(
-                onClickListener = onBackPressed
-            )
+            BackButton(onClickListener = onBackPressed)
         },
         actions = {
             ButtonIconFavorite {
@@ -82,13 +93,19 @@ fun FeedAppTopBar(
 }
 
 @Composable
-private fun Poster() {
+private fun Poster(
+    image: String
+) {
     Image(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
             .background(color = PocketLibTheme.colors.dark),
-        painter = painterResource(id = R.drawable.test_image),
+        painter = if(image != "") {
+            rememberAsyncImagePainter(image.toUri())
+        } else {
+            painterResource(id = R.drawable.default_book)
+        },
         contentDescription = null,
         contentScale = ContentScale.Fit
     )
@@ -98,7 +115,14 @@ private fun Poster() {
 private fun TextInfo(
     book: BookPresentation
 ) {
+    val genres = if(book.genres != emptyList<String>()) {
+        book.genres.joinToString(", ")
+    } else {
+        ""
+    }
+
     Column(
+        modifier = Modifier.fillMaxSize()
     ) {
         Text(
             text = book.name,
@@ -113,10 +137,16 @@ private fun TextInfo(
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
-        val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at neque sem. Sed placerat vitae massa ac consequat. Pellentesque vehicula orci in justo ultricies suscipit. Donec vehicula neque in justo feugiat placerat. Nam pharetra dolor felis, quis varius neque interdum viverra. Cras quis dolor bibendum, vehicula augue non, molestie leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur nec libero vel neque pellentesque congue. Vivamus placerat feugiat faucibus. Nam non rutrum dolor. Curabitur quam tellus, pretium vitae convallis vel, tempor vitae ex. Sed in quam risus. Nam rhoncus velit et risus aliquet consectetur. Nam."
         Text(
-            text = text,
+            text = book.description,
             style = PocketLibTheme.textStyles.smallStyle.copy(
+                color = PocketLibTheme.colors.dark
+            )
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = genres,
+            style = PocketLibTheme.textStyles.normalStyle.copy(
                 color = PocketLibTheme.colors.dark
             )
         )

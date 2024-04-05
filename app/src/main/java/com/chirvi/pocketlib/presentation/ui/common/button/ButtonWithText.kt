@@ -13,6 +13,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun ButtonWithText(
+    modifier: Modifier = Modifier,
     text: String,
     alternativeColorScheme: Boolean = true,
     onClickListener: () -> Unit
@@ -29,7 +30,7 @@ fun ButtonWithText(
     }
 
     Button(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor

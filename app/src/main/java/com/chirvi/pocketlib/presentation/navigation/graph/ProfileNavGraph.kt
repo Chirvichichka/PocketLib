@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 import com.chirvi.pocketlib.presentation.navigation.Screen
 
 fun NavGraphBuilder.profileNavGraph(
-    pageBookContent: @Composable () -> Unit,
+    pageBookContent: @Composable (String) -> Unit,
     userContent: @Composable () -> Unit,
     settingsContent: @Composable () -> Unit,
     registrationContent: @Composable () -> Unit,
@@ -20,7 +20,7 @@ fun NavGraphBuilder.profileNavGraph(
             userContent()
         }
         composable(Screen.PageBookProfile.route) {
-            pageBookContent()
+            pageBookContent("")
         }
         settingsNavGraph(
             registrationContent = registrationContent,
