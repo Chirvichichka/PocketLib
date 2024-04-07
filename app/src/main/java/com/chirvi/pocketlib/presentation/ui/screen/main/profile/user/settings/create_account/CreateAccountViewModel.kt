@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.fragment.settings_account.create_account
+package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.create_account
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

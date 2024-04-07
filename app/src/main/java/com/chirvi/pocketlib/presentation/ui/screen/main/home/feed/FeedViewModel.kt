@@ -1,13 +1,12 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.home.feed
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.domain.usecase.posts.GetAllBooksUseCase
-import com.chirvi.domain.usecase.settings.GetSettingsFeedUseCase
+import com.chirvi.domain.usecase.settings.GetSettingsUseCase
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val getSettingsFeedUseCase: GetSettingsFeedUseCase,
+    private val getSettingsUseCase: GetSettingsUseCase,
     private val getAllBooksUseCase: GetAllBooksUseCase,
 ) : ViewModel()
 {
@@ -31,7 +30,7 @@ class FeedViewModel @Inject constructor(
 
     private val _feedDisplayMode = MutableLiveData(loadFeedDisplayMode())
     val feedDisplayMode: LiveData<DisplayMode> = _feedDisplayMode
-    private fun loadFeedDisplayMode() : DisplayMode { return getSettingsFeedUseCase() }
+    private fun loadFeedDisplayMode() : DisplayMode { return getSettingsUseCase(key = "FEED") }
     fun textChange(text: String) { _newText.value = text }
     fun loadData() { viewModelScope.launch{ suspendLoadData() } }
     private suspend fun suspendLoadData() {

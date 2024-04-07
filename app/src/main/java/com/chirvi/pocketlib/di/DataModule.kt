@@ -3,15 +3,11 @@ package com.chirvi.pocketlib.di
 import android.content.Context
 import com.chirvi.data.repository.auth.RegistrationRepositoryImpl
 import com.chirvi.data.repository.posts.PostsRepositoryImpl
-import com.chirvi.data.repository.settings.SettingsFavoritesRepositoryImpl
-import com.chirvi.data.repository.settings.SettingsFeedRepositoryImpl
-import com.chirvi.data.repository.settings.SettingsMyBooksRepositoryImpl
+import com.chirvi.data.repository.settings.SettingsRepositoryImpl
 import com.chirvi.data.repository.storage.StorageRepositoryImpl
 import com.chirvi.domain.repository.auth.RegistrationRepository
 import com.chirvi.domain.repository.posts.PostsRepository
-import com.chirvi.domain.repository.settings.SettingsFavoritesRepository
-import com.chirvi.domain.repository.settings.SettingsFeedRepository
-import com.chirvi.domain.repository.settings.SettingsMyBooksRepository
+import com.chirvi.domain.repository.settings.SettingsRepository
 import com.chirvi.domain.repository.storage.StorageRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -24,6 +20,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(@ApplicationContext context: Context) : SettingsRepository {
+        return SettingsRepositoryImpl(context = context)
+    }
+
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
@@ -47,21 +50,4 @@ class DataModule {
         return RegistrationRepositoryImpl(database = database)
     }
 
-    @Provides
-    @Singleton
-    fun provideSettingsFeedRepository(@ApplicationContext context: Context) : SettingsFeedRepository {
-        return SettingsFeedRepositoryImpl(context = context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSettingsFavoritesRepository(@ApplicationContext context: Context) : SettingsFavoritesRepository {
-        return SettingsFavoritesRepositoryImpl(context = context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSettingsMyBooksRepository(@ApplicationContext context: Context) : SettingsMyBooksRepository {
-        return SettingsMyBooksRepositoryImpl(context = context)
-    }
 }

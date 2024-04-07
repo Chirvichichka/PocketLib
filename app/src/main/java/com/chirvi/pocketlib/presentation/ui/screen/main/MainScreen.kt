@@ -36,7 +36,7 @@ import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedViewModel
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.SettingsScreen
-import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.fragment.settings_account.create_account.CreateAccountScreen
+import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.create_account.CreateAccountScreen
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

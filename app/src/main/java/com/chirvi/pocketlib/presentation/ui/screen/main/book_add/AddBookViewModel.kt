@@ -1,11 +1,9 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
 import android.net.Uri
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.usecase.posts.CreateIdUseCase
 import com.chirvi.domain.usecase.posts.SaveBookUseCase
