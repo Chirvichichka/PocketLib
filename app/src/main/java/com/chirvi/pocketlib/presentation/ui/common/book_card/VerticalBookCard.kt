@@ -37,7 +37,7 @@ fun VerticalBookCard(
             defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.secondary
+            containerColor = PocketLibTheme.colors.secondaryContainer
         ),
         modifier = Modifier
             .padding(
@@ -79,7 +79,7 @@ fun VerticalBookCard(
                 Text(
                     text = book.name,
                     style = PocketLibTheme.textStyles.largeStyle.copy(
-                        color = PocketLibTheme.colors.dark
+                        color = PocketLibTheme.colors.onSecondaryContainer
                     ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -87,7 +87,7 @@ fun VerticalBookCard(
                 Text(
                     text = book.author,
                     style = PocketLibTheme.textStyles.normalStyle.copy(
-                        color = PocketLibTheme.colors.dark
+                        color = PocketLibTheme.colors.onSecondaryContainer
                     ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis

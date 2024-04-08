@@ -29,13 +29,11 @@ fun AddPictureFromGallery(
         modifier = Modifier
             .size(80.dp)
             .background(
-                color = PocketLibTheme.colors.secondary,
+                color = PocketLibTheme.colors.primary,
                 shape = CircleShape
             )
             .clip(CircleShape)
-            .clickable {
-                load()
-            }
+            .clickable { load() }
     ) {
         if (image != null) {
             Image(
@@ -47,7 +45,7 @@ fun AddPictureFromGallery(
         } else {
             Icon(
                 modifier = Modifier.size(40.dp),
-                tint = PocketLibTheme.colors.tertiary,
+                tint = PocketLibTheme.colors.onPrimary,
                 painter = painterResource(id = R.drawable.add),
                 contentDescription = null
             )

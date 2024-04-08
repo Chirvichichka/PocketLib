@@ -17,7 +17,7 @@ fun ButtonIconFavorite(
         }
     ) {
         Icon(
-            tint = PocketLibTheme.colors.dark,
+            tint = PocketLibTheme.colors.onBackground,
             painter = painterResource(id = R.drawable.bookmark_border),
             contentDescription = null
         )

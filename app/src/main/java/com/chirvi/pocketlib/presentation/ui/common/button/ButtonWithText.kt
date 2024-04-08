@@ -15,25 +15,13 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 fun ButtonWithText(
     modifier: Modifier = Modifier,
     text: String,
-    alternativeColorScheme: Boolean = true,
     onClickListener: () -> Unit
 ) {
-    val containerColor: Color
-    val textColor: Color
-
-    if (alternativeColorScheme) {
-        containerColor = PocketLibTheme.colors.tertiary
-        textColor = PocketLibTheme.colors.primary
-    } else {
-        containerColor = PocketLibTheme.colors.secondary
-        textColor = PocketLibTheme.colors.dark
-    }
-
     Button(
         modifier = modifier
             .fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor
+            containerColor = PocketLibTheme.colors.primary
         ),
         shape = RoundedCornerShape(10.dp),
         onClick = { onClickListener() }
@@ -41,7 +29,7 @@ fun ButtonWithText(
         Text(
             text = text,
             style = PocketLibTheme.textStyles.normalStyle.copy(
-                color = textColor
+                color = PocketLibTheme.colors.onPrimary
             )
         )
     }

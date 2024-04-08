@@ -43,7 +43,7 @@ fun FeedScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = PocketLibTheme.colors.primary)
+            .background(color = PocketLibTheme.colors.background)
     ) {
         FeedTopAppBar(
             viewModel = viewModel,
@@ -82,7 +82,6 @@ private fun FeedTopAppBar(
     viewModel: FeedViewModel,
     scroll: TopAppBarScrollBehavior,
 ) {
-
     PocketLibTopAppBar(
         scroll = scroll,
         title = {
@@ -97,7 +96,7 @@ private fun SearchBook(
 ) {
     val text by viewModel.newText.observeAsState("")
     val textStyle = PocketLibTheme.textStyles.normalStyle.copy(
-        color = PocketLibTheme.colors.dark
+        color = PocketLibTheme.colors.onSecondaryContainer
     )
 
     TextField(
@@ -110,7 +109,7 @@ private fun SearchBook(
             Text(
                 text = stringResource(id = R.string.search_book),
                 style = textStyle.copy(
-                    fontStyle = FontStyle.Italic
+                  //  fontStyle = FontStyle.Italic
                 )
             )
         },
@@ -120,16 +119,16 @@ private fun SearchBook(
             Icon(
                 painter = painterResource(id = R.drawable.search),
                 contentDescription = null,
-                tint = PocketLibTheme.colors.dark
+                tint = PocketLibTheme.colors.onSecondaryContainer
             )
         },
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = PocketLibTheme.colors.secondary,
-            unfocusedContainerColor = PocketLibTheme.colors.secondary,
+            focusedContainerColor = PocketLibTheme.colors.secondaryContainer,
+            unfocusedContainerColor = PocketLibTheme.colors.secondaryContainer,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            cursorColor = PocketLibTheme.colors.dark
+            cursorColor = PocketLibTheme.colors.tertiary
         )
     )
 }

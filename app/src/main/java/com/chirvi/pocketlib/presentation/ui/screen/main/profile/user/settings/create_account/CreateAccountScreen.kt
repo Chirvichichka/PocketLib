@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,7 +50,7 @@ fun CreateAccountScreen(
 
     Column(
         modifier = Modifier
-            .background(color = PocketLibTheme.colors.primary)
+            .background(color = PocketLibTheme.colors.background)
             .fillMaxSize()
     ) {
         CreateAccountAppTopBar(onBackPressed = onBackPressed)
@@ -66,7 +68,7 @@ fun CreateAccountScreen(
                     ),
                 text = stringResource(id = errorId),
                 style = PocketLibTheme.textStyles.normalStyle.copy(
-                    color = PocketLibTheme.colors.dark
+                    color = PocketLibTheme.colors.onBackground
                 )
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -88,7 +90,7 @@ private fun CreateAccountAppTopBar(
             Text(
                 text = stringResource(id = R.string.create_a_new_account),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.primary
+                    color = PocketLibTheme.colors.onSecondaryContainer
                 )
             )
         },
@@ -109,30 +111,41 @@ private fun TextFields(
     val textPassword by viewModel.textPassword.observeAsState("")
     val textConfirmPassword by viewModel.textConfirmPassword.observeAsState("")
 
-    TextFieldWithLabel(
-        text = textName,
-        textLabel = stringResource(id = R.string.account_name),
-        onValueChange = { newText -> viewModel.onValueChangeName(newText) }
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    TextFieldWithLabel(
-        text = textEMail,
-        textLabel = stringResource(id = R.string.enter_e_mail),
-        keyboardType = KeyboardType.Email,
-        onValueChange = { newText -> viewModel.onValueChangeEMail(newText) }
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    TextFieldPassword(
-        text = textPassword,
-        textLabel = stringResource(id = R.string.enter_password),
-        onValueChange = { newText -> viewModel.onValueChangePassword(newText) }
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    TextFieldPassword(
-        text = textConfirmPassword,
-        textLabel = stringResource(id = R.string.enter_confirm_password),
-        onValueChange = { newText -> viewModel.onValueChangeConfirmPassword(newText) },
-    )
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = PocketLibTheme.colors.surfaceVariant
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            TextFieldWithLabel(
+                text = textName,
+                textLabel = stringResource(id = R.string.account_name),
+                onValueChange = { newText -> viewModel.onValueChangeName(newText) }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            TextFieldWithLabel(
+                text = textEMail,
+                textLabel = stringResource(id = R.string.enter_e_mail),
+                keyboardType = KeyboardType.Email,
+                onValueChange = { newText -> viewModel.onValueChangeEMail(newText) }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            TextFieldPassword(
+                text = textPassword,
+                textLabel = stringResource(id = R.string.enter_password),
+                onValueChange = { newText -> viewModel.onValueChangePassword(newText) }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            TextFieldPassword(
+                text = textConfirmPassword,
+                textLabel = stringResource(id = R.string.enter_confirm_password),
+                onValueChange = { newText -> viewModel.onValueChangeConfirmPassword(newText) },
+            )
+        }
+    }
+
 }
 
 @Composable
@@ -163,7 +176,7 @@ private fun AddAvatar() {
             modifier = Modifier.fillMaxWidth(0.8f),
             text = stringResource(id = R.string.add_image),
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.dark
+                color = PocketLibTheme.colors.onBackground
             )
         )
         IconButton(onClick = { image = null }

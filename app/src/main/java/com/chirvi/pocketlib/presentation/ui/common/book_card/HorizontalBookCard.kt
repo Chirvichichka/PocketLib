@@ -38,7 +38,7 @@ fun HorizontalBookCard(
             defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.secondary
+            containerColor = PocketLibTheme.colors.surfaceVariant
         ),
         modifier = Modifier
             .padding(
@@ -79,13 +79,13 @@ fun HorizontalBookCard(
                         Text(
                             text = book.name,
                             style = PocketLibTheme.textStyles.largeStyle.copy(
-                                color = PocketLibTheme.colors.dark
+                                color = PocketLibTheme.colors.onSurfaceVariant
                             )
                         )
                         Text(
                             text = book.author,
                             style = PocketLibTheme.textStyles.normalStyle.copy(
-                                color = PocketLibTheme.colors.dark
+                                color = PocketLibTheme.colors.onSurfaceVariant
                             )
                         )
                     }
@@ -102,7 +102,7 @@ fun HorizontalBookCard(
                     maxLines = 5,
                     text = book.description,
                     style = PocketLibTheme.textStyles.smallStyle.copy(
-                        color = PocketLibTheme.colors.quaternary,
+                        color = PocketLibTheme.colors.onSurfaceVariant,
                         textAlign = TextAlign.Justify
                     )
                 )

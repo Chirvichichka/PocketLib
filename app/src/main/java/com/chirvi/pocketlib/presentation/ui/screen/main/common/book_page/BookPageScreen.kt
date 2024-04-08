@@ -43,7 +43,7 @@ fun BookPageScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = PocketLibTheme.colors.primary)
+            .background(color = PocketLibTheme.colors.background)
     ) {
         FeedAppTopBar(
             onBackPressed = onBackPressed,
@@ -76,7 +76,7 @@ fun FeedAppTopBar(
             Text(
                 text = bookName,
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.primary
+                    color = PocketLibTheme.colors.onSecondaryContainer
                 )
             )
         },
@@ -99,7 +99,8 @@ private fun Poster(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
-            .background(color = PocketLibTheme.colors.dark),
+            .background(color = PocketLibTheme.colors.onSurface
+            ),
         painter = if(image != "") {
             rememberAsyncImagePainter(image.toUri())
         } else {
@@ -126,27 +127,27 @@ private fun TextInfo(
         Text(
             text = book.name,
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.dark
+                color = PocketLibTheme.colors.onBackground
             )
         )
         Text(
             text = book.author,
             style = PocketLibTheme.textStyles.normalStyle.copy(
-                color = PocketLibTheme.colors.dark
+                color = PocketLibTheme.colors.onBackground
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = book.description,
             style = PocketLibTheme.textStyles.smallStyle.copy(
-                color = PocketLibTheme.colors.dark
+                color = PocketLibTheme.colors.onBackground
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = genres,
             style = PocketLibTheme.textStyles.normalStyle.copy(
-                color = PocketLibTheme.colors.dark
+                color = PocketLibTheme.colors.onBackground
             )
         )
     }

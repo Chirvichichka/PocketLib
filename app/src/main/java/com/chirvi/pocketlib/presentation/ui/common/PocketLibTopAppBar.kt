@@ -17,8 +17,8 @@ fun PocketLibTopAppBar(
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = PocketLibTheme.colors.tertiary,
-            scrolledContainerColor = PocketLibTheme.colors.tertiary
+            containerColor = PocketLibTheme.colors.secondaryContainer,
+            scrolledContainerColor = PocketLibTheme.colors.secondaryContainer
         ),
         title = { title() },
         actions = { actions() },

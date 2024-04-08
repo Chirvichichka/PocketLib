@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.ui.common.CustomSwitch
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.SeparativeLine
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
@@ -43,23 +44,26 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun SettingsScreen(
     onBackPressed: () -> Unit,
-    onCreateAccountClick: () -> Unit
+    onCreateAccountClick: () -> Unit,
+    themeChange: () -> Unit,
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = PocketLibTheme.colors.primary)
+            .background(color = PocketLibTheme.colors.background)
 
     ) {
         SettingsTopAppBar(onBackPressed = onBackPressed)
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(all = 16.dp)
+                .padding(all = 8.dp)
         ) {
             Account(onCreateAccountClick = onCreateAccountClick)
+            SeparativeLine()
+            SettingsTheme(viewModel = viewModel, themeChange = themeChange)
             SeparativeLine()
             UserEdit()
             SeparativeLine()
@@ -71,27 +75,27 @@ fun SettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsTopAppBar(
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     PocketLibTopAppBar(
         title = {
             Text(
                 text = stringResource(id = R.string.settings),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.primary,
+                    color = PocketLibTheme.colors.onSecondaryContainer,
                 )
             )
         },
         actions = {
             IconButton(
                 onClick = {
-                    /*TODO*/
+                    //todo
                 }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.check),
                     contentDescription = null,
-                    tint = PocketLibTheme.colors.primary
+                    tint = PocketLibTheme.colors.onSecondaryContainer
                 )
             }
         },
@@ -114,7 +118,7 @@ private fun Account(
         Text(
             text = stringResource(id = R.string.account_settings),
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.dark,
+                color = PocketLibTheme.colors.onBackground,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -123,14 +127,12 @@ private fun Account(
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
         ) {
             ButtonWithText(
-                alternativeColorScheme = false,
                 text = stringResource(id = R.string.create_a_new_account),
                 onClickListener = {
                     onCreateAccountClick()
                 }
             )
             ButtonWithText(
-                alternativeColorScheme = false,
                 text = stringResource(id = R.string.log_in),
                 onClickListener = {  }
             )
@@ -146,7 +148,7 @@ private fun UserEdit() {
         Text(
             text = stringResource(id = R.string.edit_user),
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.dark,
+                color = PocketLibTheme.colors.onBackground,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -170,12 +172,13 @@ private fun UserEdit() {
                 Text(
                     text = stringResource(id = R.string.edit_avatar),
                     style = PocketLibTheme.textStyles.normalStyle.copy(
-                        color = PocketLibTheme.colors.dark
+                        color = PocketLibTheme.colors.onBackground
                     )
                 )
             }
             EditTextField(
-                text = "Никнейм",
+                label = "Изменить никнейм",
+                text = "", //todo
                 onValueChange = {  }
             )
         }
@@ -196,7 +199,7 @@ fun SettingsDisplay(
         Text(
             text = stringResource(id = R.string.card_display),
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.dark,
+                color = PocketLibTheme.colors.onBackground,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -235,18 +238,68 @@ private fun RowSwitch(
             modifier = Modifier.fillMaxWidth(0.7f),
             text = stringResource(id = textId),
             style = PocketLibTheme.textStyles.normalStyle.copy(
-                color = PocketLibTheme.colors.dark
+                color = PocketLibTheme.colors.onBackground
             )
         )
         Switch(
             checked = state,
             onCheckedChange = { onClickListener() },
             colors = SwitchDefaults.colors(
-                checkedTrackColor = PocketLibTheme.colors.tertiary,
-                uncheckedTrackColor = PocketLibTheme.colors.dark,
-                uncheckedBorderColor = PocketLibTheme.colors.dark,
-                uncheckedThumbColor = PocketLibTheme.colors.primary
+                checkedTrackColor = PocketLibTheme.colors.primary,
+                checkedBorderColor = PocketLibTheme.colors.primary,
+                checkedThumbColor = PocketLibTheme.colors.onPrimary,
+
+                uncheckedTrackColor = PocketLibTheme.colors.onSecondary,
+                uncheckedBorderColor = PocketLibTheme.colors.onSecondaryContainer,
+                uncheckedThumbColor = PocketLibTheme.colors.onSecondaryContainer
             )
         )
     }
+}
+
+@Composable
+private fun SettingsTheme(
+    viewModel: SettingsViewModel,
+    themeChange: () -> Unit
+) {
+    val isDarkTheme by viewModel.isDarkTheme.observeAsState(false)
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Title(text = "Настройки темы")
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(0.7f),
+                text = "Dark theme",
+                style = PocketLibTheme.textStyles.normalStyle.copy(
+                    color = PocketLibTheme.colors.onBackground
+                )
+            )
+            CustomSwitch(
+                state = isDarkTheme,
+                onClickListener = {
+                    viewModel.themeModChange()
+                    themeChange()
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun Title(
+    text: String
+) {
+    Text(
+        text = text,
+        style = PocketLibTheme.textStyles.largeStyle.copy(
+            color = PocketLibTheme.colors.onBackground,
+            fontWeight = FontWeight.Bold
+        )
+    )
 }

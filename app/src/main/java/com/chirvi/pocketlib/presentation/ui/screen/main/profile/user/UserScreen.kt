@@ -52,7 +52,7 @@ fun UserScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = PocketLibTheme.colors.primary)
+            .background(color = PocketLibTheme.colors.background)
     ) {
         ProfileTopAppBar(
             onClickSettings = onClickSettings
@@ -75,7 +75,8 @@ private fun ProfileTopAppBar(
             Text(
                 text = stringResource(id = R.string.profile),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.primary,)
+                    color = PocketLibTheme.colors.onSecondaryContainer,
+                )
             )
         },
         actions = {
@@ -85,7 +86,7 @@ private fun ProfileTopAppBar(
                 Icon(
                     painter = painterResource(id = R.drawable.settings),
                     contentDescription = null,
-                    tint = PocketLibTheme.colors.dark
+                    tint = PocketLibTheme.colors.onSecondaryContainer
                 )
             }
         }
@@ -157,20 +158,19 @@ private fun ProfileTabRow(
     val myBooksDisplayMode by viewModel.myBooksDisplayMode.observeAsState(DisplayMode.LIST)
     val favoritesDisplayMode by viewModel.favoritesDisplayMode.observeAsState(DisplayMode.LIST)
 
-
     val items = listOf(
         ProfileTabRowItem.MyBooks,
         ProfileTabRowItem.Favorite
     )
 
     TabRow(
-        containerColor = PocketLibTheme.colors.primary,
+        containerColor = PocketLibTheme.colors.background,
         selectedTabIndex = tabRowIndex,
-        contentColor = PocketLibTheme.colors.dark,
+        contentColor = PocketLibTheme.colors.onBackground,
         indicator = { tabPosition ->
             SecondaryIndicator(
                 modifier = Modifier.tabIndicatorOffset(tabPosition[tabRowIndex]),
-                color = PocketLibTheme.colors.tertiary
+                color = PocketLibTheme.colors.primary
             )
         }
     ) {
@@ -184,7 +184,7 @@ private fun ProfileTabRow(
                 icon = {
                     Icon(
                         modifier = Modifier.size(20.dp),
-                        tint = PocketLibTheme.colors.tertiary,
+                        tint = PocketLibTheme.colors.primary,
                         painter = painterResource(id = item.iconId),
                         contentDescription = null
                     )

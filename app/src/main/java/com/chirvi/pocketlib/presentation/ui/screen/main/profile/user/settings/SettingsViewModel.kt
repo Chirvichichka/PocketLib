@@ -15,6 +15,8 @@ class SettingsViewModel @Inject constructor(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val saveSettingsUseCase: SaveSettingsUseCase,
 ) : ViewModel() {
+    private val _isDarkTheme = MutableLiveData(false)
+    val isDarkTheme: LiveData<Boolean> = _isDarkTheme
 
     private val _feedSwitchState = MutableLiveData(getDisplay(key = DisplayModeKeys.FEED_KEY))
     val feedSwitchState: LiveData<Boolean> = _feedSwitchState
@@ -29,6 +31,11 @@ class SettingsViewModel @Inject constructor(
         getDisplay(key = DisplayModeKeys.FEED_KEY)
         getDisplay(key = DisplayModeKeys.MY_BOOKS_KEY)
         getDisplay(key = DisplayModeKeys.FAVORITES_KEY)
+    }
+
+    fun themeModChange() {
+        val currentThemeMode = _isDarkTheme.value ?: false
+        _isDarkTheme.value = !currentThemeMode
     }
 
     fun feedChange() {

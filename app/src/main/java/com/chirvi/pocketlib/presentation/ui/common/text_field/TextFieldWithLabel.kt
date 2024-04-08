@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -24,7 +25,7 @@ fun TextFieldWithLabel(
     keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
 ) {
-    TextField(
+    OutlinedTextField(
         modifier = modifier
             .height(60.dp)
             .fillMaxWidth(),
@@ -34,26 +35,24 @@ fun TextFieldWithLabel(
         label = {
             Text(
                 text = textLabel,
-                style = PocketLibTheme.textStyles.normalStyle.copy(
-                    fontStyle = FontStyle.Normal
-                )
+                style = PocketLibTheme.textStyles.normalStyle
             )
         },
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
         textStyle = PocketLibTheme.textStyles.normalStyle,
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(
-            cursorColor = PocketLibTheme.colors.dark,
+            cursorColor = PocketLibTheme.colors.onBackground,
 
-            focusedContainerColor = PocketLibTheme.colors.secondary,
-            focusedIndicatorColor = Color.Transparent,
-            focusedTextColor = PocketLibTheme.colors.dark,
-            focusedLabelColor = PocketLibTheme.colors.dark,
+            focusedContainerColor = PocketLibTheme.colors.surfaceVariant,
+            focusedIndicatorColor = PocketLibTheme.colors.primary,
+            focusedTextColor = PocketLibTheme.colors.onSurfaceVariant,
+            focusedLabelColor = PocketLibTheme.colors.primary,
 
-            unfocusedContainerColor = PocketLibTheme.colors.secondary,
-            unfocusedIndicatorColor = Color.Transparent,
-            unfocusedTextColor = PocketLibTheme.colors.dark,
-            unfocusedLabelColor = PocketLibTheme.colors.dark,
+            unfocusedContainerColor = PocketLibTheme.colors.surfaceVariant,
+            unfocusedIndicatorColor = PocketLibTheme.colors.onSurfaceVariant,
+            unfocusedTextColor = PocketLibTheme.colors.onSurfaceVariant,
+            unfocusedLabelColor = PocketLibTheme.colors.onSurfaceVariant,
         )
     )
 }

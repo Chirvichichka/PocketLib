@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,6 +40,7 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.AddPictureFromGallery
 import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.common.SeparativeLine
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
@@ -53,7 +55,7 @@ fun AddBookScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = PocketLibTheme.colors.primary)
+            .background(color = PocketLibTheme.colors.background)
     ) {
         AddBookTopAppBar()
         when(state) {
@@ -75,19 +77,20 @@ private fun Initial(
 ) {
     Column(
         modifier = Modifier
-            .padding(all = 16.dp)
+            .padding(horizontal = 8.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        LoadButton()
         Spacer(modifier = Modifier.height(16.dp))
         AddPicture(viewModel = viewModel)
+        SeparativeLine()
         TextFields(viewModel = viewModel)
-        Spacer(modifier = Modifier.height(16.dp))
+        SeparativeLine()
         Genres(viewModel = viewModel)
-        Spacer(modifier = Modifier.weight(1f))
+        SeparativeLine()
+        LoadButton()
+        SeparativeLine()
         ButtonWithText(
-            alternativeColorScheme = false,
             text = stringResource(id = R.string.save),
             onClickListener = { viewModel.saveBook() },
             modifier = Modifier.align(Alignment.End)
@@ -111,7 +114,7 @@ private fun Saved(
         Text(
             text = "Книга успешно сохранена",  //todo
             style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.dark
+                color = PocketLibTheme.colors.onBackground
             )
         )
         Spacer(modifier = Modifier.fillMaxHeight(0.5f))
@@ -133,7 +136,7 @@ private fun AddBookTopAppBar() {
             Text(
                 text = stringResource(id = R.string.add_book),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.primary,
+                    color = PocketLibTheme.colors.onPrimaryContainer,
                 )
             )
         }
@@ -156,34 +159,43 @@ private fun AddPicture(
 ) {
     val image by viewModel.image.observeAsState(null)
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        val galleryLauncher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent(),
-            onResult = { uri -> uri?.let { viewModel.changeImage(it) } }
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = PocketLibTheme.colors.surfaceVariant
         )
-        AddPictureFromGallery(
-            load = { galleryLauncher.launch("image/*") },
-            image = image
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            modifier = Modifier.fillMaxWidth(0.8f),
-            text = stringResource(id = R.string.add_image),
-            style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.dark
-            )
-        )
-        IconButton(onClick = {viewModel.deleteImage() }
+    ){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.delete),
-                contentDescription = null
+            val galleryLauncher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.GetContent(),
+                onResult = { uri -> uri?.let { viewModel.changeImage(it) } }
             )
+            AddPictureFromGallery(
+                load = { galleryLauncher.launch("image/*") },
+                image = image
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(0.8f),
+                text = stringResource(id = R.string.add_image),
+                style = PocketLibTheme.textStyles.largeStyle.copy(
+                    color = PocketLibTheme.colors.onBackground
+                )
+            )
+            IconButton(onClick = {viewModel.deleteImage() }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.delete),
+                    contentDescription = null
+                )
+            }
         }
     }
+
 }
 
 @Composable
@@ -193,27 +205,37 @@ private fun TextFields(
     val textName by viewModel.textName.observeAsState("")
     val textAuthor by viewModel.textAuthor.observeAsState("")
     val textDescription by viewModel.textDescription.observeAsState("")
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = PocketLibTheme.colors.surfaceVariant
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            TextFieldWithLabel(
+                text = textName,
+                textLabel = stringResource(id = R.string.enter_name),
+                onValueChange = { newText -> viewModel.onValueChangeName(newText) }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            TextFieldWithLabel(
+                text = textAuthor,
+                textLabel = stringResource(id = R.string.enter_author),
+                onValueChange = { newText -> viewModel.onValueChangeAuthor(newText) }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            TextFieldWithLabel(
+                modifier = Modifier.height(120.dp),
+                text = textDescription,
+                singleLine = false,
+                textLabel = stringResource(id = R.string.enter_description),
+                onValueChange = { newText -> viewModel.onValueChangeDescription(newText) }
+            )
+        }
 
-    Spacer(modifier = Modifier.height(16.dp))
-    TextFieldWithLabel(
-        text = textName,
-        textLabel = stringResource(id = R.string.enter_name),
-        onValueChange = { newText -> viewModel.onValueChangeName(newText) }
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    TextFieldWithLabel(
-        text = textAuthor,
-        textLabel = stringResource(id = R.string.enter_author),
-        onValueChange = { newText -> viewModel.onValueChangeAuthor(newText) }
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    TextFieldWithLabel(
-        modifier = Modifier.height(120.dp),
-        text = textDescription,
-        singleLine = false,
-        textLabel = stringResource(id = R.string.enter_description),
-        onValueChange = { newText -> viewModel.onValueChangeDescription(newText) }
-    )
+    }
+
 }
 
 @Composable
@@ -222,21 +244,24 @@ private fun Genres(
 ) {
     val opened by viewModel.opened.observeAsState(false)
     val genresList by viewModel.confirmedGenres.observeAsState(emptyList())
-    val genres = genresList.joinToString(", ")
 
+    val bullet = "\t\u2022"
+    val genres = genresList.joinToString("\n") { "$bullet $it" } //todo во вьюмодель
 
-    ButtonWithText(
-        alternativeColorScheme = true,
-        text = "Указажите жанры",  //todo
-        onClickListener = { viewModel.openedChange() }
-    )
-    Text(
-        text = genres,
-        style = PocketLibTheme.textStyles.largeStyle.copy(
-            color = PocketLibTheme.colors.dark
+    Column {
+        ButtonWithText(
+            text = "Указажите жанры",  //todo
+            onClickListener = { viewModel.openedChange() }
         )
-    )
-    
+        if (genres.isNotEmpty()) {
+            Text(
+                text = genres,
+                style = PocketLibTheme.textStyles.largeStyle.copy(
+                    color = PocketLibTheme.colors.onBackground
+                )
+            )
+        }
+    }
     if(opened) {
         GenresDialog(viewModel = viewModel)
     }
@@ -247,7 +272,7 @@ private fun GenresDialog(
     viewModel: AddBookViewModel
 ) {
     val testStyle = PocketLibTheme.textStyles.smallStyle.copy(
-        color = PocketLibTheme.colors.dark
+        color = PocketLibTheme.colors.onBackground
     )
     Dialog(
         onDismissRequest = { viewModel.openedChange() }
@@ -257,9 +282,9 @@ private fun GenresDialog(
                 .fillMaxWidth(0.9f)
                 .fillMaxHeight(0.7f)
                 .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = CardDefaults.cardColors(
-                containerColor = PocketLibTheme.colors.primary
+                containerColor = PocketLibTheme.colors.background
             )
         ) {
             Column(
@@ -314,18 +339,18 @@ private fun ColumnGenres(
         genresWithSelected?.forEach { (genre, selected) ->
             InputChip(
                 colors = InputChipDefaults.inputChipColors(
-                    containerColor = PocketLibTheme.colors.primary,
-                    selectedLabelColor = PocketLibTheme.colors.primary,
-                    selectedContainerColor = PocketLibTheme.colors.secondary
+                    containerColor = PocketLibTheme.colors.background,
+                    labelColor = PocketLibTheme.colors.onBackground,
+
+                    selectedLabelColor = PocketLibTheme.colors.tertiaryContainer,
+                    selectedContainerColor = PocketLibTheme.colors.onTertiaryContainer,
                 ),
                 selected = selected,
                 onClick = { viewModel.toggleSelected(genre) },
                 label = {
                     Text(
                         text = genre,
-                        style = PocketLibTheme.textStyles.normalStyle.copy(
-                            color = PocketLibTheme.colors.dark
-                        )
+                        style = PocketLibTheme.textStyles.normalStyle
                     )
                 }
             )
