@@ -16,7 +16,7 @@ val TextStyleType = TextStyles(
     topAppBarStyle = topAppBarStyle
 )
 
-private val localColorScheme = staticCompositionLocalOf<TextStyles> {
+private val localColorScheme = staticCompositionLocalOf<ColorScheme> {
     error("No text styles provided")
 }
 
@@ -24,21 +24,34 @@ private val localTextStyles = staticCompositionLocalOf<TextStyles> {
     error("No text styles provided")
 }
 
-private val localColors = staticCompositionLocalOf<ColorsScheme> {
+private val localColors = staticCompositionLocalOf<Colors> {
     error("No colors provided")
 }
 
 @Composable
 fun PocketLibTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    currentTheme: ColorScheme = localColorScheme.current,
     content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
+    var colorScheme: Colors = LightPinkColors
 
-    val colorScheme = if(darkTheme) {
-        DarkMainColors
-    } else {
-        LightMainColors
+    when(currentTheme) {
+        ColorScheme.PINK -> {
+            colorScheme = if(darkTheme) {
+                DarkPinkColors
+            } else {
+                LightPinkColors
+            }
+        }
+        ColorScheme.GREEN -> {
+            colorScheme = if(darkTheme) {
+                DarkGreenTheme
+            } else {
+                LightGreenTheme
+            }
+        }
     }
 
     if (!view.isInEditMode) {
@@ -57,12 +70,16 @@ fun PocketLibTheme(
 }
 
 object PocketLibTheme {
-    val colors: ColorsScheme
+    val colors: Colors
         @Composable
         get() = localColors.current
 
     val textStyles: TextStyles
         @Composable
         get() = localTextStyles.current
+
+    val colorScheme: ColorScheme
+        @Composable
+        get() = localColorScheme.current
 
 }

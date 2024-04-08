@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.chirvi.pocketlib.presentation.ui.theme.Gray
+import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 
 @Composable
@@ -18,6 +18,6 @@ fun SeparativeLine() {
             .fillMaxWidth()
             .padding(vertical = 16.dp)
             .height(0.4.dp)
-            .background(color = Gray)
+            .background(color = PocketLibTheme.colors.outline)
     )
 }

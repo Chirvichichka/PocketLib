@@ -39,6 +39,7 @@ import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedViewModel
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.SettingsScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.create_account.CreateAccountScreen
+import com.chirvi.pocketlib.presentation.ui.theme.ColorScheme
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,9 +48,11 @@ fun MainScreen() {
     val navigationState = rememberNavigationState()
     val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var darkTheme by remember { mutableStateOf(false) }
+    var colorScheme by remember { mutableStateOf(ColorScheme.PINK) }
 
     PocketLibTheme(
-        darkTheme = darkTheme
+        darkTheme = darkTheme,
+        currentTheme = colorScheme
     ) {
         Scaffold(
             modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
@@ -103,7 +106,8 @@ fun MainScreen() {
                         SettingsScreen(
                             themeChange = { darkTheme = !darkTheme },
                             onBackPressed = { navigationState.navHostController.popBackStack() },
-                            onCreateAccountClick = { navigationState.navigateTo(Screen.Registration.route) }
+                            onCreateAccountClick = { navigationState.navigateTo(Screen.Registration.route) },
+                            colorSchemeChange = { colorScheme = it }
                         )
                     },
                     registrationContent = {

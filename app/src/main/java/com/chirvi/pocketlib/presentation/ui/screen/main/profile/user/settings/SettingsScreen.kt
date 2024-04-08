@@ -26,6 +26,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,13 +40,17 @@ import com.chirvi.pocketlib.presentation.ui.common.SeparativeLine
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.EditTextField
+import com.chirvi.pocketlib.presentation.ui.theme.ColorScheme
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
+import com.chirvi.pocketlib.presentation.ui.theme.seedGreen
+import com.chirvi.pocketlib.presentation.ui.theme.seedPink
 
 @Composable
 fun SettingsScreen(
     onBackPressed: () -> Unit,
     onCreateAccountClick: () -> Unit,
     themeChange: () -> Unit,
+    colorSchemeChange: (ColorScheme) -> Unit
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
 
@@ -63,7 +68,7 @@ fun SettingsScreen(
         ) {
             Account(onCreateAccountClick = onCreateAccountClick)
             SeparativeLine()
-            SettingsTheme(viewModel = viewModel, themeChange = themeChange)
+            SettingsTheme(viewModel = viewModel, themeChange = themeChange, colorSchemeChange = colorSchemeChange)
             SeparativeLine()
             UserEdit()
             SeparativeLine()
@@ -115,13 +120,7 @@ private fun Account(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Text(
-            text = stringResource(id = R.string.account_settings),
-            style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.onBackground,
-                fontWeight = FontWeight.Bold
-            )
-        )
+        Title(text = stringResource(id = R.string.account_settings))
         Column(
             modifier = Modifier.padding(start = 4.dp, top = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
@@ -145,13 +144,7 @@ private fun UserEdit() {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
-        Text(
-            text = stringResource(id = R.string.edit_user),
-            style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.onBackground,
-                fontWeight = FontWeight.Bold
-            )
-        )
+        Title(text = stringResource(id = R.string.edit_user))
         Column(
             modifier = Modifier
                 .padding(start = 4.dp,  top = 8.dp),
@@ -241,18 +234,9 @@ private fun RowSwitch(
                 color = PocketLibTheme.colors.onBackground
             )
         )
-        Switch(
-            checked = state,
-            onCheckedChange = { onClickListener() },
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = PocketLibTheme.colors.primary,
-                checkedBorderColor = PocketLibTheme.colors.primary,
-                checkedThumbColor = PocketLibTheme.colors.onPrimary,
-
-                uncheckedTrackColor = PocketLibTheme.colors.onSecondary,
-                uncheckedBorderColor = PocketLibTheme.colors.onSecondaryContainer,
-                uncheckedThumbColor = PocketLibTheme.colors.onSecondaryContainer
-            )
+        CustomSwitch(
+            state = state,
+            onClickListener = onClickListener
         )
     }
 }
@@ -260,7 +244,8 @@ private fun RowSwitch(
 @Composable
 private fun SettingsTheme(
     viewModel: SettingsViewModel,
-    themeChange: () -> Unit
+    themeChange: () -> Unit,
+    colorSchemeChange: (ColorScheme) -> Unit
 ) {
     val isDarkTheme by viewModel.isDarkTheme.observeAsState(false)
 
@@ -288,6 +273,39 @@ private fun SettingsTheme(
                 }
             )
         }
+        Column {
+            Text(
+                text = "Цветовая схема: ", //todo
+                style = PocketLibTheme.textStyles.normalStyle.copy(
+                    color = PocketLibTheme.colors.onBackground
+                )
+            )
+            Row(
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                ThemeCircle(tint = seedPink, colorSchemeChange = { colorSchemeChange(ColorScheme.PINK) })
+                ThemeCircle(tint = seedGreen, colorSchemeChange = { colorSchemeChange(ColorScheme.GREEN) })
+            }
+        }
+    }
+}
+
+@Composable
+private fun ThemeCircle(
+    tint: Color,
+    colorSchemeChange: () -> Unit,
+) {
+    IconButton(
+        onClick = {
+            colorSchemeChange()
+        }
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.circle),
+            contentDescription = null,
+            tint = tint,
+            modifier = Modifier.size(60.dp)
+        )
     }
 }
 
