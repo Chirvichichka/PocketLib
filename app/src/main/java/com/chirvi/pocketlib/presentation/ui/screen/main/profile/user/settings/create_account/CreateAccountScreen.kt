@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.ui.common.AddPictureFromGallery
+import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
@@ -44,9 +47,10 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun CreateAccountScreen(
     onBackPressed: () -> Unit,
-    ) {
+    toHomeScreen: () -> Unit,
+) {
     val viewModel = hiltViewModel<CreateAccountViewModel>()
-    val errorId by viewModel.errorMessageId.observeAsState(0)
+    val state by viewModel.state.observeAsState(CreateAccountState.Initial)
 
     Column(
         modifier = Modifier
@@ -55,28 +59,72 @@ fun CreateAccountScreen(
     ) {
         CreateAccountAppTopBar(onBackPressed = onBackPressed)
         Column(
-            modifier = Modifier.padding(all = 16.dp)
+            modifier = Modifier.padding(all = 8.dp)
         ) {
-            AddAvatar()
-            Spacer(modifier = Modifier.height(16.dp))
-            TextFields(viewModel = viewModel)
-            Text(
-                modifier = Modifier
-                    .padding(
-                        vertical = 4.dp,
-                        horizontal = 8.dp
-                    ),
-                text = stringResource(id = errorId),
-                style = PocketLibTheme.textStyles.normalStyle.copy(
-                    color = PocketLibTheme.colors.onBackground
-                )
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            ButtonWithText(
-                text = stringResource(id = R.string.create_a_new_account),
-                onClickListener = { viewModel.registration() }
-            )
+            when(state) {
+                CreateAccountState.Initial -> { Initial(viewModel = viewModel) }
+                CreateAccountState.Complete -> { Complete(toHomeScreen = toHomeScreen) }
+                CreateAccountState.Loading -> { LoadingCircle() }
+            }
         }
+    }
+}
+
+@Composable
+private fun Complete(
+    toHomeScreen: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        Text(
+            text = "Аккаунт успешно создан",  //todo
+            style = PocketLibTheme.textStyles.largeStyle.copy(
+                color = PocketLibTheme.colors.onBackground
+            )
+        )
+        Spacer(modifier = Modifier.fillMaxHeight(0.5f))
+        ButtonWithText(
+            text = "Перейти на главный экран",  //todo
+            onClickListener = { toHomeScreen() }
+        )
+    }
+}
+
+
+@Composable
+private fun Initial(
+    viewModel: CreateAccountViewModel
+) {
+    val errorId by viewModel.errorMessageId.observeAsState(0)
+
+    Column {
+        AddAvatar()
+        Spacer(modifier = Modifier.height(16.dp))
+        TextFields(viewModel = viewModel)
+        Text(
+            modifier = Modifier
+                .padding(
+                    vertical = 4.dp,
+                    horizontal = 8.dp
+                ),
+            text = stringResource(id = errorId),
+            style = PocketLibTheme.textStyles.normalStyle.copy(
+                color = PocketLibTheme.colors.onBackground
+            )
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        ButtonWithText(
+            text = stringResource(id = R.string.create_a_new_account),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = PocketLibTheme.colors.tertiary,
+                contentColor = PocketLibTheme.colors.onTertiary
+            ),
+            onClickListener = { viewModel.registration() }
+        )
     }
 }
 
@@ -113,7 +161,7 @@ private fun TextFields(
 
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.surfaceVariant
+            containerColor = PocketLibTheme.colors.secondaryContainer
         )
     ) {
         Column(
@@ -145,7 +193,6 @@ private fun TextFields(
             )
         }
     }
-
 }
 
 @Composable
@@ -162,29 +209,37 @@ private fun AddAvatar() {
         }
     )
 
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = PocketLibTheme.colors.secondaryContainer
+        )
     ) {
-        AddPictureFromGallery(
-            load = { galleryLauncher.launch("image/*") },
-            image = image
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            modifier = Modifier.fillMaxWidth(0.8f),
-            text = stringResource(id = R.string.add_image),
-            style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.onBackground
-            )
-        )
-        IconButton(onClick = { image = null }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 8.dp)
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.delete),
-                contentDescription = null
+            AddPictureFromGallery(
+                load = { galleryLauncher.launch("image/*") },
+                image = image
             )
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(0.8f),
+                text = stringResource(id = R.string.add_image),
+                style = PocketLibTheme.textStyles.largeStyle.copy(
+                    color = PocketLibTheme.colors.onSecondaryContainer
+                )
+            )
+            IconButton(onClick = { image = null }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.delete),
+                    contentDescription = null
+                )
+            }
         }
     }
 }

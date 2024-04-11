@@ -28,7 +28,7 @@ import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun VerticalBookCard(
+fun VerticalBookCard(  //todo ПЕРЕДЕЛАТЬ
     book: BookPresentation,
     onClickPreview: () -> Unit
 ) {
@@ -74,7 +74,7 @@ fun VerticalBookCard(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column(
-                modifier = Modifier.padding(all = 8.dp)
+                modifier = Modifier.padding(all = 8.dp).weight(1f)
             ) {
                 Text(
                     text = book.name,
@@ -93,7 +93,6 @@ fun VerticalBookCard(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
             ButtonIconFavorite {
                 //todo
             }

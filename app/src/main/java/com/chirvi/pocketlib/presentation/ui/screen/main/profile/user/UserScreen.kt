@@ -36,8 +36,11 @@ import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
+import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedState
+import com.chirvi.pocketlib.presentation.ui.screen.main.localFirebaseUser
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
@@ -100,7 +103,7 @@ private fun UserInfo(
 ) {
     Column(
         modifier = Modifier
-            .padding(all = 16.dp,)
+            .padding(all = 8.dp,)
             .fillMaxWidth()
     ) {
         Row(
@@ -124,19 +127,20 @@ private fun UserInfo(
 //            )
             Column(
                 modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp,
-                        vertical = 8.dp
-                    ),
+                    .padding(all = 8.dp),
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
-                    text = "User name",
-                    style = PocketLibTheme.textStyles.largeStyle
+                    text = localFirebaseUser.current?.uid.toString(),
+                    style = PocketLibTheme.textStyles.largeStyle.copy(
+                        color = PocketLibTheme.colors.onBackground
+                    )
                 )
                 Text(
-                    text = "User id",
-                    style = PocketLibTheme.textStyles.normalStyle,
+                    text = localFirebaseUser.current?.email.toString(),
+                    style = PocketLibTheme.textStyles.normalStyle.copy(
+                        color = PocketLibTheme.colors.onBackground
+                    ),
                 )
             }
         }
@@ -155,6 +159,8 @@ private fun ProfileTabRow(
 ) {
     val tabRowIndex by viewModel.tabRowItem.observeAsState(0)
 
+    val books by viewModel.postsList.observeAsState(emptyList())
+    val state by viewModel.state.observeAsState(UserPostState.Initial)
     val myBooksDisplayMode by viewModel.myBooksDisplayMode.observeAsState(DisplayMode.LIST)
     val favoritesDisplayMode by viewModel.favoritesDisplayMode.observeAsState(DisplayMode.LIST)
 
@@ -194,12 +200,20 @@ private fun ProfileTabRow(
             )
         }
     }
+
     when(tabRowIndex) {
         0 -> {
-            BookColumn(
-                displayMode = myBooksDisplayMode,
-                onClickPreview = onClickPreview
-            )
+            when(state) {
+                UserPostState.Initial -> {  }
+                UserPostState.Loading -> { LoadingCircle() }
+                UserPostState.Content -> {
+                    BookColumn(
+                        displayMode = myBooksDisplayMode,
+                        books = books,
+                        onClickPreview = onClickPreview
+                    )
+                }
+            }
         }
         1 -> {
             BookColumn(

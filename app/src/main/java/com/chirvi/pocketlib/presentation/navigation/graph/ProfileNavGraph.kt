@@ -11,6 +11,7 @@ fun NavGraphBuilder.profileNavGraph(
     userContent: @Composable () -> Unit,
     settingsContent: @Composable () -> Unit,
     registrationContent: @Composable () -> Unit,
+    loginContent: @Composable () -> Unit,
     ) {
     navigation(
         startDestination = Screen.User.route,
@@ -24,7 +25,8 @@ fun NavGraphBuilder.profileNavGraph(
         }
         settingsNavGraph(
             registrationContent = registrationContent,
-            settingsContent = settingsContent
+            settingsContent = settingsContent,
+            loginContent = loginContent
         )
     }
 }

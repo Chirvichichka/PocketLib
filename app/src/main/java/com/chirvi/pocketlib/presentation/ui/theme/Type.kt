@@ -41,3 +41,10 @@ val topAppBarStyle = TextStyle(
     fontFamily = merriweatherFamily,
     fontWeight = FontWeight.Normal,
 )
+
+val TextStyleType = TextStyles(
+    normalStyle = normalStyle,
+    largeStyle = largeStyle,
+    smallStyle = smallStyle,
+    topAppBarStyle = topAppBarStyle
+)

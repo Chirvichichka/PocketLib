@@ -9,6 +9,7 @@ import com.chirvi.pocketlib.presentation.navigation.Screen
 fun NavGraphBuilder.settingsNavGraph(
     registrationContent: @Composable () -> Unit,
     settingsContent: @Composable () -> Unit,
+    loginContent: @Composable () -> Unit,
 ) {
     navigation(
         startDestination = Screen.SettingsPage.route,
@@ -19,6 +20,9 @@ fun NavGraphBuilder.settingsNavGraph(
         }
         composable(route = Screen.Registration.route) {
             registrationContent()
+        }
+        composable(route = Screen.Login.route) {
+            loginContent()
         }
     }
 }

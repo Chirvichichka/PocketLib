@@ -17,8 +17,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,13 +40,15 @@ import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.EditTextField
 import com.chirvi.pocketlib.presentation.ui.theme.ColorScheme
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
-import com.chirvi.pocketlib.presentation.ui.theme.seedGreen
-import com.chirvi.pocketlib.presentation.ui.theme.seedPink
+import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.seedBlue
+import com.chirvi.pocketlib.presentation.ui.theme.green_theme.seedGreen
+import com.chirvi.pocketlib.presentation.ui.theme.pink_theme.seedPink
 
 @Composable
 fun SettingsScreen(
     onBackPressed: () -> Unit,
     onCreateAccountClick: () -> Unit,
+    onLoginClick: () -> Unit,
     themeChange: () -> Unit,
     colorSchemeChange: (ColorScheme) -> Unit
 ) {
@@ -66,7 +66,7 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(all = 8.dp)
         ) {
-            Account(onCreateAccountClick = onCreateAccountClick)
+            Account(onCreateAccountClick = onCreateAccountClick, onLoginClick = onLoginClick)
             SeparativeLine()
             SettingsTheme(viewModel = viewModel, themeChange = themeChange, colorSchemeChange = colorSchemeChange)
             SeparativeLine()
@@ -115,6 +115,7 @@ private fun SettingsTopAppBar(
 @Composable
 private fun Account(
     onCreateAccountClick: () -> Unit,
+    onLoginClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -127,13 +128,11 @@ private fun Account(
         ) {
             ButtonWithText(
                 text = stringResource(id = R.string.create_a_new_account),
-                onClickListener = {
-                    onCreateAccountClick()
-                }
+                onClickListener = { onCreateAccountClick() }
             )
             ButtonWithText(
                 text = stringResource(id = R.string.log_in),
-                onClickListener = {  }
+                onClickListener = { onLoginClick() }
             )
         }
     }
@@ -281,10 +280,12 @@ private fun SettingsTheme(
                 )
             )
             Row(
-                horizontalArrangement = Arrangement.SpaceAround
+                horizontalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 ThemeCircle(tint = seedPink, colorSchemeChange = { colorSchemeChange(ColorScheme.PINK) })
                 ThemeCircle(tint = seedGreen, colorSchemeChange = { colorSchemeChange(ColorScheme.GREEN) })
+                ThemeCircle(tint = seedBlue, colorSchemeChange = { colorSchemeChange(ColorScheme.BLUE) })
             }
         }
     }

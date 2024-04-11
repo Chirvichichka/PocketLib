@@ -96,12 +96,12 @@ private fun SearchBook(
 ) {
     val text by viewModel.newText.observeAsState("")
     val textStyle = PocketLibTheme.textStyles.normalStyle.copy(
-        color = PocketLibTheme.colors.onSecondaryContainer
+        color = PocketLibTheme.colors.onSurfaceVariant
     )
 
     TextField(
         modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .height(51.dp),
         value = text,
         onValueChange = { viewModel.textChange(text = it) },
@@ -119,16 +119,20 @@ private fun SearchBook(
             Icon(
                 painter = painterResource(id = R.drawable.search),
                 contentDescription = null,
-                tint = PocketLibTheme.colors.onSecondaryContainer
+                tint = PocketLibTheme.colors.onSurfaceVariant
             )
         },
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = PocketLibTheme.colors.secondaryContainer,
-            unfocusedContainerColor = PocketLibTheme.colors.secondaryContainer,
+            cursorColor = PocketLibTheme.colors.onSurfaceVariant,
+
+            focusedContainerColor = PocketLibTheme.colors.surfaceVariant,
+            focusedTextColor = PocketLibTheme.colors.onSurfaceVariant,
             focusedIndicatorColor = Color.Transparent,
+
+            unfocusedContainerColor = PocketLibTheme.colors.surfaceVariant,
             unfocusedIndicatorColor = Color.Transparent,
-            cursorColor = PocketLibTheme.colors.tertiary
+            unfocusedTextColor = PocketLibTheme.colors.onSurfaceVariant,
         )
     )
 }

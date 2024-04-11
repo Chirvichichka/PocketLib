@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chirvi.domain.usecase.ConfirmPasswordUseCase
+import com.chirvi.domain.usecase.auth.ConfirmPasswordUseCase
 import com.chirvi.domain.usecase.auth.RegistrationUseCase
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.models.UserPresentation
+import com.chirvi.pocketlib.presentation.models.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,6 +18,8 @@ class CreateAccountViewModel @Inject constructor(
     private val confirmPasswordUseCase: ConfirmPasswordUseCase,
     private val registrationUseCase: RegistrationUseCase
 ) : ViewModel() {
+    private val _state = MutableLiveData<CreateAccountState>(CreateAccountState.Initial)
+    val state: LiveData<CreateAccountState> = _state
 
     private val _errorMessage = MutableLiveData("")
     val errorMessage: LiveData<String> = _errorMessage
@@ -53,32 +57,31 @@ class CreateAccountViewModel @Inject constructor(
         currentError(_errorMessage.value?: "")
         if (errorMessage.value == "") {
             viewModelScope.launch {
-                registrationCoroutine()
+                suspendRegistration()
             }
         }
     }
-    private suspend fun registrationCoroutine() {
-        _errorMessage.value = registrationUseCase(
-            email = textEMail.value ?: "",
-            password = textPassword.value ?: ""
-        )
+    private suspend fun suspendRegistration() {
+        _state.value = CreateAccountState.Loading
+        viewModelScope.launch {
+            val user = UserPresentation(
+                username = textName.value?:"",
+                email = textEMail.value?:"",
+                password = textConfirmPassword.value?:"",
+                avatar = null,
+            ).toDomain()
+            _errorMessage.value = registrationUseCase(user = user)
+        }.join()
+        _state.value = CreateAccountState.Complete
     }
 
     private fun currentError(error: String) {
         _errorMessageId.value =
             when(error) {
-                "Short password length" -> {
-                    R.string.password_short_length
-                }
-                "Password mismatch" -> {
-                    R.string.password_mismatch
-                }
-                "Field is empty" -> {
-                    R.string.password_is_empty
-                }
-                else -> {
-                    R.string.password_not_error
-                }
+                "Short password length" -> { R.string.password_short_length }
+                "Password mismatch" -> { R.string.password_mismatch }
+                "Field is empty" -> { R.string.password_is_empty }
+                else -> { R.string.password_not_error }
             }
     }
 }

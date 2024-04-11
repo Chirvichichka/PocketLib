@@ -14,10 +14,12 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -39,87 +41,113 @@ import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedViewModel
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.SettingsScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.create_account.CreateAccountScreen
+import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.login.LoginScreen
 import com.chirvi.pocketlib.presentation.ui.theme.ColorScheme
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+
+val localFirebaseUser = staticCompositionLocalOf<FirebaseUser?> { null }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
+
     val navigationState = rememberNavigationState()
     val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    var darkTheme by remember { mutableStateOf(false) }
-    var colorScheme by remember { mutableStateOf(ColorScheme.PINK) }
+    var darkTheme by remember { mutableStateOf(true) }
+    var colorScheme by remember { mutableStateOf(ColorScheme.BLUE) }
 
-    PocketLibTheme(
-        darkTheme = darkTheme,
-        currentTheme = colorScheme
+    val firebaseUser = remember { mutableStateOf<FirebaseUser?>(null) }
+    val auth = Firebase.auth
+    val currentUser = auth.currentUser
+    firebaseUser.value = currentUser
+
+    CompositionLocalProvider(
+        localFirebaseUser provides firebaseUser.value
     ) {
-        Scaffold(
-            modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
-            containerColor = PocketLibTheme.colors.background,
-            bottomBar = {
-                BottomNavigation(
-                    navigationState = navigationState
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-                AppNavGraph(
-                    navHostController = navigationState.navHostController,
-                    addBookScreenContent = {
-                        val feedViewModel = hiltViewModel<FeedViewModel>()
-                        AddBookScreen(
-                            toHomeScreen = {
-                                navigationState.navigateTo(Screen.Feed.route)
-                                feedViewModel.loadData()
-                            }
-                        )
-                    },
-                    feedContent = {
-                        FeedScreen(
-                            scroll = scroll,
-                            onClickPreview = {
-                                navigationState.navigateToPost(
-                                    id = it,
-                                )
-                            },
-                        )
-                    },
-                    pageBookContent = {
-                        BookPageScreen(
-                            idPost = it,
-                            onBackPressed = { navigationState.navHostController.popBackStack() }
-                        )
-                    },
-                    userContent = {
-                        UserScreen(
-                            onClickPreview = { navigationState.navigateTo(route = Screen.PageBookProfile.route) },
-                            onClickSettings = { navigationState.navigateTo(Screen.Settings.route) },
-                            onClickEdit = { navigationState.navigateTo(Screen.Settings.route) }
-                        )
-                    },
-                    settingsContent = {
-                        SettingsScreen(
-                            themeChange = { darkTheme = !darkTheme },
-                            onBackPressed = { navigationState.navHostController.popBackStack() },
-                            onCreateAccountClick = { navigationState.navigateTo(Screen.Registration.route) },
-                            colorSchemeChange = { colorScheme = it }
-                        )
-                    },
-                    registrationContent = {
-                        CreateAccountScreen(
-                            onBackPressed = { navigationState.navHostController.popBackStack() }
-                        )
-                    }
-                )
+        PocketLibTheme(
+            darkTheme = darkTheme,
+            currentTheme = colorScheme
+        ) {
+            Scaffold(
+                modifier = Modifier.nestedScroll(scroll.nestedScrollConnection),
+                containerColor = PocketLibTheme.colors.background,
+                bottomBar = {
+                    BottomNavigation(
+                        navigationState = navigationState
+                    )
+                }
+            ) { paddingValues ->
+                Column(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                ) {
+                    AppNavGraph(
+                        navHostController = navigationState.navHostController,
+                        addBookScreenContent = {
+                            val feedViewModel = hiltViewModel<FeedViewModel>()
+                            AddBookScreen(
+                                toHomeScreen = {
+                                    navigationState.navigateTo(Screen.Feed.route)
+                                    feedViewModel.loadData()
+                                }
+                            )
+                        },
+                        feedContent = {
+                            FeedScreen(
+                                scroll = scroll,
+                                onClickPreview = {
+                                    navigationState.navigateToPost(
+                                        id = it,
+                                    )
+                                },
+                            )
+                        },
+                        pageBookContent = {
+                            BookPageScreen(
+                                idPost = it,
+                                onBackPressed = { navigationState.navHostController.popBackStack() }
+                            )
+                        },
+                        userContent = {
+                            UserScreen(
+                                onClickPreview = { navigationState.navigateTo(route = Screen.PageBookProfile.route) },
+                                onClickSettings = { navigationState.navigateTo(Screen.Settings.route) },
+                                onClickEdit = { navigationState.navigateTo(Screen.Settings.route) }
+                            )
+                        },
+                        settingsContent = {
+                            SettingsScreen(
+                                themeChange = { darkTheme = !darkTheme },
+                                onBackPressed = { navigationState.navHostController.popBackStack() },
+                                onCreateAccountClick = { navigationState.navigateTo(Screen.Registration.route) },
+                                colorSchemeChange = { colorScheme = it },
+                                onLoginClick = { navigationState.navigateTo(Screen.Login.route) }
+                            )
+                        },
+                        registrationContent = {
+                            CreateAccountScreen(
+                                onBackPressed = { navigationState.navHostController.popBackStack() },
+                                toHomeScreen = { navigationState.navigateTo(Screen.Feed.route) }
+                            )
+                        },
+                        loginContent = {
+                            LoginScreen(
+                                onBackPressed = { navigationState.navHostController.popBackStack() },
+                                toHomeScreen = { currentUser ->
+                                    firebaseUser.value = currentUser
+                                    navigationState.navigateTo(Screen.Feed.route)
+                                }
+                            )
+                        }
+                    )
+                }
             }
         }
     }
-
 }
 
 @Composable
@@ -136,7 +164,7 @@ private fun BottomNavigation(
 
     BottomAppBar(
         tonalElevation = 20.dp,
-        containerColor = PocketLibTheme.colors.secondaryContainer,
+        containerColor = PocketLibTheme.colors.surfaceVariant,
         actions = {
             items.forEach{ item ->
 
@@ -146,11 +174,11 @@ private fun BottomNavigation(
 
                 NavigationBarItem(
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = PocketLibTheme.colors.secondary,
-                        selectedTextColor = PocketLibTheme.colors.secondary,
-                        unselectedIconColor = PocketLibTheme.colors.onSecondaryContainer,
-                        unselectedTextColor = PocketLibTheme.colors.onSecondaryContainer,
-                        indicatorColor = PocketLibTheme.colors.onSecondary
+                        selectedIconColor = PocketLibTheme.colors.primary,
+                        selectedTextColor = PocketLibTheme.colors.primary,
+                        unselectedIconColor = PocketLibTheme.colors.onPrimaryContainer,
+                        unselectedTextColor = PocketLibTheme.colors.onPrimaryContainer,
+                        indicatorColor = PocketLibTheme.colors.onPrimary
                     ),
                     selected = selected,
                     onClick = {
@@ -179,11 +207,11 @@ private fun BottomNavigation(
             val tint: Color
 
             if(currentRoute == addBook.screen.route) {
-                containerColor = PocketLibTheme.colors.onSecondary
-                tint = PocketLibTheme.colors.onSecondaryContainer
+                containerColor = PocketLibTheme.colors.onPrimary
+                tint = PocketLibTheme.colors.onPrimaryContainer
             } else {
-                containerColor = PocketLibTheme.colors.onSecondaryContainer
-                tint = PocketLibTheme.colors.onSecondary
+                containerColor = PocketLibTheme.colors.onPrimaryContainer
+                tint = PocketLibTheme.colors.onPrimary
             }
 
             SmallFloatingActionButton(

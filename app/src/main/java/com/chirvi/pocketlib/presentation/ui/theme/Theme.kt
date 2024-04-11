@@ -8,13 +8,13 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-
-val TextStyleType = TextStyles(
-    normalStyle = normalStyle,
-    largeStyle = largeStyle,
-    smallStyle = smallStyle,
-    topAppBarStyle = topAppBarStyle
-)
+import androidx.core.view.WindowCompat
+import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.DarkBlueTheme
+import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.LightBlueTheme
+import com.chirvi.pocketlib.presentation.ui.theme.green_theme.DarkGreenTheme
+import com.chirvi.pocketlib.presentation.ui.theme.green_theme.LightGreenTheme
+import com.chirvi.pocketlib.presentation.ui.theme.pink_theme.DarkPinkColors
+import com.chirvi.pocketlib.presentation.ui.theme.pink_theme.LightPinkColors
 
 private val localColorScheme = staticCompositionLocalOf<ColorScheme> {
     error("No text styles provided")
@@ -35,30 +35,25 @@ fun PocketLibTheme(
     content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
-    var colorScheme: Colors = LightPinkColors
 
-    when(currentTheme) {
+    val colorScheme: Colors = when(currentTheme) {
+        ColorScheme.BLUE -> {
+            if(darkTheme) { DarkBlueTheme } else { LightBlueTheme }
+        }
         ColorScheme.PINK -> {
-            colorScheme = if(darkTheme) {
-                DarkPinkColors
-            } else {
-                LightPinkColors
-            }
+            if(darkTheme) { DarkPinkColors } else { LightPinkColors }
         }
         ColorScheme.GREEN -> {
-            colorScheme = if(darkTheme) {
-                DarkGreenTheme
-            } else {
-                LightGreenTheme
-            }
+            if(darkTheme) { DarkGreenTheme } else { LightGreenTheme }
         }
     }
 
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.secondaryContainer.toArgb()
-            window.navigationBarColor = colorScheme.secondaryContainer.toArgb()
+            window.statusBarColor = colorScheme.surfaceVariant.toArgb()
+            window.navigationBarColor = colorScheme.surfaceVariant.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
@@ -81,5 +76,4 @@ object PocketLibTheme {
     val colorScheme: ColorScheme
         @Composable
         get() = localColorScheme.current
-
 }

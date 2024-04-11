@@ -1,10 +1,12 @@
 package com.chirvi.pocketlib.di
 
+import com.chirvi.domain.repository.auth.AuthenticationRepository
 import com.chirvi.domain.repository.auth.RegistrationRepository
 import com.chirvi.domain.repository.posts.PostsRepository
 import com.chirvi.domain.repository.settings.SettingsRepository
 import com.chirvi.domain.repository.storage.StorageRepository
-import com.chirvi.domain.usecase.ConfirmPasswordUseCase
+import com.chirvi.domain.usecase.auth.AuthenticationUseCase
+import com.chirvi.domain.usecase.auth.ConfirmPasswordUseCase
 import com.chirvi.domain.usecase.auth.RegistrationUseCase
 import com.chirvi.domain.usecase.posts.CreateIdUseCase
 import com.chirvi.domain.usecase.posts.GetAllBooksUseCase
@@ -22,6 +24,11 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 @InstallIn(ViewModelComponent::class)
 class DomainModule {
+
+    @Provides
+    fun providesAuthenticationUseCase(authenticationRepository: AuthenticationRepository) : AuthenticationUseCase {
+        return AuthenticationUseCase(authenticationRepository = authenticationRepository)
+    }
 
     @Provides
     fun provideGetSettingsUseCase(settingsRepository: SettingsRepository) : GetSettingsUseCase {

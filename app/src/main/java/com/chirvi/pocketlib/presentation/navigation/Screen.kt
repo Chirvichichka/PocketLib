@@ -12,6 +12,7 @@ sealed class Screen(
             return "$ROUTE_FOR_ARGS/$id"
         }
     }
+    data object Login : Screen(ROUTE_LOGIN)
     data object PageBookProfile : Screen(ROUTE_PAGE_BOOK_PROFILE)
     data object Feed : Screen(ROUTE_FEED)
     data object User : Screen(ROUTE_USER)
@@ -20,6 +21,7 @@ sealed class Screen(
     data object SettingsPage : Screen(ROUTE_SETTINGS_PAGE)
 
     private companion object {
+        const val ROUTE_LOGIN = "login"
         const val ROUTE_REGISTRATION = "registration"
         const val ROUTE_SETTINGS = "settings"
         const val ROUTE_SETTINGS_PAGE = "settings_page"

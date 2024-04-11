@@ -1,8 +1,9 @@
-package com.chirvi.domain.usecase
+package com.chirvi.domain.usecase.auth
 
 private const val SHORT_PASSWORD_LENGTH = "Short password length"
 private const val PASSWORD_MISMATCH = "Password mismatch"
 private const val PASSWORD_IS_EMPTY = "Field is empty"
+
 class ConfirmPasswordUseCase {
     operator fun invoke(
         password: String,
@@ -13,7 +14,7 @@ class ConfirmPasswordUseCase {
         } else if (password.isEmpty() || passwordConfirm.isEmpty()) {
             PASSWORD_IS_EMPTY
         } else if(password != passwordConfirm) {
-           PASSWORD_MISMATCH
+            PASSWORD_MISMATCH
         } else {
             ""
         }

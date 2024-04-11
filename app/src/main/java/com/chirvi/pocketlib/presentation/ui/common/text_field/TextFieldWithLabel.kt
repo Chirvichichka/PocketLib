@@ -44,15 +44,15 @@ fun TextFieldWithLabel(
         colors = TextFieldDefaults.colors(
             cursorColor = PocketLibTheme.colors.onBackground,
 
-            focusedContainerColor = PocketLibTheme.colors.surfaceVariant,
+            focusedContainerColor = PocketLibTheme.colors.secondaryContainer,
             focusedIndicatorColor = PocketLibTheme.colors.primary,
-            focusedTextColor = PocketLibTheme.colors.onSurfaceVariant,
+            focusedTextColor = PocketLibTheme.colors.onSecondaryContainer,
             focusedLabelColor = PocketLibTheme.colors.primary,
 
-            unfocusedContainerColor = PocketLibTheme.colors.surfaceVariant,
-            unfocusedIndicatorColor = PocketLibTheme.colors.onSurfaceVariant,
-            unfocusedTextColor = PocketLibTheme.colors.onSurfaceVariant,
-            unfocusedLabelColor = PocketLibTheme.colors.onSurfaceVariant,
+            unfocusedContainerColor = PocketLibTheme.colors.secondaryContainer,
+            unfocusedIndicatorColor = PocketLibTheme.colors.onSecondaryContainer,
+            unfocusedTextColor = PocketLibTheme.colors.onSecondaryContainer,
+            unfocusedLabelColor = PocketLibTheme.colors.onSecondaryContainer,
         )
     )
 }

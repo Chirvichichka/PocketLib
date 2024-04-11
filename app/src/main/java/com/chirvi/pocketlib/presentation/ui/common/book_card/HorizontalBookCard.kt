@@ -29,7 +29,7 @@ import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun HorizontalBookCard(
+fun HorizontalBookCard( //todo ПЕРЕДЕЛАТЬ
     book: BookPresentation,
     onClickPreview: () -> Unit
 ) {
@@ -38,7 +38,7 @@ fun HorizontalBookCard(
             defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.surfaceVariant
+            containerColor = PocketLibTheme.colors.secondaryContainer
         ),
         modifier = Modifier
             .padding(
@@ -75,21 +75,22 @@ fun HorizontalBookCard(
                     .weight(1f)
             ) {
                 Row {
-                    Column{
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ){
                         Text(
                             text = book.name,
                             style = PocketLibTheme.textStyles.largeStyle.copy(
-                                color = PocketLibTheme.colors.onSurfaceVariant
+                                color = PocketLibTheme.colors.onSecondaryContainer
                             )
                         )
                         Text(
                             text = book.author,
                             style = PocketLibTheme.textStyles.normalStyle.copy(
-                                color = PocketLibTheme.colors.onSurfaceVariant
+                                color = PocketLibTheme.colors.onSecondaryContainer
                             )
                         )
                     }
-                    Spacer(modifier = Modifier.weight(1f))
                     ButtonIconFavorite(
                         onClickListener = {
                             //todo
@@ -102,7 +103,7 @@ fun HorizontalBookCard(
                     maxLines = 5,
                     text = book.description,
                     style = PocketLibTheme.textStyles.smallStyle.copy(
-                        color = PocketLibTheme.colors.onSurfaceVariant,
+                        color = PocketLibTheme.colors.onSecondaryContainer,
                         textAlign = TextAlign.Justify
                     )
                 )

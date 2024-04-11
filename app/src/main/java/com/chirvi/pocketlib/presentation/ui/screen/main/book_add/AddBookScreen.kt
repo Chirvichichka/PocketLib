@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -93,7 +94,11 @@ private fun Initial(
         ButtonWithText(
             text = stringResource(id = R.string.save),
             onClickListener = { viewModel.saveBook() },
-            modifier = Modifier.align(Alignment.End)
+            modifier = Modifier.align(Alignment.End),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = PocketLibTheme.colors.tertiary,
+                contentColor = PocketLibTheme.colors.onTertiary
+            )
         )
     }
 }
@@ -161,7 +166,7 @@ private fun AddPicture(
 
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.surfaceVariant
+            containerColor = PocketLibTheme.colors.secondaryContainer
         )
     ){
         Row(
@@ -207,7 +212,7 @@ private fun TextFields(
     val textDescription by viewModel.textDescription.observeAsState("")
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.surfaceVariant
+            containerColor = PocketLibTheme.colors.secondaryContainer
         )
     ) {
         Column(
