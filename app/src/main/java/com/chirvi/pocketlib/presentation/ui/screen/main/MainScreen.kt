@@ -131,15 +131,18 @@ fun MainScreen() {
                         registrationContent = {
                             CreateAccountScreen(
                                 onBackPressed = { navigationState.navHostController.popBackStack() },
-                                toHomeScreen = { navigationState.navigateTo(Screen.Feed.route) }
+                                toProfileScreen = {
+                                    firebaseUser.value = currentUser
+                                    navigationState.navigateTo(Screen.Feed.route)
+                                }
                             )
                         },
                         loginContent = {
                             LoginScreen(
                                 onBackPressed = { navigationState.navHostController.popBackStack() },
-                                toHomeScreen = { currentUser ->
+                                toProfileScreen = { currentUser ->
                                     firebaseUser.value = currentUser
-                                    navigationState.navigateTo(Screen.Feed.route)
+                                    navigationState.navigateTo(Screen.Profile.route)
                                 }
                             )
                         }

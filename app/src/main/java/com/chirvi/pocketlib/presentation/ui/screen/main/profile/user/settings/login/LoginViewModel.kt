@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.usecase.auth.AuthenticationUseCase
+import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.UserPresentation
 import com.chirvi.pocketlib.presentation.models.toDomain
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthEmailException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -21,6 +24,9 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableLiveData<LoginState>(LoginState.Initial)
     val state: LiveData<LoginState> = _state
+
+    private val _errorMessage = MutableLiveData("")
+    val errorMessage: LiveData<String> = _errorMessage
 
     private val _textEMail = MutableLiveData("")
     val textEMail: LiveData<String> = _textEMail
@@ -40,9 +46,15 @@ class LoginViewModel @Inject constructor(
                 email = textEMail.value?:"",
                 password = textPassword.value?:""
             ).toDomain()
-            authenticationUseCase(user)
+            try {
+                authenticationUseCase(user)
+                _state.value = LoginState.Complete
+            } catch (e: Exception) {
+                _state.value = LoginState.Initial
+                _errorMessage.value = "Некорректный ввод данных"
+            }
         }.join()
-        _state.value = LoginState.Complete
+
     }
 
     fun onValueChangeEMail(text: String) { _textEMail.value = text }

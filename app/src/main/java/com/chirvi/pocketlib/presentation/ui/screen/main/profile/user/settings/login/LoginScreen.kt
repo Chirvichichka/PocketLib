@@ -14,7 +14,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -31,18 +30,15 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldPassword
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
-import com.chirvi.pocketlib.presentation.ui.screen.main.MainScreen
-import com.chirvi.pocketlib.presentation.ui.screen.main.localFirebaseUser
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.options
 
 @Composable
 fun LoginScreen(
     onBackPressed: () -> Unit,
-    toHomeScreen: (FirebaseUser?) -> Unit,
+    toProfileScreen: (FirebaseUser?) -> Unit,
 ) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val state by viewModel.state.observeAsState(LoginState.Initial)
@@ -61,7 +57,7 @@ fun LoginScreen(
         ) {
             when(state) {
                 LoginState.Initial -> { Initial(viewModel = viewModel) }
-                LoginState.Complete -> { Complete(toHomeScreen = toHomeScreen) }
+                LoginState.Complete -> { Complete(toHomeScreen = toProfileScreen) }
                 LoginState.Loading -> { LoadingCircle() }
             }
         }
@@ -139,6 +135,7 @@ private fun TextFields(
 ) {
     val textEMail by viewModel.textEMail.observeAsState("")
     val textPassword by viewModel.textPassword.observeAsState("")
+    val error by viewModel.errorMessage.observeAsState("")
 
     Card(
         colors = CardDefaults.cardColors(
@@ -160,6 +157,15 @@ private fun TextFields(
                 textLabel = "Укажите ваш пароль",//todo
                 onValueChange = { newText -> viewModel.onValueChangePassword(newText) }
             )
+            if (error.isNotEmpty()) {
+                Text(
+                    modifier = Modifier.padding(all = 4.dp),
+                    text = error,
+                    style = PocketLibTheme.textStyles.normalStyle.copy(
+                        color = PocketLibTheme.colors.error
+                    )
+                )
+            }
         }
     }
 }

@@ -17,69 +17,63 @@ class PostsRepositoryImpl : PostsRepository {
     override suspend fun saveBook(book: BookDomain) {
         postsReference.child(book.id).setValue(book).await()
     }
-
     override suspend fun getBookById(id: String): BookDomain? {
-        return suspendCoroutine { continuation ->
-            var book: BookDomain
-            postsReference.child(id).get()
-                .addOnSuccessListener { snapshot ->
-                    val idBook = snapshot.child("id").value.toString()
-                    val author = snapshot.child("author").value.toString()
-                    val description = snapshot.child("description").value.toString()
-                    val name = snapshot.child("name").value.toString()
-                    val genres = mutableListOf<String>()
-                    val genresSnapshot = snapshot.child("genres")
-                    for (genreSnapshot in genresSnapshot.children) {
-                        val genre = genreSnapshot.value.toString()
-                        genres.add(genre)
-                    }
-                    val image = snapshot.child("image").value.toString()
-                    book = BookDomain(
-                        id = idBook,
-                        author = author,
-                        description = description,
-                        name = name,
-                        genres = genres,
-                        image = image,
-                    )
-                    continuation.resume(book)
-            }.addOnFailureListener {
-                continuation.resume(null)
+        return try {
+            val snapshot = postsReference.child(id).get().await()
+            val idBook = snapshot.child("id").value.toString()
+            val author = snapshot.child("author").value.toString()
+            val description = snapshot.child("description").value.toString()
+            val name = snapshot.child("name").value.toString()
+            val genres = mutableListOf<String>()
+            val genresSnapshot = snapshot.child("genres")
+            for (genreSnapshot in genresSnapshot.children) {
+                val genre = genreSnapshot.value.toString()
+                genres.add(genre)
             }
+            val image = snapshot.child("image").value.toString()
+            BookDomain(
+                id = idBook,
+                author = author,
+                description = description,
+                name = name,
+                genres = genres,
+                image = image,
+            )
+        } catch (e: Exception) {
+            null
         }
     }
-//todo поменять
-    override suspend fun getAllBooks(): List<BookDomain> {
-        return suspendCoroutine { continuation ->
-            val booksList = mutableListOf<BookDomain>()
 
-            postsReference.get().addOnSuccessListener { dataSnapshot ->
-                for (snapshot in dataSnapshot.children) {
-                    val id = snapshot.child("id").value.toString()
-                    val author = snapshot.child("author").value.toString()
-                    val description = snapshot.child("description").value.toString()
-                    val name = snapshot.child("name").value.toString()
-                    val genres = mutableListOf<String>()
-                    val genresSnapshot = snapshot.child("genres")
-                    for (genreSnapshot in genresSnapshot.children) {
-                        val genre = genreSnapshot.value.toString()
-                        genres.add(genre)
-                    }
-                    val image = snapshot.child("image").value.toString()
-                    val book = BookDomain(
-                        id = id,
-                        author = author,
-                        description = description,
-                        name = name,
-                        genres = genres,
-                        image = image
-                    )
-                    booksList.add(book)
-                }
-                continuation.resume(booksList)
-            }.addOnFailureListener { exception ->
-                continuation.resume(emptyList())
+//todo поменять
+override suspend fun getAllBooks(): List<BookDomain> {
+    return try {
+        val dataSnapshot = postsReference.get().await()
+        val booksList = mutableListOf<BookDomain>()
+        for (snapshot in dataSnapshot.children.reversed()) {
+            val id = snapshot.child("id").value.toString()
+            val author = snapshot.child("author").value.toString()
+            val description = snapshot.child("description").value.toString()
+            val name = snapshot.child("name").value.toString()
+            val genres = mutableListOf<String>()
+            val genresSnapshot = snapshot.child("genres")
+            for (genreSnapshot in genresSnapshot.children) {
+                val genre = genreSnapshot.value.toString()
+                genres.add(genre)
             }
+            val image = snapshot.child("image").value.toString()
+            val book = BookDomain(
+                id = id,
+                author = author,
+                description = description,
+                name = name,
+                genres = genres,
+                image = image
+            )
+            booksList.add(book)
         }
+        booksList
+    } catch (e: Exception) {
+        emptyList()
+    }
     }
 }

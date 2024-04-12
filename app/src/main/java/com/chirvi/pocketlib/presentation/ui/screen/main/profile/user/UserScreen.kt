@@ -117,14 +117,6 @@ private fun UserInfo(
                     .size(80.dp)
                     .clip(shape = CircleShape),
             )
-//            Image(
-//                modifier = Modifier
-//                    .size(80.dp)
-//                    .clip(shape = CircleShape),
-//                painter = painterResource(id = R.drawable.test_image),
-//                contentScale = ContentScale.Crop,
-//                contentDescription = null,
-//            )
             Column(
                 modifier = Modifier
                     .padding(all = 8.dp),

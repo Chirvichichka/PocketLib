@@ -47,7 +47,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 @Composable
 fun CreateAccountScreen(
     onBackPressed: () -> Unit,
-    toHomeScreen: () -> Unit,
+    toProfileScreen: () -> Unit,
 ) {
     val viewModel = hiltViewModel<CreateAccountViewModel>()
     val state by viewModel.state.observeAsState(CreateAccountState.Initial)
@@ -63,7 +63,7 @@ fun CreateAccountScreen(
         ) {
             when(state) {
                 CreateAccountState.Initial -> { Initial(viewModel = viewModel) }
-                CreateAccountState.Complete -> { Complete(toHomeScreen = toHomeScreen) }
+                CreateAccountState.Complete -> { Complete(toHomeScreen = toProfileScreen) }
                 CreateAccountState.Loading -> { LoadingCircle() }
             }
         }
