@@ -9,6 +9,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.chirvi.pocketlib.presentation.models.UserPresentation
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
+import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.DarkBlueTheme
 import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.LightBlueTheme
 import com.chirvi.pocketlib.presentation.ui.theme.green_theme.DarkGreenTheme
@@ -19,6 +22,12 @@ import com.chirvi.pocketlib.presentation.ui.theme.pink_theme.LightPinkColors
 private val localColorScheme = staticCompositionLocalOf<ColorScheme> {
     error("No text styles provided")
 }
+
+val LocalNavigationState = staticCompositionLocalOf<NavigationState> {
+    error("No MainNavigationState provided")
+}
+
+val localFirebaseUser = staticCompositionLocalOf<UserPresentation?> { null }
 
 private val localTextStyles = staticCompositionLocalOf<TextStyles> {
     error("No text styles provided")
@@ -32,6 +41,7 @@ private val localColors = staticCompositionLocalOf<Colors> {
 fun PocketLibTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     currentTheme: ColorScheme = localColorScheme.current,
+    user: UserPresentation?,
     content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
@@ -58,6 +68,8 @@ fun PocketLibTheme(
     }
 
     CompositionLocalProvider(
+        localFirebaseUser provides user,
+        LocalNavigationState provides rememberNavigationState(),
         localColors provides colorScheme,
         localTextStyles provides TextStyleType,
         content = content

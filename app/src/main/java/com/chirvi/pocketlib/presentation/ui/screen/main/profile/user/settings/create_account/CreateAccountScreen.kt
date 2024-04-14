@@ -42,12 +42,16 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldPassword
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun CreateAccountScreen(
     onBackPressed: () -> Unit,
-    toProfileScreen: () -> Unit,
+    updateUser: () -> Unit,
 ) {
     val viewModel = hiltViewModel<CreateAccountViewModel>()
     val state by viewModel.state.observeAsState(CreateAccountState.Initial)
@@ -63,7 +67,7 @@ fun CreateAccountScreen(
         ) {
             when(state) {
                 CreateAccountState.Initial -> { Initial(viewModel = viewModel) }
-                CreateAccountState.Complete -> { Complete(toHomeScreen = toProfileScreen) }
+                CreateAccountState.Complete -> { Complete(viewModel = viewModel, updateUser = updateUser) }
                 CreateAccountState.Loading -> { LoadingCircle() }
             }
         }
@@ -72,26 +76,12 @@ fun CreateAccountScreen(
 
 @Composable
 private fun Complete(
-    toHomeScreen: () -> Unit,
+    viewModel: CreateAccountViewModel,
+    updateUser: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        Text(
-            text = "Аккаунт успешно создан",  //todo
-            style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.onBackground
-            )
-        )
-        Spacer(modifier = Modifier.fillMaxHeight(0.5f))
-        ButtonWithText(
-            text = "Перейти на главный экран",  //todo
-            onClickListener = { toHomeScreen() }
-        )
-    }
+    val navigationState = LocalNavigationState.current
+    updateUser()
+    viewModel.toProfileScreen(navigationState = navigationState)
 }
 
 
@@ -102,7 +92,7 @@ private fun Initial(
     val errorId by viewModel.errorMessageId.observeAsState(0)
 
     Column {
-        AddAvatar()
+        AddAvatar(viewModel = viewModel)
         Spacer(modifier = Modifier.height(16.dp))
         TextFields(viewModel = viewModel)
         Text(
@@ -196,19 +186,10 @@ private fun TextFields(
 }
 
 @Composable
-private fun AddAvatar() {
-
-    var image by remember { mutableStateOf<Uri?>(null) }
-
-    val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri ->
-            uri?.let {
-                image = it
-            }
-        }
-    )
-
+private fun AddAvatar(
+    viewModel: CreateAccountViewModel
+) {
+    val image by viewModel.image.observeAsState(null)
     Card(
         colors = CardDefaults.cardColors(
             containerColor = PocketLibTheme.colors.secondaryContainer
@@ -222,7 +203,7 @@ private fun AddAvatar() {
                 .padding(all = 8.dp)
         ) {
             AddPictureFromGallery(
-                load = { galleryLauncher.launch("image/*") },
+                changeImage = { viewModel.changeImage(it) } ,
                 image = image
             )
             Spacer(modifier = Modifier.width(16.dp))
@@ -233,7 +214,7 @@ private fun AddAvatar() {
                     color = PocketLibTheme.colors.onSecondaryContainer
                 )
             )
-            IconButton(onClick = { image = null }
+            IconButton(onClick = { viewModel.deleteImage() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.delete),

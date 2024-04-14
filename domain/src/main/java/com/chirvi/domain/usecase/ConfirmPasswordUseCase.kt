@@ -1,4 +1,4 @@
-package com.chirvi.domain.usecase.auth
+package com.chirvi.domain.usecase
 
 private const val SHORT_PASSWORD_LENGTH = "Short password length"
 private const val PASSWORD_MISMATCH = "Password mismatch"

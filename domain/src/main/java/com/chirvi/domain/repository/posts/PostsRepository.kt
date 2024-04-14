@@ -7,4 +7,5 @@ interface PostsRepository {
     suspend fun saveBook(book: BookDomain)
     suspend fun getBookById(id: String) : BookDomain?
     suspend fun getAllBooks() : List<BookDomain>
+    suspend fun getUserBooks(userId: String) : List<BookDomain>
 }

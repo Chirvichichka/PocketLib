@@ -1,21 +1,23 @@
 package com.chirvi.pocketlib.di
 
-import com.chirvi.domain.repository.auth.AuthenticationRepository
-import com.chirvi.domain.repository.auth.RegistrationRepository
 import com.chirvi.domain.repository.posts.PostsRepository
 import com.chirvi.domain.repository.settings.SettingsRepository
 import com.chirvi.domain.repository.storage.StorageRepository
-import com.chirvi.domain.usecase.auth.AuthenticationUseCase
-import com.chirvi.domain.usecase.auth.ConfirmPasswordUseCase
-import com.chirvi.domain.usecase.auth.RegistrationUseCase
+import com.chirvi.domain.repository.users.UserRepository
+import com.chirvi.domain.usecase.ConfirmPasswordUseCase
 import com.chirvi.domain.usecase.posts.CreateIdUseCase
 import com.chirvi.domain.usecase.posts.GetAllBooksUseCase
 import com.chirvi.domain.usecase.posts.GetBookByIdUseCase
+import com.chirvi.domain.usecase.posts.GetUserBooksUseCase
 import com.chirvi.domain.usecase.posts.LoadImageUseCase
 import com.chirvi.domain.usecase.posts.SaveBookUseCase
 import com.chirvi.domain.usecase.posts.SaveImageUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsUseCase
 import com.chirvi.domain.usecase.settings.SaveSettingsUseCase
+import com.chirvi.domain.usecase.users.AuthenticationUseCase
+import com.chirvi.domain.usecase.users.GetUserUseCase
+import com.chirvi.domain.usecase.users.RegistrationUseCase
+import com.chirvi.domain.usecase.users.SaveUserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,8 +28,23 @@ import dagger.hilt.android.components.ViewModelComponent
 class DomainModule {
 
     @Provides
-    fun providesAuthenticationUseCase(authenticationRepository: AuthenticationRepository) : AuthenticationUseCase {
-        return AuthenticationUseCase(authenticationRepository = authenticationRepository)
+    fun provideGetUserBooksUseCase(postsRepository: PostsRepository, storage: StorageRepository) : GetUserBooksUseCase {
+        return GetUserBooksUseCase(postsRepository = postsRepository, storageRepository = storage)
+    }
+
+    @Provides
+    fun provideGetUserUseCase(userRepository: UserRepository) : GetUserUseCase {
+        return GetUserUseCase(userRepository = userRepository)
+    }
+
+    @Provides
+    fun provideSaveUserUseCase(userRepository: UserRepository, storage: StorageRepository) : SaveUserUseCase {
+        return SaveUserUseCase(userRepository = userRepository, storage = storage)
+    }
+
+    @Provides
+    fun providesAuthenticationUseCase(userRepository: UserRepository) : AuthenticationUseCase {
+        return AuthenticationUseCase(userRepository = userRepository)
     }
 
     @Provides
@@ -74,8 +91,8 @@ class DomainModule {
         return ConfirmPasswordUseCase()
     }
     @Provides
-    fun providesRegistrationUseCase(repository: RegistrationRepository) : RegistrationUseCase {
-        return RegistrationUseCase(repository = repository)
+    fun providesRegistrationUseCase(userRepository: UserRepository) : RegistrationUseCase {
+        return RegistrationUseCase(userRepository = userRepository)
     }
 
 }

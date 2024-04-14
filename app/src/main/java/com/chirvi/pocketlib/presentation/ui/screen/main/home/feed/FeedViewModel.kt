@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.home.feed
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,6 +34,7 @@ class FeedViewModel @Inject constructor(
     private fun loadFeedDisplayMode() : DisplayMode { return getSettingsUseCase(key = "FEED") }
     fun textChange(text: String) { _newText.value = text }
     fun loadData() { viewModelScope.launch{ suspendLoadData() } }
+
     private suspend fun suspendLoadData() {
         _state.value = FeedState.Loading
         viewModelScope.launch {

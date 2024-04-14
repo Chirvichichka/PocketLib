@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -31,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -44,15 +44,16 @@ import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.SeparativeLine
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 
 @Composable
 fun AddBookScreen(
-    toHomeScreen: () -> Unit,
 ) {
     val viewModel = hiltViewModel<AddBookViewModel>()
     val state by viewModel.state.observeAsState(AddBookState.Initial)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,10 +64,7 @@ fun AddBookScreen(
             AddBookState.Initial -> { Initial(viewModel = viewModel) }
             AddBookState.Loading -> { LoadingCircle() }
             AddBookState.Saved -> {
-                Saved(
-                    toHomeScreen = { toHomeScreen() },
-                    stateChange = { viewModel.stateChange() },
-                )
+                Saved(viewModel = viewModel)
             }
         }
     }
@@ -103,12 +101,11 @@ private fun Initial(
     }
 }
 
-
 @Composable
 private fun Saved(
-    stateChange: () -> Unit,
-    toHomeScreen: () -> Unit,
+    viewModel: AddBookViewModel
 ) {
+    val navigationState = LocalNavigationState.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -126,8 +123,7 @@ private fun Saved(
         ButtonWithText(
             text = "Перейти на главный экран",  //todo
             onClickListener = {
-                toHomeScreen()
-                stateChange()
+                viewModel.toFeed(navigationState)
             }
         )
     }
@@ -141,7 +137,7 @@ private fun AddBookTopAppBar() {
             Text(
                 text = stringResource(id = R.string.add_book),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.onPrimaryContainer,
+                    color = PocketLibTheme.colors.onSecondaryContainer,
                 )
             )
         }
@@ -175,13 +171,9 @@ private fun AddPicture(
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            val galleryLauncher = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.GetContent(),
-                onResult = { uri -> uri?.let { viewModel.changeImage(it) } }
-            )
             AddPictureFromGallery(
-                load = { galleryLauncher.launch("image/*") },
-                image = image
+                image = image,
+                changeImage = { viewModel.changeImage(it) }
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(

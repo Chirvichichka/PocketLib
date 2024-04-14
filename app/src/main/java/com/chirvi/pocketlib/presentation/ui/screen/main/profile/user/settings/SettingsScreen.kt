@@ -49,8 +49,8 @@ fun SettingsScreen(
     onBackPressed: () -> Unit,
     onCreateAccountClick: () -> Unit,
     onLoginClick: () -> Unit,
-    themeChange: () -> Unit,
-    colorSchemeChange: (ColorScheme) -> Unit
+    changeTheme: () -> Unit,
+    changeColorScheme: (ColorScheme) -> Unit
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
 
@@ -68,7 +68,7 @@ fun SettingsScreen(
         ) {
             Account(onCreateAccountClick = onCreateAccountClick, onLoginClick = onLoginClick)
             SeparativeLine()
-            SettingsTheme(viewModel = viewModel, themeChange = themeChange, colorSchemeChange = colorSchemeChange)
+            SettingsTheme(viewModel = viewModel, themeChange = changeTheme, colorSchemeChange = changeColorScheme)
             SeparativeLine()
             UserEdit()
             SeparativeLine()

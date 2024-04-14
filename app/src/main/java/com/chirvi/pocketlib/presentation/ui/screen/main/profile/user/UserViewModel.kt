@@ -1,17 +1,23 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user
 
 import android.net.Uri
+import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.domain.usecase.posts.GetAllBooksUseCase
+import com.chirvi.domain.usecase.posts.GetUserBooksUseCase
+import com.chirvi.domain.usecase.posts.LoadImageUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsUseCase
+import com.chirvi.domain.usecase.users.GetUserUseCase
 import com.chirvi.pocketlib.presentation.constants.DisplayModeKeys
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation
-import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedState
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,15 +25,16 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val getSettingsUseCase: GetSettingsUseCase,
-    private val getAllBooksUseCase: GetAllBooksUseCase,
+    private val getUserBooksUseCase: GetUserBooksUseCase,
+    private val loadImageUseCase: LoadImageUseCase,
 ) : ViewModel() {
-    private val _state = MutableLiveData<UserPostState>(UserPostState.Initial)
-    val state: LiveData<UserPostState> = _state
+    private val _state = MutableLiveData<UserState>(UserState.Initial)
+    val state: LiveData<UserState> = _state
 
     private val _image = MutableLiveData(Uri.EMPTY)
     val image: LiveData<Uri?> = _image
 
-    private val _postsList = MutableLiveData<List<BookPresentation>>()
+    private val _postsList = MutableLiveData<List<BookPresentation>>(emptyList())
     val postsList: LiveData<List<BookPresentation>> = _postsList
 
     private val _tabRowIndex = MutableLiveData(0)
@@ -49,16 +56,24 @@ class UserViewModel @Inject constructor(
         return displayMode
     }
 
-    private fun loadData() { viewModelScope.launch{ suspendLoadData() } }
+    private fun loadData() {
+        val currentUserId = Firebase.auth.currentUser?.uid?:""
+        viewModelScope.launch{
+            suspendLoadData()
+            _image.value = loadImageUseCase(currentUserId).toUri()
+        }
+
+    }
     private suspend fun suspendLoadData() {
-        _state.value = UserPostState.Loading
+        _state.value = UserState.Loading
+        val currentUserId = Firebase.auth.currentUser?.uid
         viewModelScope.launch {
-            val bookListDomain = getAllBooksUseCase()
+            val bookListDomain = getUserBooksUseCase(currentUserId?:"")
             val bookLIstPresentation = mutableListOf<BookPresentation>()
             bookListDomain.forEach { bookLIstPresentation.add(it.toPresentation()) }
             _postsList.value = bookLIstPresentation
         }.join()
-        _state.value = UserPostState.Content
+        _state.value = UserState.Content
     }
     init {
         loadData()

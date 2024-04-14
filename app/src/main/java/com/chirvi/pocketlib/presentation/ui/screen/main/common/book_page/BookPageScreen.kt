@@ -1,5 +1,7 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page
 
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -53,7 +55,7 @@ fun BookPageScreen(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
         ) {
-            Poster(image = book.image?:"")
+            Poster(image = book.image)
             Column(
                 modifier = Modifier.padding(all = 16.dp)
             ) {
@@ -93,16 +95,17 @@ fun FeedAppTopBar(
 
 @Composable
 private fun Poster(
-    image: String
+    image: Uri?
 ) {
+    Log.e("aaa", image.toString())
     Image(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
             .background(color = PocketLibTheme.colors.onSurface
             ),
-        painter = if(image != "") {
-            rememberAsyncImagePainter(image.toUri())
+        painter = if(image != Uri.EMPTY) {
+            rememberAsyncImagePainter(image)
         } else {
             painterResource(id = R.drawable.default_book)
         },

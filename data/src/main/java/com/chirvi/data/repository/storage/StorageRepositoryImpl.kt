@@ -11,12 +11,11 @@ import kotlinx.coroutines.tasks.await
 class StorageRepositoryImpl : StorageRepository {
     private val storage = FirebaseStorage.getInstance()
     private val storageReference = storage.getReference("image/")
+
     override suspend fun saveImage(imageUri: String?, postId: String) {
-        Log.e("imageUri", imageUri.toString())
         if (imageUri != null) {
             val imageReference: StorageReference = storageReference.child("$postId.jpg")
             val uri = imageUri.toUri()
-            Log.e("uri", uri.toString())
             imageReference.putFile(uri).await()
         }
     }

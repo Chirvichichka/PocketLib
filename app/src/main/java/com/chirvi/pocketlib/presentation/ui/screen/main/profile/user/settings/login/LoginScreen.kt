@@ -30,6 +30,7 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldPassword
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -38,7 +39,7 @@ import com.google.firebase.ktx.Firebase
 @Composable
 fun LoginScreen(
     onBackPressed: () -> Unit,
-    toProfileScreen: (FirebaseUser?) -> Unit,
+    updateUser: () -> Unit,
 ) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val state by viewModel.state.observeAsState(LoginState.Initial)
@@ -57,7 +58,7 @@ fun LoginScreen(
         ) {
             when(state) {
                 LoginState.Initial -> { Initial(viewModel = viewModel) }
-                LoginState.Complete -> { Complete(toHomeScreen = toProfileScreen) }
+                LoginState.Complete -> { Complete(viewModel = viewModel, updateUser = updateUser) }
                 LoginState.Loading -> { LoadingCircle() }
             }
         }
@@ -66,25 +67,12 @@ fun LoginScreen(
 
 @Composable
 private fun Complete(
-    toHomeScreen: (FirebaseUser?) -> Unit,
+   viewModel: LoginViewModel,
+   updateUser: () -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        Text(
-            text = "Вход выполнен успешно",  //todo
-            style = PocketLibTheme.textStyles.largeStyle.copy(
-                color = PocketLibTheme.colors.onBackground
-            )
-        )
-        Spacer(modifier = Modifier.fillMaxHeight(0.5f))
-        ButtonWithText(
-            text = "Перейти на главный экран",  //todo
-            onClickListener = { toHomeScreen(Firebase.auth.currentUser) }
-        )
-    }
+    val navigationState = LocalNavigationState.current
+    updateUser()
+    viewModel.toProfile(navigationState)
 }
 
 @Composable

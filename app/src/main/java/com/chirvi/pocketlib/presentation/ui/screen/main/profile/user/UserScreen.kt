@@ -39,9 +39,8 @@ import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
-import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedState
-import com.chirvi.pocketlib.presentation.ui.screen.main.localFirebaseUser
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
+import com.chirvi.pocketlib.presentation.ui.theme.localFirebaseUser
 
 @Composable
 fun UserScreen(
@@ -123,7 +122,7 @@ private fun UserInfo(
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
-                    text = localFirebaseUser.current?.uid.toString(),
+                    text = localFirebaseUser.current?.username?:"",
                     style = PocketLibTheme.textStyles.largeStyle.copy(
                         color = PocketLibTheme.colors.onBackground
                     )
@@ -152,7 +151,7 @@ private fun ProfileTabRow(
     val tabRowIndex by viewModel.tabRowItem.observeAsState(0)
 
     val books by viewModel.postsList.observeAsState(emptyList())
-    val state by viewModel.state.observeAsState(UserPostState.Initial)
+    val state by viewModel.state.observeAsState(UserState.Initial)
     val myBooksDisplayMode by viewModel.myBooksDisplayMode.observeAsState(DisplayMode.LIST)
     val favoritesDisplayMode by viewModel.favoritesDisplayMode.observeAsState(DisplayMode.LIST)
 
@@ -196,9 +195,9 @@ private fun ProfileTabRow(
     when(tabRowIndex) {
         0 -> {
             when(state) {
-                UserPostState.Initial -> {  }
-                UserPostState.Loading -> { LoadingCircle() }
-                UserPostState.Content -> {
+                UserState.Initial -> {  }
+                UserState.Loading -> { LoadingCircle() }
+                UserState.Content -> {
                     BookColumn(
                         displayMode = myBooksDisplayMode,
                         books = books,

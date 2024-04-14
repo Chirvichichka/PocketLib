@@ -1,6 +1,8 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
 import android.net.Uri
+import android.util.Log
+import androidx.core.graphics.drawable.toIcon
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +11,10 @@ import com.chirvi.domain.usecase.posts.CreateIdUseCase
 import com.chirvi.domain.usecase.posts.SaveBookUseCase
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toDomain
+import com.chirvi.pocketlib.presentation.navigation.Screen
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,7 +58,6 @@ class AddBookViewModel @Inject constructor(
     private val _genresWithSelected = MutableLiveData<Map<String, Boolean>>().apply {
         value = _genres.associateWith { false }
     }
-
     val genresWithSelected: LiveData<Map<String, Boolean>> = _genresWithSelected
 
     fun toggleSelected(genre: String) {
@@ -80,25 +85,30 @@ class AddBookViewModel @Inject constructor(
 
     fun deleteImage() { _image.value = null }
     fun openedChange() { _opened.value = !_opened.value!! }
-    fun stateChange() { _state.value = AddBookState.Initial }
     fun changeImage(imageUri: Uri) { _image.value = imageUri }
     fun onValueChangeDescription(text: String) { _textDescription.value = text }
     fun onValueChangeName(text: String) { _textName.value = text }
     fun onValueChangeAuthor(text: String) { _textAuthor.value = text }
     fun saveBook() { viewModelScope.launch { suspendSaveBook() } }
 
+    fun toFeed(navigationState: NavigationState) {
+        navigationState.navigateTo(Screen.Feed.route)
+        _state.value = AddBookState.Initial
+    }
+
     private suspend fun suspendSaveBook() {
         _state.value = AddBookState.Loading
 
         val book = BookPresentation(
             id = postId,
+            userId = Firebase.auth.currentUser?.uid?:"",
             name = textName.value?:"",
             author = textAuthor.value?:"",
             description = textDescription.value?:"",
             genres = confirmedGenres.value?: listOf(""),
-            image = image.value.toString(),
+            image = image.value,
         ).toDomain()
-
+        Log.e("AAA", image.value.toString())
         viewModelScope.launch{ saveBookUseCase(book = book) }.join()
         _state.value = AddBookState.Saved
     }

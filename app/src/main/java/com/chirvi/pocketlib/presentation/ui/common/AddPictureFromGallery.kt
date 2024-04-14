@@ -1,12 +1,13 @@
 package com.chirvi.pocketlib.presentation.ui.common
 
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -22,9 +23,13 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun AddPictureFromGallery(
-    load: () -> Unit,
+    changeImage: (Uri) -> Unit,
     image: Uri?,
 ) {
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri ->  changeImage(uri?: Uri.EMPTY) }
+    )
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -34,7 +39,7 @@ fun AddPictureFromGallery(
                 shape = RoundedCornerShape(10.dp)
             )
             .clip(RoundedCornerShape(10.dp))
-            .clickable { load() }
+            .clickable { galleryLauncher.launch("image/*") }
     ) {
         if (image != null) {
             Image(
