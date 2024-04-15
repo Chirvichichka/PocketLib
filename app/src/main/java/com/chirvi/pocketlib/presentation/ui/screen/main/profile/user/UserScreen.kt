@@ -3,9 +3,7 @@ package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -38,15 +37,13 @@ import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
-import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
-import com.chirvi.pocketlib.presentation.ui.theme.localFirebaseUser
+import com.chirvi.pocketlib.presentation.ui.theme.LocalUser
 
 @Composable
 fun UserScreen(
     onClickPreview: (String) -> Unit,
     onClickSettings: () -> Unit,
-    onClickEdit: () -> Unit,
 ) {
     val viewModel = hiltViewModel<UserViewModel>()
     val image by viewModel.image.observeAsState(Uri.EMPTY)
@@ -59,7 +56,7 @@ fun UserScreen(
         ProfileTopAppBar(
             onClickSettings = onClickSettings
         )
-        UserInfo(onClickListener = onClickEdit, image = image)
+        UserInfo(image = image)
         ProfileTabRow(
             viewModel = viewModel,
             onClickPreview = onClickPreview
@@ -77,7 +74,7 @@ private fun ProfileTopAppBar(
             Text(
                 text = stringResource(id = R.string.profile),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.onSecondaryContainer,
+                    color = PocketLibTheme.colors.onBackground,
                 )
             )
         },
@@ -88,7 +85,7 @@ private fun ProfileTopAppBar(
                 Icon(
                     painter = painterResource(id = R.drawable.settings),
                     contentDescription = null,
-                    tint = PocketLibTheme.colors.onSecondaryContainer
+                    tint = PocketLibTheme.colors.primary
                 )
             }
         }
@@ -97,49 +94,47 @@ private fun ProfileTopAppBar(
 
 @Composable
 private fun UserInfo(
-    image: Uri?,
-    onClickListener: () -> Unit,
+    image: Uri?
 ) {
+    val model = if(image != Uri.EMPTY) {
+        image
+    } else {
+        R.drawable.person
+    }
+
     Column(
         modifier = Modifier
-            .padding(all = 8.dp,)
+            .padding(all = 8.dp)
+            .padding(top = 0.dp)
             .fillMaxWidth()
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 contentScale = ContentScale.Crop,
-                painter = rememberAsyncImagePainter(model = image),
+                painter = rememberAsyncImagePainter(model = model),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(80.dp)
-                    .clip(shape = CircleShape),
+                    .size(100.dp)
+                    .clip(shape = CircleShape)
+                    .background(PocketLibTheme.colors.surfaceVariant),
             )
-            Column(
-                modifier = Modifier
-                    .padding(all = 8.dp),
-                verticalArrangement = Arrangement.Top
-            ) {
-                Text(
-                    text = localFirebaseUser.current?.username?:"",
-                    style = PocketLibTheme.textStyles.largeStyle.copy(
-                        color = PocketLibTheme.colors.onBackground
-                    )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = LocalUser.current?.username?:"",
+                style = PocketLibTheme.textStyles.largeStyle.copy(
+                    color = PocketLibTheme.colors.onBackground
                 )
-                Text(
-                    text = localFirebaseUser.current?.email.toString(),
-                    style = PocketLibTheme.textStyles.normalStyle.copy(
-                        color = PocketLibTheme.colors.onBackground
-                    ),
+            )
+            Text(
+                text = LocalUser.current?.email.toString(),
+                style = PocketLibTheme.textStyles.normalStyle.copy(
+                    color = PocketLibTheme.colors.onBackground
                 )
-            }
+            )
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        ButtonWithText(
-            text = stringResource(id = R.string.edit),
-            onClickListener = { onClickListener() }
-        )
     }
 }
 

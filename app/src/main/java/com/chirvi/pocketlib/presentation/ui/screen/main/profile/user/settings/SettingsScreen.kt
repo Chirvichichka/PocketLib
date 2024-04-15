@@ -87,7 +87,7 @@ private fun SettingsTopAppBar(
             Text(
                 text = stringResource(id = R.string.settings),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.onSecondaryContainer,
+                    color = PocketLibTheme.colors.onBackground,
                 )
             )
         },
@@ -100,7 +100,7 @@ private fun SettingsTopAppBar(
                 Icon(
                     painter = painterResource(id = R.drawable.check),
                     contentDescription = null,
-                    tint = PocketLibTheme.colors.onSecondaryContainer
+                    tint = PocketLibTheme.colors.primary
                 )
             }
         },

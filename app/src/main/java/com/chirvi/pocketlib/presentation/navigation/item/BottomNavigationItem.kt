@@ -16,7 +16,7 @@ sealed class BottomNavigationItem(
     data object Profile : BottomNavigationItem(
         screen = Screen.Profile,
         title = R.string.profile,
-        iconId = R.drawable.profile
+        iconId = R.drawable.person
     )
     data object AddBook : BottomNavigationItem(
         screen = Screen.AddBook,

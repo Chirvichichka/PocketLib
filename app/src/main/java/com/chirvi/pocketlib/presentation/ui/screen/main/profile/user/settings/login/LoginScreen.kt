@@ -127,7 +127,7 @@ private fun TextFields(
 
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.secondaryContainer
+            containerColor = PocketLibTheme.colors.surfaceVariant
         )
     ) {
         Column(

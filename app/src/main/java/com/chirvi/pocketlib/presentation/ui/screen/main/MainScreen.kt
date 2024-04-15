@@ -98,7 +98,6 @@ fun MainScreen() {
                         UserScreen(
                             onClickPreview = { navigationState.navigateTo(route = Screen.PageBookProfile.route) },
                             onClickSettings = { navigationState.navigateTo(Screen.Settings.route) },
-                            onClickEdit = { navigationState.navigateTo(Screen.Settings.route) }
                         )
                     },
                     settingsContent = {
@@ -139,14 +138,12 @@ private fun BottomNavigation(
         BottomNavigationItem.Profile,
         BottomNavigationItem.AddBook
     )
-    val addBook = BottomNavigationItem.AddBook
 
     BottomAppBar(
         tonalElevation = 20.dp,
-        containerColor = PocketLibTheme.colors.surfaceVariant,
+        containerColor = PocketLibTheme.colors.secondaryContainer,
         actions = {
             items.forEach{ item ->
-
                 val selected = navBackStackEntry?.destination?.hierarchy?.any {
                     it.route == item.screen.route
                 } ?: false
@@ -154,11 +151,11 @@ private fun BottomNavigation(
                 NavigationBarItem(
                     alwaysShowLabel = true,
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = PocketLibTheme.colors.primary,
-                        selectedTextColor = PocketLibTheme.colors.primary,
-                        unselectedIconColor = PocketLibTheme.colors.onPrimaryContainer,
-                        unselectedTextColor = PocketLibTheme.colors.onPrimaryContainer,
-                        indicatorColor = PocketLibTheme.colors.onPrimary
+                        selectedIconColor = PocketLibTheme.colors.secondary,
+                        selectedTextColor = PocketLibTheme.colors.secondary,
+                        unselectedIconColor = PocketLibTheme.colors.onSecondaryContainer,
+                        unselectedTextColor = PocketLibTheme.colors.onSecondaryContainer,
+                        indicatorColor = PocketLibTheme.colors.onSecondary
                     ),
                     selected = selected,
                     onClick = {
@@ -181,33 +178,5 @@ private fun BottomNavigation(
                 )
             }
         },
-//        floatingActionButton = {
-//            val currentRoute = navBackStackEntry?.destination?.route
-//            val containerColor: Color
-//            val tint: Color
-//
-//            if(currentRoute == addBook.screen.route) {
-//                containerColor = PocketLibTheme.colors.onPrimary
-//                tint = PocketLibTheme.colors.onPrimaryContainer
-//            } else {
-//                containerColor = PocketLibTheme.colors.onPrimaryContainer
-//                tint = PocketLibTheme.colors.onPrimary
-//            }
-//
-//            SmallFloatingActionButton(
-//                onClick = { navigationState.navigateToWithSaveState(addBook.screen.route) },
-//                containerColor = containerColor,
-//                elevation = FloatingActionButtonDefaults.elevation(
-//                    defaultElevation =  0.dp,
-//                    pressedElevation = 0.dp
-//                ),
-//            ) {
-//                Icon(
-//                    tint = tint,
-//                    painter = painterResource(id = addBook.iconId),
-//                    contentDescription = null
-//                )
-//            }
-//        }
     )
 }

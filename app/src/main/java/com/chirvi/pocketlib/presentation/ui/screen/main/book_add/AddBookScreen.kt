@@ -80,7 +80,6 @@ private fun Initial(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
         AddPicture(viewModel = viewModel)
         SeparativeLine()
         TextFields(viewModel = viewModel)
@@ -137,7 +136,7 @@ private fun AddBookTopAppBar() {
             Text(
                 text = stringResource(id = R.string.add_book),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.onSecondaryContainer,
+                    color = PocketLibTheme.colors.onBackground,
                 )
             )
         }
@@ -162,7 +161,7 @@ private fun AddPicture(
 
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.secondaryContainer
+            containerColor = PocketLibTheme.colors.surfaceVariant
         )
     ){
         Row(
@@ -180,14 +179,15 @@ private fun AddPicture(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 text = stringResource(id = R.string.add_image),
                 style = PocketLibTheme.textStyles.largeStyle.copy(
-                    color = PocketLibTheme.colors.onBackground
+                    color = PocketLibTheme.colors.onSurface
                 )
             )
             IconButton(onClick = {viewModel.deleteImage() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.delete),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = PocketLibTheme.colors.onSurface
                 )
             }
         }
@@ -204,7 +204,7 @@ private fun TextFields(
     val textDescription by viewModel.textDescription.observeAsState("")
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.secondaryContainer
+            containerColor = PocketLibTheme.colors.surfaceVariant
         )
     ) {
         Column(
@@ -339,8 +339,8 @@ private fun ColumnGenres(
                     containerColor = PocketLibTheme.colors.background,
                     labelColor = PocketLibTheme.colors.onBackground,
 
-                    selectedLabelColor = PocketLibTheme.colors.tertiaryContainer,
-                    selectedContainerColor = PocketLibTheme.colors.onTertiaryContainer,
+                    selectedLabelColor = PocketLibTheme.colors.onTertiaryContainer,
+                    selectedContainerColor = PocketLibTheme.colors.tertiaryContainer,
                 ),
                 selected = selected,
                 onClick = { viewModel.toggleSelected(genre) },

@@ -84,7 +84,6 @@ private fun Complete(
     viewModel.toProfileScreen(navigationState = navigationState)
 }
 
-
 @Composable
 private fun Initial(
     viewModel: CreateAccountViewModel
@@ -128,7 +127,7 @@ private fun CreateAccountAppTopBar(
             Text(
                 text = stringResource(id = R.string.create_a_new_account),
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
-                    color = PocketLibTheme.colors.onSecondaryContainer
+                    color = PocketLibTheme.colors.onBackground
                 )
             )
         },
@@ -151,7 +150,7 @@ private fun TextFields(
 
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.secondaryContainer
+            containerColor = PocketLibTheme.colors.surfaceVariant
         )
     ) {
         Column(
@@ -192,7 +191,7 @@ private fun AddAvatar(
     val image by viewModel.image.observeAsState(null)
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.secondaryContainer
+            containerColor = PocketLibTheme.colors.surfaceVariant
         )
     ) {
         Row(
@@ -211,14 +210,15 @@ private fun AddAvatar(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 text = stringResource(id = R.string.add_image),
                 style = PocketLibTheme.textStyles.largeStyle.copy(
-                    color = PocketLibTheme.colors.onSecondaryContainer
+                    color = PocketLibTheme.colors.onSurface
                 )
             )
             IconButton(onClick = { viewModel.deleteImage() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.delete),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = PocketLibTheme.colors.onSurface
                 )
             }
         }

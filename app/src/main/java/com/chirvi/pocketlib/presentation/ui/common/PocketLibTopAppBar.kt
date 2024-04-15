@@ -1,6 +1,7 @@
 package com.chirvi.pocketlib.presentation.ui.common
 
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -17,8 +18,8 @@ fun PocketLibTopAppBar(
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = PocketLibTheme.colors.surfaceVariant,
-            scrolledContainerColor = PocketLibTheme.colors.surfaceVariant
+            containerColor = PocketLibTheme.colors.background,
+            scrolledContainerColor = PocketLibTheme.colors.background
         ),
         title = { title() },
         actions = { actions() },

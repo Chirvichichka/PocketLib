@@ -1,13 +1,18 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.home.feed
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -83,7 +88,7 @@ private fun FeedTopAppBar(
 ) {
     PocketLibTopAppBar(
         scroll = scroll,
-        title = {
+        actions = {
             SearchBook(viewModel = viewModel)
         },
     )
@@ -95,43 +100,44 @@ private fun SearchBook(
 ) {
     val text by viewModel.newText.observeAsState("")
     val textStyle = PocketLibTheme.textStyles.normalStyle.copy(
-        color = PocketLibTheme.colors.onSurfaceVariant
+        color = PocketLibTheme.colors.onBackground
     )
 
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .height(51.dp),
+            .padding(
+                start = 8.dp,
+                end = 5.dp
+            ),
         value = text,
         onValueChange = { viewModel.textChange(text = it) },
         placeholder = {
             Text(
                 text = stringResource(id = R.string.search_book),
-                style = textStyle.copy(
-                  //  fontStyle = FontStyle.Italic
-                )
+                style = textStyle
             )
         },
         textStyle = textStyle,
         singleLine = true,
-        leadingIcon = {
+        trailingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.search),
                 contentDescription = null,
-                tint = PocketLibTheme.colors.onSurfaceVariant
+                tint = PocketLibTheme.colors.onBackground
             )
         },
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(
-            cursorColor = PocketLibTheme.colors.onSurfaceVariant,
+            cursorColor = PocketLibTheme.colors.secondary,
 
-            focusedContainerColor = PocketLibTheme.colors.surfaceVariant,
-            focusedTextColor = PocketLibTheme.colors.onSurfaceVariant,
+            focusedContainerColor = PocketLibTheme.colors.secondaryContainer,
+            focusedTextColor = PocketLibTheme.colors.onBackground,
             focusedIndicatorColor = Color.Transparent,
 
-            unfocusedContainerColor = PocketLibTheme.colors.surfaceVariant,
+            unfocusedContainerColor = PocketLibTheme.colors.secondaryContainer,
             unfocusedIndicatorColor = Color.Transparent,
-            unfocusedTextColor = PocketLibTheme.colors.onSurfaceVariant,
+            unfocusedTextColor = PocketLibTheme.colors.onBackground,
         )
     )
 }

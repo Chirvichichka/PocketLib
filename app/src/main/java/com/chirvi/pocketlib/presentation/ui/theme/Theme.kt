@@ -19,7 +19,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.green_theme.LightGreenTheme
 import com.chirvi.pocketlib.presentation.ui.theme.pink_theme.DarkPinkColors
 import com.chirvi.pocketlib.presentation.ui.theme.pink_theme.LightPinkColors
 
-private val localColorScheme = staticCompositionLocalOf<ColorScheme> {
+private val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
     error("No text styles provided")
 }
 
@@ -27,20 +27,22 @@ val LocalNavigationState = staticCompositionLocalOf<NavigationState> {
     error("No MainNavigationState provided")
 }
 
-val localFirebaseUser = staticCompositionLocalOf<UserPresentation?> { null }
+val LocalUser = staticCompositionLocalOf<UserPresentation?> {
+    error("No user")
+}
 
-private val localTextStyles = staticCompositionLocalOf<TextStyles> {
+private val LocalTextStyles = staticCompositionLocalOf<TextStyles> {
     error("No text styles provided")
 }
 
-private val localColors = staticCompositionLocalOf<Colors> {
+private val LocalColors = staticCompositionLocalOf<Colors> {
     error("No colors provided")
 }
 
 @Composable
 fun PocketLibTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    currentTheme: ColorScheme = localColorScheme.current,
+    currentTheme: ColorScheme = LocalColorScheme.current,
     user: UserPresentation?,
     content: @Composable () -> Unit,
 ) {
@@ -61,17 +63,17 @@ fun PocketLibTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.surfaceVariant.toArgb()
-            window.navigationBarColor = colorScheme.surfaceVariant.toArgb()
+            window.statusBarColor = colorScheme.background.toArgb()
+            window.navigationBarColor = colorScheme.secondaryContainer.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
     CompositionLocalProvider(
-        localFirebaseUser provides user,
+        LocalUser provides user,
         LocalNavigationState provides rememberNavigationState(),
-        localColors provides colorScheme,
-        localTextStyles provides TextStyleType,
+        LocalColors provides colorScheme,
+        LocalTextStyles provides TextStyleType,
         content = content
     )
 }
@@ -79,13 +81,9 @@ fun PocketLibTheme(
 object PocketLibTheme {
     val colors: Colors
         @Composable
-        get() = localColors.current
+        get() = LocalColors.current
 
     val textStyles: TextStyles
         @Composable
-        get() = localTextStyles.current
-
-    val colorScheme: ColorScheme
-        @Composable
-        get() = localColorScheme.current
+        get() = LocalTextStyles.current
 }

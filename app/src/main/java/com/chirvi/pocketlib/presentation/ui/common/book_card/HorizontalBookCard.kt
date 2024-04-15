@@ -34,15 +34,16 @@ fun HorizontalBookCard( //todo ПЕРЕДЕЛАТЬ
     onClickPreview: () -> Unit
 ) {
     Card(
+        shape = CardDefaults.shape,
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = PocketLibTheme.colors.secondaryContainer
+            containerColor = PocketLibTheme.colors.primaryContainer
         ),
         modifier = Modifier
             .padding(
-                horizontal = 10.dp,
+                horizontal = 8.dp,
                 vertical = 6.dp
             )
             .fillMaxWidth()
@@ -81,13 +82,13 @@ fun HorizontalBookCard( //todo ПЕРЕДЕЛАТЬ
                         Text(
                             text = book.name,
                             style = PocketLibTheme.textStyles.largeStyle.copy(
-                                color = PocketLibTheme.colors.onSecondaryContainer
+                                color = PocketLibTheme.colors.onPrimaryContainer
                             )
                         )
                         Text(
                             text = book.author,
                             style = PocketLibTheme.textStyles.normalStyle.copy(
-                                color = PocketLibTheme.colors.onSecondaryContainer
+                                color = PocketLibTheme.colors.onPrimaryContainer
                             )
                         )
                     }
@@ -103,7 +104,7 @@ fun HorizontalBookCard( //todo ПЕРЕДЕЛАТЬ
                     maxLines = 5,
                     text = book.description,
                     style = PocketLibTheme.textStyles.smallStyle.copy(
-                        color = PocketLibTheme.colors.onSecondaryContainer,
+                        color = PocketLibTheme.colors.onPrimaryContainer,
                         textAlign = TextAlign.Justify
                     )
                 )

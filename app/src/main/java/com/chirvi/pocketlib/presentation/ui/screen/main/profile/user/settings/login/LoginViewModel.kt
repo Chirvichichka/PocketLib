@@ -52,7 +52,6 @@ class LoginViewModel @Inject constructor(
                 _errorMessage.value = "Некорректный ввод данных"
             }
         }.join()
-
     }
 
     fun onValueChangeEMail(text: String) { _textEMail.value = text }
