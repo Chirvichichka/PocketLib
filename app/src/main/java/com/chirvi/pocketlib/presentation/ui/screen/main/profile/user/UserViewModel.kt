@@ -26,7 +26,7 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val getUserBooksUseCase: GetUserBooksUseCase,
-    private val loadImageUseCase: LoadImageUseCase,
+  //  private val loadImageUseCase: LoadImageUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<UserState>(UserState.Initial)
     val state: LiveData<UserState> = _state
@@ -60,7 +60,7 @@ class UserViewModel @Inject constructor(
         val currentUserId = Firebase.auth.currentUser?.uid?:""
         viewModelScope.launch{
             suspendLoadData()
-            _image.value = loadImageUseCase(currentUserId).toUri()
+          //  _image.value = loadImageUseCase(currentUserId).toUri()
         }
 
     }

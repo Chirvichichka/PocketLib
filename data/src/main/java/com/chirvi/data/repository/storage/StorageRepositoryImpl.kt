@@ -21,10 +21,8 @@ class StorageRepositoryImpl : StorageRepository {
     }
     override suspend fun loadImage(id: String): String  {
         val imageReference = storageReference.child("$id.jpg")
-        val downloadUrl: Uri?
         return try {
-            downloadUrl = imageReference.downloadUrl.await()
-            downloadUrl.toString()
+            imageReference.downloadUrl.await().toString()
         } catch (e: Exception) {
             ""
         }

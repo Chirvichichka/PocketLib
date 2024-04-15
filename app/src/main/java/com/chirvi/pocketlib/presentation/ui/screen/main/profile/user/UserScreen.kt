@@ -1,7 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user
 
-import android.net.Uri
-import androidx.compose.foundation.Image
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,20 +24,25 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.Placeholder
+import com.bumptech.glide.integration.compose.placeholder
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chirvi.domain.models.DisplayMode
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
-import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 import com.chirvi.pocketlib.presentation.ui.theme.LocalUser
+import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun UserScreen(
@@ -46,7 +50,6 @@ fun UserScreen(
     onClickSettings: () -> Unit,
 ) {
     val viewModel = hiltViewModel<UserViewModel>()
-    val image by viewModel.image.observeAsState(Uri.EMPTY)
 
     Column(
         modifier = Modifier
@@ -56,7 +59,7 @@ fun UserScreen(
         ProfileTopAppBar(
             onClickSettings = onClickSettings
         )
-        UserInfo(image = image)
+        UserInfo()
         ProfileTabRow(
             viewModel = viewModel,
             onClickPreview = onClickPreview
@@ -92,16 +95,10 @@ private fun ProfileTopAppBar(
     )
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-private fun UserInfo(
-    image: Uri?
-) {
-    val model = if(image != Uri.EMPTY) {
-        image
-    } else {
-        R.drawable.person
-    }
-
+private fun UserInfo() {
+    val avatar = LocalUser.current?.avatar
     Column(
         modifier = Modifier
             .padding(all = 8.dp)
@@ -112,18 +109,24 @@ private fun UserInfo(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(
+            GlideImage(
                 contentScale = ContentScale.Crop,
-                painter = rememberAsyncImagePainter(model = model),
+                model = avatar,
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
                     .clip(shape = CircleShape)
                     .background(PocketLibTheme.colors.surfaceVariant),
-            )
+            ) {
+                it.error(R.drawable.person)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .placeholder(R.drawable.person)
+                    .load(avatar)
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = LocalUser.current?.username?:"",
+                text = LocalUser.current?.username.toString(),
                 style = PocketLibTheme.textStyles.largeStyle.copy(
                     color = PocketLibTheme.colors.onBackground
                 )

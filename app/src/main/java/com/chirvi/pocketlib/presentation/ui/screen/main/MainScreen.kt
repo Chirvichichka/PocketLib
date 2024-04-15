@@ -50,7 +50,6 @@ fun MainScreen() {
     val scroll = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val darkTheme by mainViewModel.darkTheme.observeAsState(false)
     val colorScheme by mainViewModel.colorScheme.observeAsState(ColorScheme.BLUE)
-
     val user by mainViewModel.currentUser.observeAsState(null)
 
     PocketLibTheme(

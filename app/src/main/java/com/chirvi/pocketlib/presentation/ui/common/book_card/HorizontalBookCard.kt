@@ -16,18 +16,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
-import coil.compose.rememberAsyncImagePainter
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HorizontalBookCard( //todo ПЕРЕДЕЛАТЬ
     book: BookPresentation,
@@ -54,7 +58,7 @@ fun HorizontalBookCard( //todo ПЕРЕДЕЛАТЬ
                 .fillMaxWidth()
                 .padding(all = 8.dp),
         ) {
-            Image(
+            GlideImage(
                 modifier = Modifier
                     .fillMaxHeight()
                     .size(
@@ -63,13 +67,15 @@ fun HorizontalBookCard( //todo ПЕРЕДЕЛАТЬ
                     )
                     .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Crop,
-                painter = if(book.image != Uri.EMPTY) {
-                    rememberAsyncImagePainter(book.image)
-                } else {
-                    painterResource(id = R.drawable.default_book)
-                },
+                model = book.image,
+                loading = placeholder(R.drawable.default_book),
                 contentDescription = null
-            )
+            ) {
+                it.error(R.drawable.default_book)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .load(book.image)
+            }
             Column(
                 modifier = Modifier
                     .padding(start = 8.dp)

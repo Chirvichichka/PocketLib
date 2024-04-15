@@ -12,6 +12,9 @@ class SaveBookUseCase(
         if(book.image != null) {
             storage.saveImage(book.image, book.id)
         }
-        repository.saveBook(book = book)
+        val newBook = book.copy(
+            image = storage.loadImage(book.id)
+        )
+        repository.saveBook(book = newBook)
     }
 }

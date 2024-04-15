@@ -12,6 +12,9 @@ class SaveUserUseCase(
         if(userDomain.avatar != null) {
             storage.saveImage(userDomain.avatar, userDomain.id?:"")
         }
-        userRepository.saveUser(userDomain)
+        val userWithAvatar = userDomain.copy(
+            avatar = storage.loadImage(userDomain.id?:"")
+        )
+        userRepository.saveUser(userWithAvatar)
     }
 }

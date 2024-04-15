@@ -18,13 +18,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
@@ -93,25 +97,27 @@ fun FeedAppTopBar(
     )
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun Poster(
     image: Uri?
 ) {
-    Log.e("aaa", image.toString())
-    Image(
+    GlideImage(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
             .background(color = PocketLibTheme.colors.onSurface
             ),
-        painter = if(image != Uri.EMPTY) {
-            rememberAsyncImagePainter(image)
-        } else {
-            painterResource(id = R.drawable.default_book)
-        },
+        model = image,
+        loading = placeholder(R.drawable.default_book),
         contentDescription = null,
         contentScale = ContentScale.Fit
-    )
+    ){
+        it.error(R.drawable.default_book)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .load(image)
+    }
 }
 
 @Composable
