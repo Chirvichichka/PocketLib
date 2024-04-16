@@ -72,7 +72,6 @@ fun VerticalBookCard(  //todo ПЕРЕДЕЛАТЬ
             ){
                 it.error(R.drawable.default_book)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .load(book.image)
             }
         }

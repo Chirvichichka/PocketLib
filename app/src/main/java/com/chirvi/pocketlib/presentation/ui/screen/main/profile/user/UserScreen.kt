@@ -120,7 +120,6 @@ private fun UserInfo() {
             ) {
                 it.error(R.drawable.person)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .placeholder(R.drawable.person)
                     .load(avatar)
             }

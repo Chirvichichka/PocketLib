@@ -133,9 +133,9 @@ private fun BottomNavigation(
     val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
 
     val items = listOf(
+        BottomNavigationItem.AddBook,
         BottomNavigationItem.Home,
         BottomNavigationItem.Profile,
-        BottomNavigationItem.AddBook
     )
 
     BottomAppBar(

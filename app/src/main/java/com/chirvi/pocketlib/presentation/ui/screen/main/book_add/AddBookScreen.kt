@@ -1,6 +1,7 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -30,8 +31,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -86,7 +90,7 @@ private fun Initial(
         SeparativeLine()
         Genres(viewModel = viewModel)
         SeparativeLine()
-        LoadButton()
+        LoadButton(viewModel = viewModel)
         SeparativeLine()
         ButtonWithText(
             text = stringResource(id = R.string.save),
@@ -144,13 +148,23 @@ private fun AddBookTopAppBar() {
 }
 
 @Composable
-private fun LoadButton() {
+private fun LoadButton(
+    viewModel: AddBookViewModel
+) {
+
+    val file by viewModel.fileBook.observeAsState(null)
+    val pickFileLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { viewModel.loadFileBook(it?:Uri.EMPTY) }
+    )
+
     ButtonWithText(
         text = "Загрузить",
         onClickListener = {
-            //todo
+            pickFileLauncher.launch("application/epub+zip")
         }
     )
+    Text(text = file.toString())
 }
 
 @Composable
@@ -232,7 +246,6 @@ private fun TextFields(
         }
 
     }
-
 }
 
 @Composable

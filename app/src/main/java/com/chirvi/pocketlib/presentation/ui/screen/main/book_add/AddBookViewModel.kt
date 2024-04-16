@@ -1,7 +1,16 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.provider.DocumentsContract
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.graphics.drawable.toIcon
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -39,6 +48,14 @@ class AddBookViewModel @Inject constructor(
 
     private val _textDescription = MutableLiveData("")
     val textDescription: LiveData<String> = _textDescription
+
+    private val _fileBook = MutableLiveData<Uri?>()
+    val fileBook: LiveData<Uri?> = _fileBook
+
+    fun loadFileBook(file: Uri) {
+        _fileBook.value = file
+    }
+
 
     private val postId = createIdUseCase()
 
