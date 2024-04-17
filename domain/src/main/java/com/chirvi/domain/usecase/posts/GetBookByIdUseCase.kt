@@ -10,7 +10,10 @@ class GetBookByIdUseCase(
 ) {
     suspend operator fun invoke(id: String) : BookDomain? {
         val book = repository.getBookById(id)
-        val newBook = book?.copy(image = storageRepository.loadImage(book.id))
+        val newBook = book?.copy(
+            image = storageRepository.loadImage(book.id),
+            bookFile = storageRepository.loadBookFile(book.id)
+        )
         return newBook
     }
 }

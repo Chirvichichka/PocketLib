@@ -8,4 +8,5 @@ data class BookDomain(
     val description: String,
     val genres: List<String>,
     val image: String? = null,
+    val bookFile: String? = null
 )

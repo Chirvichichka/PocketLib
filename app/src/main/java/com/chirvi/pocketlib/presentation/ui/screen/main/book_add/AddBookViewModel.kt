@@ -1,17 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.book_add
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.provider.DocumentsContract
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.graphics.drawable.toIcon
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -49,11 +38,11 @@ class AddBookViewModel @Inject constructor(
     private val _textDescription = MutableLiveData("")
     val textDescription: LiveData<String> = _textDescription
 
-    private val _fileBook = MutableLiveData<Uri?>()
-    val fileBook: LiveData<Uri?> = _fileBook
+    private val _bookFile = MutableLiveData<Uri?>()
+    val bookFile: LiveData<Uri?> = _bookFile
 
     fun loadFileBook(file: Uri) {
-        _fileBook.value = file
+        _bookFile.value = file
     }
 
 
@@ -115,7 +104,6 @@ class AddBookViewModel @Inject constructor(
 
     private suspend fun suspendSaveBook() {
         _state.value = AddBookState.Loading
-
         val book = BookPresentation(
             id = postId,
             userId = Firebase.auth.currentUser?.uid?:"",
@@ -124,8 +112,8 @@ class AddBookViewModel @Inject constructor(
             description = textDescription.value?:"",
             genres = confirmedGenres.value?: listOf(""),
             image = image.value,
+            bookFile = bookFile.value
         ).toDomain()
-        Log.e("AAA", image.value.toString())
         viewModelScope.launch{ saveBookUseCase(book = book) }.join()
         _state.value = AddBookState.Saved
     }

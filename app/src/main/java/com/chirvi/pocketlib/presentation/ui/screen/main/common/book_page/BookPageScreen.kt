@@ -1,8 +1,9 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page
 
 import android.net.Uri
-import android.util.Log
-import androidx.compose.foundation.Image
+import android.webkit.WebView
+import android.webkit.WebViewClient
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,12 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -106,7 +105,8 @@ private fun Poster(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
-            .background(color = PocketLibTheme.colors.onSurface
+            .background(
+                color = PocketLibTheme.colors.onSurface
             ),
         model = image,
         loading = placeholder(R.drawable.default_book),
@@ -159,5 +159,19 @@ private fun TextInfo(
                 color = PocketLibTheme.colors.onBackground
             )
         )
+        Text(text = book.bookFile.toString())
+        EpubViewer(book.bookFile.toString())
     }
+}
+
+
+@Composable
+fun EpubViewer(url: String) {
+    AndroidView(factory = { context ->
+        WebView(context).apply {
+            settings.javaScriptEnabled = true
+            webViewClient = WebViewClient()
+            loadUrl(url)
+        }
+    })
 }

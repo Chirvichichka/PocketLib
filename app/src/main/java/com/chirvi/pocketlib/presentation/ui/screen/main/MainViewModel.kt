@@ -1,13 +1,5 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Build.VERSION.SDK_INT
-import android.os.Environment
-import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

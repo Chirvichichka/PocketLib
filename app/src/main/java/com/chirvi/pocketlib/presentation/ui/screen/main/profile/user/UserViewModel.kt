@@ -1,18 +1,13 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user
 
 import android.net.Uri
-import android.util.Log
-import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.models.DisplayMode
-import com.chirvi.domain.usecase.posts.GetAllBooksUseCase
 import com.chirvi.domain.usecase.posts.GetUserBooksUseCase
-import com.chirvi.domain.usecase.posts.LoadImageUseCase
 import com.chirvi.domain.usecase.settings.GetSettingsUseCase
-import com.chirvi.domain.usecase.users.GetUserUseCase
 import com.chirvi.pocketlib.presentation.constants.DisplayModeKeys
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation
