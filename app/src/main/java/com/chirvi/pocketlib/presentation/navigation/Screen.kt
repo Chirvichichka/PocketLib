@@ -19,6 +19,13 @@ sealed class Screen(
     data object Settings : Screen(ROUTE_SETTINGS)
     data object Registration : Screen(ROUTE_REGISTRATION)
     data object SettingsPage : Screen(ROUTE_SETTINGS_PAGE)
+    data object BookViewer : Screen(ROUTE_BOOK_VIEWER) {
+        private const val ROUTE_FOR_ARGS = "book_viewer"
+        fun getRouteWithArgs(id: String) : String {
+            return "$ROUTE_FOR_ARGS/$id"
+        }
+    }
+    data object Book : Screen(ROUTE_BOOK)
 
     private companion object {
         const val ROUTE_LOGIN = "login"
@@ -32,5 +39,7 @@ sealed class Screen(
         const val ROUTE_HOME = "home"
         const val ROUTE_PROFILE = "profile"
         const val ROUTE_ADD_BOOK = "ddd_book"
+        const val ROUTE_BOOK_VIEWER = "book_viewer/{book_viewer_book_id}"
+        const val ROUTE_BOOK = "book"
     }
 }

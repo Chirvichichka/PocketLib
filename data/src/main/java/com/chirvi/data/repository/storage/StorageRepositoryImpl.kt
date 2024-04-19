@@ -29,14 +29,14 @@ class StorageRepositoryImpl : StorageRepository {
 
     override suspend fun saveBookFile(bookFile: String?, postId: String) {
         if (bookFile != null) {
-            val bookStorageReference: StorageReference = bookStorageReference.child("$postId.epub")
+            val bookStorageReference: StorageReference = bookStorageReference.child("$postId.pdf")
             val uri = bookFile.toUri()
             bookStorageReference.putFile(uri).await()
         }
     }
 
     override suspend fun loadBookFile(id: String): String {
-        val bookFileReference = bookStorageReference.child("$id.epub")
+        val bookFileReference = bookStorageReference.child("$id.pdf")
         return try {
             bookFileReference.downloadUrl.await().toString()
         } catch (e: Exception) {

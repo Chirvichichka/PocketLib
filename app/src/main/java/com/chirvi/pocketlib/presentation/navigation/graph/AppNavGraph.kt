@@ -18,6 +18,7 @@ fun AppNavGraph(
     settingsContent: @Composable () -> Unit,
     registrationContent: @Composable () -> Unit,
     loginContent: @Composable () -> Unit,
+    bookViewer: @Composable (id: String) -> Unit,
 ) {
     NavHost(
         navController = navHostController,
@@ -28,6 +29,7 @@ fun AppNavGraph(
         homeNavGraph(
             feedContent = feedContent,
             pageBookContent = pageBookContent,
+            bookViewer = bookViewer
         )
         profileNavGraph(
             pageBookContent = pageBookContent,

@@ -6,21 +6,21 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.chirvi.pocketlib.presentation.navigation.Screen
 
-fun NavGraphBuilder.homeNavGraph(
+fun NavGraphBuilder.bookNavGraph(
     pageBookContent: @Composable (String) -> Unit,
-    feedContent: @Composable () -> Unit,
     bookViewer: @Composable (String) -> Unit,
 ) {
     navigation(
-        startDestination = Screen.Feed.route,
-        route = Screen.Home.route
+        startDestination = Screen.PageBookHome.route,
+        route = Screen.Book.route
     ) {
-        bookNavGraph(
-            pageBookContent = pageBookContent,
-            bookViewer = bookViewer
-        )
-        composable(Screen.Feed.route) {
-            feedContent()
+        composable(Screen.PageBookHome.route) {
+            val id = it.arguments?.getString("feed_post_id") ?: ""
+            pageBookContent(id)
+        }
+        composable(Screen.BookViewer.route) {
+            val id = it.arguments?.getString("book_viewer_book_id") ?: ""
+            bookViewer(id)
         }
     }
 }

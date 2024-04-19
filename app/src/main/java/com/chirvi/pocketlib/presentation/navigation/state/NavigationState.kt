@@ -30,6 +30,14 @@ class NavigationState(
         )
     }
 
+    fun navigateToBookViewer(
+        id: String
+    ) {
+        navHostController.navigate(
+            route = Screen.BookViewer.getRouteWithArgs(id = id)
+        )
+    }
+
     fun navigateTo(
         route: String
     ) {

@@ -1,9 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page
 
 import android.net.Uri
-import android.webkit.WebView
-import android.webkit.WebViewClient
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,9 +17,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -34,12 +31,14 @@ import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun BookPageScreen(
     idPost: String,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    navigateToBookViewer: (String) -> Unit,
 ) {
     val viewModel = hiltViewModel<BookPageViewModel>()
     viewModel.getBookById(id =idPost)
@@ -62,7 +61,9 @@ fun BookPageScreen(
             Column(
                 modifier = Modifier.padding(all = 16.dp)
             ) {
-                ButtonWithText(text = stringResource(id = R.string.read)) { /*todo*/ }
+                ButtonWithText(text = stringResource(id = R.string.read)) {
+                    navigateToBookViewer(book.id)
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 TextInfo(book = book)
             }
@@ -159,19 +160,6 @@ private fun TextInfo(
                 color = PocketLibTheme.colors.onBackground
             )
         )
-        Text(text = book.bookFile.toString())
-        EpubViewer(book.bookFile.toString())
     }
 }
 
-
-@Composable
-fun EpubViewer(url: String) {
-    AndroidView(factory = { context ->
-        WebView(context).apply {
-            settings.javaScriptEnabled = true
-            webViewClient = WebViewClient()
-            loadUrl(url)
-        }
-    })
-}

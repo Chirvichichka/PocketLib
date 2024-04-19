@@ -147,20 +147,16 @@ private fun AddBookTopAppBar() {
 private fun LoadButton(
     viewModel: AddBookViewModel
 ) {
-
-    val file by viewModel.bookFile.observeAsState(null)
     val pickFileLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { viewModel.loadFileBook(it?:Uri.EMPTY) }
     )
-
     ButtonWithText(
         text = "Загрузить",
         onClickListener = {
-            pickFileLauncher.launch("application/epub+zip")
+            pickFileLauncher.launch("application/pdf")
         }
     )
-    Text(text = file.toString())
 }
 
 @Composable
