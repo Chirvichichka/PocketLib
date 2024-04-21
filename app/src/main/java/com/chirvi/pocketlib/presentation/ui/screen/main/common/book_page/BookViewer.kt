@@ -1,109 +1,101 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.pdf.PdfRenderer
-import android.os.ParcelFileDescriptor
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.consumePositionChange
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import java.io.File
 
 @Composable
 fun BookViewer(id: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PocketLibTheme.colors.background)
-    ) {
-        PdfViewer(context = LocalContext.current, id = id)
-    }
-}
+    val viewModel = hiltViewModel<BookViewerViewModel>()
+    val text by viewModel.text.observeAsState(emptyList())
+    val currentChapter by viewModel.currentChapter.observeAsState(0)
 
-@OptIn(DelicateCoroutinesApi::class)
-@Composable
-fun PdfViewer(context: Context, id: String) {
-    val pdfBitmaps = remember {
-        mutableListOf<Bitmap>()
-    }
-    var isLoading by remember { mutableStateOf(true) }
-    val storage = Firebase.storage
-    val bookStorageReference = storage.getReference("book/")
-    val pdfRef = bookStorageReference.child("$id.pdf")
+    val coroutineScope = rememberCoroutineScope()
+    val scrollState by viewModel.scrollState.observeAsState(rememberScrollState())
 
-    SideEffect {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val localFile = File.createTempFile("temp_pdf", "pdf", context.cacheDir)
-                pdfRef.getFile(localFile).await()
-
-                val parcelFileDescriptor =
-                    ParcelFileDescriptor.open(localFile, ParcelFileDescriptor.MODE_READ_ONLY)
-                val pdfRenderer = PdfRenderer(parcelFileDescriptor)
-                val pageCount = pdfRenderer.pageCount
-
-                for (i in 0 until pageCount) {
-                    val page = pdfRenderer.openPage(i)
-                    val bitmap =
-                        Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
-
-                    page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                    pdfBitmaps.add(bitmap)
-                    page.close()
-                }
-
-                pdfRenderer.close()
-                parcelFileDescriptor.close()
-
-                isLoading = false
-            } catch (e: Exception) {
-                null
+    Scaffold(
+        floatingActionButton = {
+            SmallFloatingActionButton(
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.animateScrollToTop(scrollState)
+                    }
+                },
+                shape = CircleShape
+            ) {
+                Icon(Icons.Default.ArrowDropDown, contentDescription = "Scroll to top")
             }
         }
-    }
-    if (isLoading) {
-        LoadingCircle()
-    } else {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .background(PocketLibTheme.colors.background)
+                .verticalScroll(scrollState)
+                .padding(paddingValues)
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta ->
+                        viewModel.offsetXChange(delta)
+                        viewModel.drag()
+                    }
+                ),
         ) {
-            pdfBitmaps.forEach { bitmap ->
-                Image(
-                    bitmap = bitmap.asImageBitmap(),
-                    contentDescription = null,
+            if(text.isNotEmpty()) {
+                Column(
                     modifier = Modifier
+                        .padding(horizontal = 8.dp)
                         .fillMaxSize()
-                        .padding(8.dp)
-                )
+
+                ) {
+                    Text(
+                        text = text[currentChapter],
+                        style = PocketLibTheme.textStyles.largeStyle.copy(
+                            color = PocketLibTheme.colors.onBackground
+                        )
+                    )
+                }
             }
+
         }
     }
 }

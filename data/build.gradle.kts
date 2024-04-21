@@ -37,6 +37,8 @@ android {
 dependencies {
     implementation (project (":domain"))
 
+    implementation ("org.jsoup:jsoup:1.14.3")
+
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
