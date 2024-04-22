@@ -1,12 +1,12 @@
-package com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page
+package com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page.book_viewer
 
-import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.usecase.BookReaderUseCase
+import com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page.BookPageState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,10 +15,13 @@ import javax.inject.Inject
 class BookViewerViewModel @Inject constructor(
     private val bookReaderUseCase: BookReaderUseCase,
 ) : ViewModel() {
+    private val _state = MutableLiveData<BookViewerState>(BookViewerState.Initial)
+    val state: LiveData<BookViewerState> = _state
+
     private val _text = MutableLiveData<List<String>>(emptyList())
     val text : LiveData<List<String>> = _text
 
-    private val chapterCount: Int
+    private val chapterCount: Int = _text.value?.size?:0
 
     private val _currentChapter = MutableLiveData(0)
     val currentChapter : LiveData<Int> = _currentChapter
@@ -51,7 +54,6 @@ class BookViewerViewModel @Inject constructor(
         if (current != 0) {
             _currentChapter.value = current - 1
         }
-
         viewModelScope.launch {
             _scrollState.value?.scrollTo(0)
         }
@@ -68,19 +70,10 @@ class BookViewerViewModel @Inject constructor(
     }
 
     fun downloadBook(id: String) {
-        viewModelScope.launch {
-            suspendDownloadBook(id)
-        }
-    }
-
-    suspend fun suspendDownloadBook(id: String) {
+        _state.value = BookViewerState.Loading
         viewModelScope.launch {
             _text.value = bookReaderUseCase(id)
-        }.join()
-
-
-    }
-    init {
-        chapterCount = _text.value?.size?:0
+            _state.value = BookViewerState.Content
+        }
     }
 }

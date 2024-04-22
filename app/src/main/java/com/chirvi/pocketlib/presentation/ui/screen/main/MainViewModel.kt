@@ -1,11 +1,9 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chirvi.domain.usecase.BookReaderUseCase
 import com.chirvi.domain.usecase.users.GetUserUseCase
 import com.chirvi.pocketlib.presentation.models.UserPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation
@@ -14,7 +12,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel

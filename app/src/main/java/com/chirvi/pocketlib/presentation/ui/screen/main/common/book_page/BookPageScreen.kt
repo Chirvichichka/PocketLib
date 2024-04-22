@@ -17,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +26,7 @@ import com.bumptech.glide.integration.compose.placeholder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.BookPresentation
+import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
@@ -41,8 +41,10 @@ fun BookPageScreen(
     navigateToBookViewer: (String) -> Unit,
 ) {
     val viewModel = hiltViewModel<BookPageViewModel>()
-    viewModel.getBookById(id =idPost)
+    val state by viewModel.state.observeAsState(BookPageState.Initial)
+    viewModel.getBookById(id = idPost)
     val book by viewModel.book.observeAsState(BookPresentation())
+
 
     Column(
         modifier = Modifier
@@ -53,23 +55,36 @@ fun BookPageScreen(
             onBackPressed = onBackPressed,
             bookName = book.name
         )
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-        ) {
-            Poster(image = book.image)
-            Column(
-                modifier = Modifier.padding(all = 16.dp)
-            ) {
-                ButtonWithText(text = stringResource(id = R.string.read)) {
-                    navigateToBookViewer(book.id)
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                TextInfo(book = book)
-            }
+        when(state) {
+            BookPageState.Content -> { Content(book = book) }
+            BookPageState.Initial -> { LoadingCircle() }
+            BookPageState.Loading -> { LoadingCircle() }
         }
     }
 }
+
+@Composable
+private fun Content(
+    book: BookPresentation
+) {
+    val navigation = LocalNavigationState.current
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+    ) {
+        Poster(image = book.image)
+        Column(
+            modifier = Modifier.padding(all = 16.dp)
+        ) {
+            ButtonWithText(text = stringResource(id = R.string.read)) {
+                navigation.navigateToBookViewer(book.id)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            TextInfo(book = book)
+        }
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

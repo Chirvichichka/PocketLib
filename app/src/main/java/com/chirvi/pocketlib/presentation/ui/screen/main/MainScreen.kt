@@ -28,7 +28,7 @@ import com.chirvi.pocketlib.presentation.navigation.item.BottomNavigationItem
 import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import com.chirvi.pocketlib.presentation.ui.screen.main.book_add.AddBookScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page.BookPageScreen
-import com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page.BookViewer
+import com.chirvi.pocketlib.presentation.ui.screen.main.common.book_page.book_viewer.BookViewer
 import com.chirvi.pocketlib.presentation.ui.screen.main.home.feed.FeedScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.UserScreen
 import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.SettingsScreen
