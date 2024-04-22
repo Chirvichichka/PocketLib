@@ -154,7 +154,7 @@ private fun LoadButton(
     ButtonWithText(
         text = "Загрузить",
         onClickListener = {
-            pickFileLauncher.launch("application/pdf")
+            pickFileLauncher.launch("application/epub+zip")
         }
     )
 }

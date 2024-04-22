@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookViewerViewModel @Inject constructor(
-    private val bookReaderUseCase: BookReaderUseCase
+    private val bookReaderUseCase: BookReaderUseCase,
 ) : ViewModel() {
     private val _text = MutableLiveData<List<String>>(emptyList())
     val text : LiveData<List<String>> = _text
@@ -67,17 +67,20 @@ class BookViewerViewModel @Inject constructor(
         }
     }
 
-    suspend fun downloadBook() {
+    fun downloadBook(id: String) {
         viewModelScope.launch {
-            _text.value = bookReaderUseCase()
+            suspendDownloadBook(id)
+        }
+    }
+
+    suspend fun suspendDownloadBook(id: String) {
+        viewModelScope.launch {
+            _text.value = bookReaderUseCase(id)
         }.join()
 
 
     }
     init {
-        viewModelScope.launch {
-            downloadBook()
-        }
         chapterCount = _text.value?.size?:0
     }
 }

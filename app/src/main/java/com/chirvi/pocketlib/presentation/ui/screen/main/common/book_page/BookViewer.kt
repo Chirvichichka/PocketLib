@@ -46,11 +46,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun BookViewer(id: String) {
     val viewModel = hiltViewModel<BookViewerViewModel>()
+    viewModel.downloadBook(id)
+
+
     val text by viewModel.text.observeAsState(emptyList())
     val currentChapter by viewModel.currentChapter.observeAsState(0)
 
     val coroutineScope = rememberCoroutineScope()
     val scrollState by viewModel.scrollState.observeAsState(rememberScrollState())
+
 
     Scaffold(
         floatingActionButton = {

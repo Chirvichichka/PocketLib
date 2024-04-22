@@ -8,7 +8,7 @@ import com.chirvi.domain.repository.BookReaderRepository
 import java.io.File
 
 class BookReaderRepositoryImpl(private val context: Context) : BookReaderRepository {
-    override suspend fun create(): List<String> {
-        return BookReader(context = context).create()
+    override suspend fun create(id: String): List<String> {
+        return BookReader(context = context).create(id)
     }
 }

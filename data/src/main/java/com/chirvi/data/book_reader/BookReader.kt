@@ -10,10 +10,10 @@ import java.io.FileOutputStream
 import java.util.zip.ZipFile
 
 class BookReader(private val context: Context) {
-    suspend fun create(): List<String> {
+    suspend fun create(id: String): List<String> {
 
         val downloader = BookDownloader(context)
-        val downloadedFile = downloader.downloadBook() ?: return emptyList()
+        val downloadedFile = downloader.downloadBook(id) ?: return emptyList()
 
         val outputDirectoryName = "book_reader/content"
         val outputDirectory = File(context.filesDir, outputDirectoryName)

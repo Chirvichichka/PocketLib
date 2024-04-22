@@ -12,8 +12,8 @@ class BookDownloader(private val context: Context) {
     private val storage = FirebaseStorage.getInstance()
     private val bookStorageReference = storage.getReference("book/")
 
-    suspend fun downloadBook(): File? {
-        val storageReference = bookStorageReference.child("booka.epub") // Путь к файлу в Firebase Storage
+    suspend fun downloadBook(id: String): File? {
+        val storageReference = bookStorageReference.child("$id.epub") // Путь к файлу в Firebase Storage
 
         val tempFile = File(context.filesDir, "book_temp.epub")
 
