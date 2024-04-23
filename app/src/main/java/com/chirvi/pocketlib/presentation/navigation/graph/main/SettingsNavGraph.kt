@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.navigation.graph
+package com.chirvi.pocketlib.presentation.navigation.graph.main
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder

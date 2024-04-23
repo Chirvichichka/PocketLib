@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.navigation.graph
+package com.chirvi.pocketlib.presentation.navigation.graph.main
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
@@ -15,7 +15,7 @@ fun NavGraphBuilder.homeNavGraph(
         startDestination = Screen.Feed.route,
         route = Screen.Home.route
     ) {
-        bookNavGraph(
+        bookFeedNavGraph(
             pageBookContent = pageBookContent,
             bookViewer = bookViewer
         )

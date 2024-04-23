@@ -1,16 +1,15 @@
-package com.chirvi.pocketlib.presentation.navigation.graph
+package com.chirvi.pocketlib.presentation.navigation.graph.main
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.chirvi.pocketlib.presentation.navigation.Screen
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
 
 @Composable
-fun AppNavGraph(
-    navHostController: NavHostController,
+fun MainNavGraph(
     addBookScreenContent: @Composable () -> Unit,
     pageBookContent: @Composable (idPost: String) -> Unit,
     feedContent: @Composable () -> Unit,
@@ -20,6 +19,8 @@ fun AppNavGraph(
     loginContent: @Composable () -> Unit,
     bookViewer: @Composable (id: String) -> Unit,
 ) {
+    val navigationMainState = LocalNavigationMainState.current
+    val navHostController = navigationMainState.navHostController
     NavHost(
         navController = navHostController,
         startDestination = Screen.Home.route,
@@ -36,7 +37,8 @@ fun AppNavGraph(
             userContent = userContent,
             settingsContent = settingsContent,
             registrationContent = registrationContent,
-            loginContent = loginContent
+            loginContent = loginContent,
+            bookViewer = bookViewer
         )
         composable(route = Screen.AddBook.route) {
             addBookScreenContent()

@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.usecase.posts.GetBookByIdUseCase
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation
+import com.chirvi.pocketlib.presentation.navigation.Screen
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +22,21 @@ class BookPageViewModel @Inject constructor(
 
     private val _book = MutableLiveData(BookPresentation())
     val book: LiveData<BookPresentation> = _book
+
+    fun navigateToBack(navigation: NavigationMainState, currentRoute: String) {
+        when(currentRoute) {
+            "book_page_feed/{feed_post_id}" -> { navigation.navHostController.popBackStack(inclusive = true, route = Screen.BookFeed.route) }
+            "book_page_profile/{profile_post_id}" -> { navigation.navHostController.popBackStack(inclusive = true, route = Screen.BookProfile.route) }
+        }
+    }
+
+    fun navigateToBookViewer(navigation: NavigationMainState, currentRoute: String) {
+        val bookId = book.value?.id?:""
+        when(currentRoute) {
+            "book_page_feed/{feed_post_id}" -> { navigation.navigateToBookViewerFromFeed(bookId) }
+            "book_page_profile/{profile_post_id}" -> { navigation.navigateToBookViewerFromProfile(bookId) }
+        }
+    }
 
     fun getBookById(id: String) {
         BookPageState.Loading

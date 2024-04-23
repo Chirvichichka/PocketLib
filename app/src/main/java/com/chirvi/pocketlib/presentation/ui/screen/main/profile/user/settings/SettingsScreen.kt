@@ -1,5 +1,6 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chirvi.pocketlib.R
+import com.chirvi.pocketlib.presentation.navigation.Screen
 import com.chirvi.pocketlib.presentation.ui.common.CustomSwitch
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.SeparativeLine
@@ -39,34 +41,41 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.EditTextField
 import com.chirvi.pocketlib.presentation.ui.theme.ColorScheme
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationIntroductionState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.seedBlue
 import com.chirvi.pocketlib.presentation.ui.theme.green_theme.seedGreen
 import com.chirvi.pocketlib.presentation.ui.theme.pink_theme.seedPink
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun SettingsScreen(
-    onBackPressed: () -> Unit,
-    onCreateAccountClick: () -> Unit,
-    onLoginClick: () -> Unit,
     changeTheme: () -> Unit,
-    changeColorScheme: (ColorScheme) -> Unit
+    changeColorScheme: (ColorScheme) -> Unit,
+    updateUser: () -> Unit,
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
+    val navigation = LocalNavigationMainState.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.background)
-
     ) {
-        SettingsTopAppBar(onBackPressed = onBackPressed)
+        SettingsTopAppBar{ viewModel.navigateToBack(navigation) }
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(all = 8.dp)
         ) {
-            Account(onCreateAccountClick = onCreateAccountClick, onLoginClick = onLoginClick)
+            Account(
+                onCreateAccountClick = { viewModel.navigateToRegistration(navigation) },
+                onLoginClick = { viewModel.navigateToLogin(navigation) },
+                updateUser = updateUser
+            )
             SeparativeLine()
             SettingsTheme(viewModel = viewModel, themeChange = changeTheme, colorSchemeChange = changeColorScheme)
             SeparativeLine()
@@ -80,7 +89,7 @@ fun SettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsTopAppBar(
-    onBackPressed: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     PocketLibTopAppBar(
         title = {
@@ -106,7 +115,7 @@ private fun SettingsTopAppBar(
         },
         navigationIcon = {
             BackButton(
-                onClickListener = onBackPressed
+                onClickListener = navigateToBack
             )
         }
     )
@@ -116,7 +125,10 @@ private fun SettingsTopAppBar(
 private fun Account(
     onCreateAccountClick: () -> Unit,
     onLoginClick: () -> Unit,
+    updateUser: () -> Unit
 ) {
+    val navigationIntroductionState = LocalNavigationIntroductionState.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,6 +145,14 @@ private fun Account(
             ButtonWithText(
                 text = stringResource(id = R.string.log_in),
                 onClickListener = { onLoginClick() }
+            )
+            ButtonWithText(
+                text = "Выйти", //todo
+                onClickListener = {
+                    FirebaseAuth.getInstance().signOut()
+                    updateUser()
+                    navigationIntroductionState.navigateTo(Screen.IntroductionLogin.route) //todo
+                }
             )
         }
     }

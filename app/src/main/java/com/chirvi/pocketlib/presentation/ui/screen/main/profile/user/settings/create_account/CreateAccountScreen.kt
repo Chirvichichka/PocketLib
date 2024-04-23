@@ -35,23 +35,23 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldPassword
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun CreateAccountScreen(
-    onBackPressed: () -> Unit,
     updateUser: () -> Unit,
 ) {
     val viewModel = hiltViewModel<CreateAccountViewModel>()
     val state by viewModel.state.observeAsState(CreateAccountState.Initial)
+    val navigation = LocalNavigationMainState.current
 
     Column(
         modifier = Modifier
             .background(color = PocketLibTheme.colors.background)
             .fillMaxSize()
     ) {
-        CreateAccountAppTopBar(onBackPressed = onBackPressed)
+        CreateAccountAppTopBar(navigateToBack = { viewModel.navigateToBack(navigation) })
         Column(
             modifier = Modifier.padding(all = 8.dp)
         ) {
@@ -69,9 +69,9 @@ private fun Complete(
     viewModel: CreateAccountViewModel,
     updateUser: () -> Unit,
 ) {
-    val navigationState = LocalNavigationState.current
+    val navigationState = LocalNavigationMainState.current
     updateUser()
-    viewModel.toProfileScreen(navigationState = navigationState)
+    viewModel.toProfileScreen(navigationMainState = navigationState)
 }
 
 @Composable
@@ -110,7 +110,7 @@ private fun Initial(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CreateAccountAppTopBar(
-    onBackPressed: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     PocketLibTopAppBar(
         title = {
@@ -123,7 +123,7 @@ private fun CreateAccountAppTopBar(
         },
         navigationIcon = {
             BackButton(
-                onClickListener = onBackPressed
+                onClickListener = navigateToBack
             )
         }
     )

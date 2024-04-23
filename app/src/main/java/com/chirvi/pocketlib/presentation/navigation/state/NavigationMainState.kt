@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.chirvi.pocketlib.presentation.navigation.Screen
 
-class NavigationState(
+class NavigationMainState(
     val navHostController: NavHostController
 ) {
     fun navigateToWithSaveState(
@@ -22,7 +22,7 @@ class NavigationState(
         }
     }
 
-    fun navigateToPost(
+    fun navigateToPostFromFeed(
         id: String,
     ) {
         navHostController.navigate(
@@ -30,11 +30,27 @@ class NavigationState(
         )
     }
 
-    fun navigateToBookViewer(
+    fun navigateToPostFromProfile(
+        id: String,
+    ) {
+        navHostController.navigate(
+            route = Screen.PageBookProfile.getRouteWithArgs(id = id)
+        )
+    }
+
+    fun navigateToBookViewerFromFeed(
         id: String
     ) {
         navHostController.navigate(
-            route = Screen.BookViewer.getRouteWithArgs(id = id)
+            route = Screen.BookViewerFeed.getRouteWithArgs(id = id)
+        )
+    }
+
+    fun navigateToBookViewerFromProfile(
+        id: String
+    ) {
+        navHostController.navigate(
+            route = Screen.BookViewerProfile.getRouteWithArgs(id = id)
         )
     }
 
@@ -43,14 +59,13 @@ class NavigationState(
     ) {
         navHostController.navigate(route = route)
     }
-
 }
 
 @Composable
-fun rememberNavigationState(
+fun rememberNavigationMainState(
     navHostController: NavHostController = rememberNavController()
-) : NavigationState {
+) : NavigationMainState {
     return remember {
-        NavigationState(navHostController = navHostController)
+        NavigationMainState(navHostController = navHostController)
     }
 }

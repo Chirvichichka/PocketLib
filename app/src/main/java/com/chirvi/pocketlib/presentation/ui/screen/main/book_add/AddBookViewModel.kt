@@ -10,7 +10,7 @@ import com.chirvi.domain.usecase.posts.SaveBookUseCase
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toDomain
 import com.chirvi.pocketlib.presentation.navigation.Screen
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -97,8 +97,8 @@ class AddBookViewModel @Inject constructor(
     fun onValueChangeAuthor(text: String) { _textAuthor.value = text }
     fun saveBook() { viewModelScope.launch { suspendSaveBook() } }
 
-    fun toFeed(navigationState: NavigationState) {
-        navigationState.navigateTo(Screen.Feed.route)
+    fun toFeed(navigationMainState: NavigationMainState) {
+        navigationMainState.navigateTo(Screen.Feed.route)
         _state.value = AddBookState.Initial
     }
 

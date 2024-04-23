@@ -12,7 +12,7 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.UserPresentation
 import com.chirvi.pocketlib.presentation.models.toDomain
 import com.chirvi.pocketlib.presentation.navigation.Screen
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -56,8 +56,8 @@ class CreateAccountViewModel @Inject constructor(
     fun onValueChangeConfirmPassword(text: String) { _textConfirmPassword.value = text }
     fun deleteImage() { _image.value = null }
     fun changeImage(imageUri: Uri) { _image.value = imageUri }
-    fun toProfileScreen(navigationState: NavigationState) {
-        navigationState.navigateTo(Screen.Profile.route)
+    fun toProfileScreen(navigationMainState: NavigationMainState) {
+        navigationMainState.navigateTo(Screen.Profile.route)
     }
 
     private fun confirmPassword() {
@@ -90,7 +90,11 @@ class CreateAccountViewModel @Inject constructor(
         _state.value = CreateAccountState.Complete
     }
 
-    private fun currentError(error: String) {
+    fun navigateToBack(navigation: NavigationMainState) {
+        navigation.navHostController.popBackStack()
+    }
+
+    private fun currentError(error: String) {   //TODO ПЕРЕДЕЛАТЬ!!!!!!!!
         _errorMessageId.value =
             when(error) {
                 "Short password length" -> { R.string.password_short_length }

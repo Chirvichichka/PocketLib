@@ -31,32 +31,47 @@ import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun BookPageScreen(
     idPost: String,
-    onBackPressed: () -> Unit,
-    navigateToBookViewer: (String) -> Unit,
 ) {
     val viewModel = hiltViewModel<BookPageViewModel>()
     val state by viewModel.state.observeAsState(BookPageState.Initial)
     viewModel.getBookById(id = idPost)
     val book by viewModel.book.observeAsState(BookPresentation())
 
+    val navigation = LocalNavigationMainState.current
+    val currentRoute = navigation.navHostController.currentDestination?.route
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.background)
     ) {
-        FeedAppTopBar(
-            onBackPressed = onBackPressed,
+        BookPageAppTopBar(
+            navigateToBack = {
+                viewModel.navigateToBack(
+                    navigation = navigation,
+                    currentRoute = currentRoute?:""
+                )
+            },
             bookName = book.name
         )
         when(state) {
-            BookPageState.Content -> { Content(book = book) }
+            BookPageState.Content -> {
+                Content(
+                    book = book,
+                    navigateToBookViewer = {
+                        viewModel.navigateToBookViewer(
+                            navigation = navigation,
+                            currentRoute = currentRoute?:""
+                        )
+                    }
+                )
+            }
             BookPageState.Initial -> { LoadingCircle() }
             BookPageState.Loading -> { LoadingCircle() }
         }
@@ -65,9 +80,9 @@ fun BookPageScreen(
 
 @Composable
 private fun Content(
-    book: BookPresentation
+    book: BookPresentation,
+    navigateToBookViewer: () -> Unit
 ) {
-    val navigation = LocalNavigationState.current
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -76,9 +91,10 @@ private fun Content(
         Column(
             modifier = Modifier.padding(all = 16.dp)
         ) {
-            ButtonWithText(text = stringResource(id = R.string.read)) {
-                navigation.navigateToBookViewer(book.id)
-            }
+            ButtonWithText(
+                text = stringResource(id = R.string.read),
+                onClickListener = { navigateToBookViewer() }
+            )
             Spacer(modifier = Modifier.height(16.dp))
             TextInfo(book = book)
         }
@@ -88,9 +104,9 @@ private fun Content(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FeedAppTopBar(
+fun BookPageAppTopBar(
     bookName: String,
-    onBackPressed: () -> Unit
+    navigateToBack: () -> Unit
 ) {
     PocketLibTopAppBar(
         title = {
@@ -102,7 +118,9 @@ fun FeedAppTopBar(
             )
         },
         navigationIcon = {
-            BackButton(onClickListener = onBackPressed)
+            BackButton(
+                onClickListener = { navigateToBack() }
+            )
         },
         actions = {
             ButtonIconFavorite {

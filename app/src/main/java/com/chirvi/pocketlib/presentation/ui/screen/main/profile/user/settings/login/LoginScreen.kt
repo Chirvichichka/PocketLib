@@ -28,23 +28,23 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldPassword
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun LoginScreen(
-    onBackPressed: () -> Unit,
     updateUser: () -> Unit,
 ) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val state by viewModel.state.observeAsState(LoginState.Initial)
+    val navigation = LocalNavigationMainState.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.background)
     ) {
-        LoginAppTopBar(onBackPressed = onBackPressed)
+        LoginAppTopBar(onBackPressed = { viewModel.navigateToBack(navigation) })
         Column(
             modifier = Modifier
                 .padding(all = 8.dp)
@@ -65,9 +65,9 @@ private fun Complete(
    viewModel: LoginViewModel,
    updateUser: () -> Unit
 ) {
-    val navigationState = LocalNavigationState.current
+    val navigationState = LocalNavigationMainState.current
     updateUser()
-    viewModel.toProfile(navigationState)
+    viewModel.navigateToProfile(navigationState)
 }
 
 @Composable
@@ -116,7 +116,7 @@ private fun LoginAppTopBar(
 private fun TextFields(
     viewModel: LoginViewModel
 ) {
-    val textEMail by viewModel.textEMail.observeAsState("")
+    val textEMail by viewModel.textEmail.observeAsState("")
     val textPassword by viewModel.textPassword.observeAsState("")
     val error by viewModel.errorMessage.observeAsState("")
 

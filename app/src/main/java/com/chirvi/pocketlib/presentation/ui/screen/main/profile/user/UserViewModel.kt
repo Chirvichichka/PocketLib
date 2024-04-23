@@ -11,6 +11,8 @@ import com.chirvi.domain.usecase.settings.GetSettingsUseCase
 import com.chirvi.pocketlib.presentation.constants.DisplayModeKeys
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation
+import com.chirvi.pocketlib.presentation.navigation.Screen
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,6 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val getUserBooksUseCase: GetUserBooksUseCase,
-  //  private val loadImageUseCase: LoadImageUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<UserState>(UserState.Initial)
     val state: LiveData<UserState> = _state
@@ -37,7 +38,7 @@ class UserViewModel @Inject constructor(
 
     fun onIndexChange(index: Int) { _tabRowIndex.value = index }
 
-    private val _myBooksDisplayMode = MutableLiveData(loadMyBooksSettings())
+    private val _myBooksDisplayMode = MutableLiveData(loadMyBooksSettings()) //todo z
     val myBooksDisplayMode: LiveData<DisplayMode> = _myBooksDisplayMode
     private fun loadMyBooksSettings() : DisplayMode {
         val displayMode = getSettingsUseCase(DisplayModeKeys.MY_BOOKS_KEY)
@@ -51,13 +52,12 @@ class UserViewModel @Inject constructor(
         return displayMode
     }
 
-    private fun loadData() {
-        val currentUserId = Firebase.auth.currentUser?.uid?:""
-        viewModelScope.launch{
-            suspendLoadData()
-          //  _image.value = loadImageUseCase(currentUserId).toUri()
-        }
+    fun navigateToSettings(navigation: NavigationMainState) {
+        navigation.navigateTo(Screen.Settings.route)
+    }
 
+    private fun loadData() {
+        viewModelScope.launch{ suspendLoadData() }
     }
     private suspend fun suspendLoadData() {
         _state.value = UserState.Loading

@@ -44,7 +44,7 @@ import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.SeparativeLine
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 
@@ -104,7 +104,7 @@ private fun Initial(
 private fun Saved(
     viewModel: AddBookViewModel
 ) {
-    val navigationState = LocalNavigationState.current
+    val navigationState = LocalNavigationMainState.current
     Column(
         modifier = Modifier
             .fillMaxSize()

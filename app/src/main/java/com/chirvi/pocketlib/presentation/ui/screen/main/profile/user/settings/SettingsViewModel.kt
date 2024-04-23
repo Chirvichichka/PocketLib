@@ -7,6 +7,9 @@ import com.chirvi.domain.models.DisplayMode
 import com.chirvi.domain.usecase.settings.GetSettingsUseCase
 import com.chirvi.domain.usecase.settings.SaveSettingsUseCase
 import com.chirvi.pocketlib.presentation.constants.DisplayModeKeys
+import com.chirvi.pocketlib.presentation.navigation.Screen
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -51,6 +54,18 @@ class SettingsViewModel @Inject constructor(
     fun favoritesChange() {
         saveSettingsUseCase(key = DisplayModeKeys.FAVORITES_KEY, state =  _favoriteSwitchState.value!!)
         _favoriteSwitchState.value = !_favoriteSwitchState.value!!
+    }
+
+    fun navigateToBack(navigation: NavigationMainState) {
+        navigation.navHostController.popBackStack()
+    }
+
+    fun navigateToRegistration(navigation: NavigationMainState) {
+        navigation.navigateTo(Screen.Registration.route)
+    }
+
+    fun navigateToLogin(navigation: NavigationMainState) {
+        navigation.navigateTo(Screen.Login.route)
     }
 
     private fun getDisplay(key: String) : Boolean{

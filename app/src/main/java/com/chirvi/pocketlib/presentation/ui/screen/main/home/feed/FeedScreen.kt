@@ -27,12 +27,12 @@ import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedScreen(
-    onClickPreview: (String) -> Unit,
     scroll: TopAppBarScrollBehavior,
 ) {
     val viewModel = hiltViewModel<FeedViewModel>()
@@ -54,7 +54,6 @@ fun FeedScreen(
                 Content(
                     displayMode = displayMode,
                     books = books,
-                    onClickPreview = onClickPreview
                 )
             }
             FeedState.Loading -> { LoadingCircle() }
@@ -66,12 +65,12 @@ fun FeedScreen(
 private fun Content(
     displayMode: DisplayMode,
     books: List<BookPresentation>,
-    onClickPreview: (String) -> Unit
 ) {
+    val navigation = LocalNavigationMainState.current
     BookColumn(
         displayMode = displayMode,
         books = books,
-        onClickPreview = onClickPreview
+        navigateToPost = { id -> navigation.navigateToPostFromFeed(id) }
     )
 }
 

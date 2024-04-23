@@ -1,5 +1,6 @@
-package com.chirvi.pocketlib.presentation.ui.screen.main
+package com.chirvi.pocketlib.presentation.ui.screen
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,14 +16,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class AppViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
-
-    private val _currentUser = MutableLiveData<UserPresentation?>(null)
+    private val _currentUser = MutableLiveData<UserPresentation?>()
     val currentUser: LiveData<UserPresentation?> = _currentUser
 
-    private val _darkTheme = MutableLiveData(false)
+    private val _darkTheme = MutableLiveData<Boolean>()
     val darkTheme: LiveData<Boolean> = _darkTheme
 
     private val _colorScheme = MutableLiveData(ColorScheme.BLUE)
@@ -37,23 +37,15 @@ class MainViewModel @Inject constructor(
         _darkTheme.value = !currentTheme
     }
 
-    private suspend fun suspendGetUser() {
+    fun getUser() {
         val currentUserId = Firebase.auth.currentUser?.uid
         if(currentUserId != null) {
             viewModelScope.launch {
                 val user = getUserUseCase(currentUserId).toPresentation()
                 _currentUser.value = user
-            }.join()
+            }
+        } else {
+            _currentUser.value = null
         }
-    }
-
-
-    fun getUser() {
-        viewModelScope.launch { suspendGetUser() }
-    }
-
-    init {
-        getUser()
-
     }
 }

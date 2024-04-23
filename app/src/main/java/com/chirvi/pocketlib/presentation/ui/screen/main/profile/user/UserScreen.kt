@@ -37,36 +37,30 @@ import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
 import com.chirvi.pocketlib.presentation.ui.theme.LocalUser
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
-fun UserScreen(
-    onClickPreview: (String) -> Unit,
-    onClickSettings: () -> Unit,
-) {
+fun UserScreen() {
     val viewModel = hiltViewModel<UserViewModel>()
+    val navigation = LocalNavigationMainState.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PocketLibTheme.colors.background)
     ) {
-        ProfileTopAppBar(
-            onClickSettings = onClickSettings
-        )
+        ProfileTopAppBar { viewModel.navigateToSettings(navigation) }
         UserInfo()
-        ProfileTabRow(
-            viewModel = viewModel,
-            onClickPreview = onClickPreview
-        )
+        ProfileTabRow(viewModel = viewModel,)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProfileTopAppBar(
-    onClickSettings: () -> Unit
+    navigateToSettings: () -> Unit
 ) {
     PocketLibTopAppBar(
         title = {
@@ -79,7 +73,7 @@ private fun ProfileTopAppBar(
         },
         actions = {
             IconButton(
-                onClick = { onClickSettings() }
+                onClick = { navigateToSettings() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.settings),
@@ -139,7 +133,6 @@ private fun UserInfo() {
 @Composable
 private fun ProfileTabRow(
     viewModel: UserViewModel,
-    onClickPreview: (String) -> Unit
 ) {
     val tabRowIndex by viewModel.tabRowItem.observeAsState(0)
 
@@ -147,6 +140,8 @@ private fun ProfileTabRow(
     val state by viewModel.state.observeAsState(UserState.Initial)
     val myBooksDisplayMode by viewModel.myBooksDisplayMode.observeAsState(DisplayMode.LIST)
     val favoritesDisplayMode by viewModel.favoritesDisplayMode.observeAsState(DisplayMode.LIST)
+
+    val navigation = LocalNavigationMainState.current
 
     val items = listOf(
         ProfileTabRowItem.MyBooks,
@@ -194,7 +189,7 @@ private fun ProfileTabRow(
                     BookColumn(
                         displayMode = myBooksDisplayMode,
                         books = books,
-                        onClickPreview = onClickPreview
+                        navigateToPost = { id -> navigation.navigateToPostFromProfile(id) }
                     )
                 }
             }
@@ -202,7 +197,7 @@ private fun ProfileTabRow(
         1 -> {
             BookColumn(
                 displayMode = favoritesDisplayMode,
-                onClickPreview = onClickPreview
+                navigateToPost = {  }
             )
         }
     }

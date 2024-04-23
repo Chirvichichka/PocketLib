@@ -15,20 +15,20 @@ import com.chirvi.pocketlib.presentation.ui.common.book_card.VerticalBookCard
 @Composable
 fun BookColumn(
     books: List<BookPresentation> = emptyList(),
-    onClickPreview: (String) -> Unit,
-    displayMode: DisplayMode
+    displayMode: DisplayMode,
+    navigateToPost: (String) -> Unit
 ) {
     when(displayMode.name) {
         DisplayMode.LIST.name -> {
             ListDisplay(
                 books = books,
-                onClickPreview = onClickPreview
+                navigateToPost = navigateToPost
             )
         }
         DisplayMode.GRID.name -> {
             GridDisplay(
                 books = books,
-                onClickPreview = onClickPreview
+                navigateToPost = navigateToPost
             )
         }
     }
@@ -37,7 +37,7 @@ fun BookColumn(
 @Composable
 private fun ListDisplay(
     books: List<BookPresentation>,
-    onClickPreview: (String) -> Unit
+    navigateToPost: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -46,7 +46,7 @@ private fun ListDisplay(
         items(books) { book ->
             VerticalBookCard(
                 book = book,
-                onClickPreview = { onClickPreview(book.id) }
+                onClickPreview = { navigateToPost(book.id) }
             )
         }
     }
@@ -55,7 +55,7 @@ private fun ListDisplay(
 @Composable
 private fun GridDisplay(
     books: List<BookPresentation>,
-    onClickPreview: (String) -> Unit
+    navigateToPost: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
@@ -64,7 +64,7 @@ private fun GridDisplay(
         items ( books ) {book ->
             HorizontalBookCard(
                 book = book,
-                onClickPreview = { onClickPreview(book.id) }
+                onClickPreview = { navigateToPost(book.id) }
             )
         }
     }
