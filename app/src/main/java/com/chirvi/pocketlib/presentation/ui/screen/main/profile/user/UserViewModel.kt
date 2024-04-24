@@ -12,7 +12,7 @@ import com.chirvi.pocketlib.presentation.constants.DisplayModeKeys
 import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.models.toPresentation
 import com.chirvi.pocketlib.presentation.navigation.Screen
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,7 +52,7 @@ class UserViewModel @Inject constructor(
         return displayMode
     }
 
-    fun navigateToSettings(navigation: NavigationMainState) {
+    fun navigateToSettings(navigation: NavigationState) {
         navigation.navigateTo(Screen.Settings.route)
     }
 

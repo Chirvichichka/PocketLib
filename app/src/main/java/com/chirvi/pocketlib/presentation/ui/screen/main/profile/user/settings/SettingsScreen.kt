@@ -1,6 +1,5 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -41,15 +40,12 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.EditTextField
 import com.chirvi.pocketlib.presentation.ui.theme.ColorScheme
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationIntroductionState
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.seedBlue
 import com.chirvi.pocketlib.presentation.ui.theme.green_theme.seedGreen
 import com.chirvi.pocketlib.presentation.ui.theme.pink_theme.seedPink
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 @Composable
 fun SettingsScreen(
@@ -58,7 +54,7 @@ fun SettingsScreen(
     updateUser: () -> Unit,
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
-    val navigation = LocalNavigationMainState.current
+    val navigation = LocalNavigationState.current
 
     Column(
         modifier = Modifier
@@ -127,7 +123,7 @@ private fun Account(
     onLoginClick: () -> Unit,
     updateUser: () -> Unit
 ) {
-    val navigationIntroductionState = LocalNavigationIntroductionState.current
+    val navigationState = LocalNavigationState.current
 
     Column(
         modifier = Modifier
@@ -143,7 +139,7 @@ private fun Account(
                 onClickListener = { onCreateAccountClick() }
             )
             ButtonWithText(
-                text = stringResource(id = R.string.log_in),
+                text = "Сменить аккаунт",//todo
                 onClickListener = { onLoginClick() }
             )
             ButtonWithText(
@@ -151,7 +147,7 @@ private fun Account(
                 onClickListener = {
                     FirebaseAuth.getInstance().signOut()
                     updateUser()
-                    navigationIntroductionState.navigateTo(Screen.IntroductionLogin.route) //todo
+                    navigationState.navigateTo(Screen.Introduction.route) //todo
                 }
             )
         }

@@ -28,7 +28,7 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldPassword
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
@@ -37,7 +37,7 @@ fun LoginScreen(
 ) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val state by viewModel.state.observeAsState(LoginState.Initial)
-    val navigation = LocalNavigationMainState.current
+    val navigation = LocalNavigationState.current
 
     Column(
         modifier = Modifier
@@ -65,7 +65,7 @@ private fun Complete(
    viewModel: LoginViewModel,
    updateUser: () -> Unit
 ) {
-    val navigationState = LocalNavigationMainState.current
+    val navigationState = LocalNavigationState.current
     updateUser()
     viewModel.navigateToProfile(navigationState)
 }
@@ -75,7 +75,7 @@ private fun Initial(
     viewModel: LoginViewModel
 ) {
     Column {
-        TextFields(viewModel = viewModel)
+        LoginFields(viewModel = viewModel)
         SeparativeLine()
         ButtonWithText(
             text = "Войти",
@@ -98,7 +98,7 @@ private fun LoginAppTopBar(
     PocketLibTopAppBar(
         title = {
             Text(
-                text = "Войти в аккаунт", //toto
+                text = "Сменить аккаунт", //todo
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
                     color = PocketLibTheme.colors.onSecondaryContainer
                 )
@@ -113,7 +113,7 @@ private fun LoginAppTopBar(
 }
 
 @Composable
-private fun TextFields(
+private fun LoginFields(
     viewModel: LoginViewModel
 ) {
     val textEMail by viewModel.textEmail.observeAsState("")

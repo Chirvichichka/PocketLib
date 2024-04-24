@@ -10,9 +10,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.chirvi.pocketlib.presentation.models.UserPresentation
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationIntroductionState
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
-import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationIntroductionState
+import com.chirvi.pocketlib.presentation.navigation.Screen
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import com.chirvi.pocketlib.presentation.navigation.state.rememberNavigationMainState
 import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.DarkBlueTheme
 import com.chirvi.pocketlib.presentation.ui.theme.blue_theme.LightBlueTheme
@@ -25,11 +24,7 @@ private val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
     error("No text styles provided")
 }
 
-val LocalNavigationMainState = staticCompositionLocalOf<NavigationMainState> {
-    error("No MainNavigationState provided")
-}
-
-val LocalNavigationIntroductionState = staticCompositionLocalOf<NavigationIntroductionState> {
+val LocalNavigationState = staticCompositionLocalOf<NavigationState> {
     error("No MainNavigationState provided")
 }
 
@@ -50,6 +45,7 @@ fun PocketLibTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     currentTheme: ColorScheme = LocalColorScheme.current,
     user: UserPresentation?,
+    startDestination: String,
     content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
@@ -70,15 +66,18 @@ fun PocketLibTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.background.toArgb()
-            window.navigationBarColor = colorScheme.secondaryContainer.toArgb()
+            window.navigationBarColor = if (startDestination == Screen.Introduction.route) {
+                colorScheme.background.toArgb()
+            } else {
+                colorScheme.secondaryContainer.toArgb()
+            }
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
     CompositionLocalProvider(
         LocalUser provides user,
-        LocalNavigationMainState provides rememberNavigationMainState(),
-        LocalNavigationIntroductionState provides rememberNavigationIntroductionState(),
+        LocalNavigationState provides rememberNavigationMainState(),
         LocalColors provides colorScheme,
         LocalTextStyles provides TextStyleType,
         content = content

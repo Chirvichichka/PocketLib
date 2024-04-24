@@ -27,7 +27,7 @@ import com.chirvi.pocketlib.presentation.models.BookPresentation
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,7 +66,7 @@ private fun Content(
     displayMode: DisplayMode,
     books: List<BookPresentation>,
 ) {
-    val navigation = LocalNavigationMainState.current
+    val navigation = LocalNavigationState.current
     BookColumn(
         displayMode = displayMode,
         books = books,

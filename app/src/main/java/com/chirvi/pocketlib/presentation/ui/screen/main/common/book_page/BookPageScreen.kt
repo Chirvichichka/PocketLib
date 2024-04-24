@@ -31,7 +31,7 @@ import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
@@ -43,7 +43,7 @@ fun BookPageScreen(
     viewModel.getBookById(id = idPost)
     val book by viewModel.book.observeAsState(BookPresentation())
 
-    val navigation = LocalNavigationMainState.current
+    val navigation = LocalNavigationState.current
     val currentRoute = navigation.navHostController.currentDestination?.route
 
     Column(

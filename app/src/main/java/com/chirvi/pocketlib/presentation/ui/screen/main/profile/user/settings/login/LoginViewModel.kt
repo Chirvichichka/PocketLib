@@ -8,7 +8,7 @@ import com.chirvi.domain.usecase.users.AuthenticationUseCase
 import com.chirvi.pocketlib.presentation.models.UserPresentation
 import com.chirvi.pocketlib.presentation.models.toDomain
 import com.chirvi.pocketlib.presentation.navigation.Screen
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,8 +29,8 @@ class LoginViewModel @Inject constructor(
     private val _textPassword = MutableLiveData("")
     val textPassword: LiveData<String> = _textPassword
 
-    fun navigateToProfile(navigationMainState: NavigationMainState) {
-        navigationMainState.navigateTo(Screen.Profile.route)
+    fun navigateToProfile(navigationState: NavigationState) {
+        navigationState.navigateTo(Screen.Profile.route)
     }
 
     fun authentication() {
@@ -53,7 +53,7 @@ class LoginViewModel @Inject constructor(
             }
         }.join()
     }
-    fun navigateToBack(navigation: NavigationMainState) {
+    fun navigateToBack(navigation: NavigationState) {
         navigation.navHostController.popBackStack()
     }
     fun onValueChangeEMail(text: String) { _textEmail.value = text }

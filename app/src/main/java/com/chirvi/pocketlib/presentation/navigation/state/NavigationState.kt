@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.chirvi.pocketlib.presentation.navigation.Screen
 
-class NavigationMainState(
+class NavigationState(
     val navHostController: NavHostController
 ) {
     fun navigateToWithSaveState(
@@ -64,8 +64,8 @@ class NavigationMainState(
 @Composable
 fun rememberNavigationMainState(
     navHostController: NavHostController = rememberNavController()
-) : NavigationMainState {
+) : NavigationState {
     return remember {
-        NavigationMainState(navHostController = navHostController)
+        NavigationState(navHostController = navHostController)
     }
 }

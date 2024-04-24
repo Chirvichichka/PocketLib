@@ -12,7 +12,7 @@ import com.chirvi.pocketlib.R
 import com.chirvi.pocketlib.presentation.models.UserPresentation
 import com.chirvi.pocketlib.presentation.models.toDomain
 import com.chirvi.pocketlib.presentation.navigation.Screen
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -56,8 +56,8 @@ class CreateAccountViewModel @Inject constructor(
     fun onValueChangeConfirmPassword(text: String) { _textConfirmPassword.value = text }
     fun deleteImage() { _image.value = null }
     fun changeImage(imageUri: Uri) { _image.value = imageUri }
-    fun toProfileScreen(navigationMainState: NavigationMainState) {
-        navigationMainState.navigateTo(Screen.Profile.route)
+    fun toProfileScreen(navigationState: NavigationState) {
+        navigationState.navigateTo(Screen.Profile.route)
     }
 
     private fun confirmPassword() {
@@ -90,7 +90,7 @@ class CreateAccountViewModel @Inject constructor(
         _state.value = CreateAccountState.Complete
     }
 
-    fun navigateToBack(navigation: NavigationMainState) {
+    fun navigateToBack(navigation: NavigationState) {
         navigation.navHostController.popBackStack()
     }
 

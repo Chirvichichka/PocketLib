@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.introduction.login
+package com.chirvi.pocketlib.presentation.ui.screen.main.introduction.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,8 +8,7 @@ import com.chirvi.domain.usecase.users.AuthenticationUseCase
 import com.chirvi.pocketlib.presentation.models.UserPresentation
 import com.chirvi.pocketlib.presentation.models.toDomain
 import com.chirvi.pocketlib.presentation.navigation.Screen
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
-import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.login.LoginState
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,6 +29,10 @@ class IntroductionLoginViewModel @Inject constructor(
     fun onValueChangeEMail(text: String) { _textEmail.value = text }
     fun onValueChangePassword(text: String) { _textPassword.value = text }
 
+    fun navigateToRegistration(navigationState: NavigationState) {
+        navigationState.navigateTo(Screen.IntroductionRegistration.route)
+    }
+
     fun authentication() {
         _state.value = IntroductionLoginState.Loading
         viewModelScope.launch {
@@ -41,12 +44,8 @@ class IntroductionLoginViewModel @Inject constructor(
                 authenticationUseCase(user)
                 _state.value = IntroductionLoginState.Complete
             } catch (e: Exception) {
-               null
+                _state.value = IntroductionLoginState.Initial
             }
         }
     }
-    fun onComplete(navigationMainState: NavigationMainState) {
-        navigationMainState.navigateTo(Screen.Home.route)
-    }
-
 }

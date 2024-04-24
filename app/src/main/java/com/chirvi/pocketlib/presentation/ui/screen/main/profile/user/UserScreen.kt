@@ -37,14 +37,14 @@ import com.chirvi.pocketlib.presentation.navigation.item.ProfileTabRowItem
 import com.chirvi.pocketlib.presentation.ui.common.BookColumn
 import com.chirvi.pocketlib.presentation.ui.common.LoadingCircle
 import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.LocalUser
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun UserScreen() {
     val viewModel = hiltViewModel<UserViewModel>()
-    val navigation = LocalNavigationMainState.current
+    val navigation = LocalNavigationState.current
 
     Column(
         modifier = Modifier
@@ -141,7 +141,7 @@ private fun ProfileTabRow(
     val myBooksDisplayMode by viewModel.myBooksDisplayMode.observeAsState(DisplayMode.LIST)
     val favoritesDisplayMode by viewModel.favoritesDisplayMode.observeAsState(DisplayMode.LIST)
 
-    val navigation = LocalNavigationMainState.current
+    val navigation = LocalNavigationState.current
 
     val items = listOf(
         ProfileTabRowItem.MyBooks,

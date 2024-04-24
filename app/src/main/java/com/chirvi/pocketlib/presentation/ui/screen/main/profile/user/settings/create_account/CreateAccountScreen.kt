@@ -35,7 +35,7 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldPassword
 import com.chirvi.pocketlib.presentation.ui.common.text_field.TextFieldWithLabel
-import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationMainState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
@@ -44,7 +44,7 @@ fun CreateAccountScreen(
 ) {
     val viewModel = hiltViewModel<CreateAccountViewModel>()
     val state by viewModel.state.observeAsState(CreateAccountState.Initial)
-    val navigation = LocalNavigationMainState.current
+    val navigation = LocalNavigationState.current
 
     Column(
         modifier = Modifier
@@ -69,9 +69,9 @@ private fun Complete(
     viewModel: CreateAccountViewModel,
     updateUser: () -> Unit,
 ) {
-    val navigationState = LocalNavigationMainState.current
+    val navigationState = LocalNavigationState.current
     updateUser()
-    viewModel.toProfileScreen(navigationMainState = navigationState)
+    viewModel.toProfileScreen(navigationState = navigationState)
 }
 
 @Composable

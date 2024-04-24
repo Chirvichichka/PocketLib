@@ -8,8 +8,7 @@ import com.chirvi.domain.usecase.settings.GetSettingsUseCase
 import com.chirvi.domain.usecase.settings.SaveSettingsUseCase
 import com.chirvi.pocketlib.presentation.constants.DisplayModeKeys
 import com.chirvi.pocketlib.presentation.navigation.Screen
-import com.chirvi.pocketlib.presentation.navigation.state.NavigationMainState
-import com.google.firebase.auth.FirebaseAuth
+import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -56,15 +55,15 @@ class SettingsViewModel @Inject constructor(
         _favoriteSwitchState.value = !_favoriteSwitchState.value!!
     }
 
-    fun navigateToBack(navigation: NavigationMainState) {
+    fun navigateToBack(navigation: NavigationState) {
         navigation.navHostController.popBackStack()
     }
 
-    fun navigateToRegistration(navigation: NavigationMainState) {
+    fun navigateToRegistration(navigation: NavigationState) {
         navigation.navigateTo(Screen.Registration.route)
     }
 
-    fun navigateToLogin(navigation: NavigationMainState) {
+    fun navigateToLogin(navigation: NavigationState) {
         navigation.navigateTo(Screen.Login.route)
     }
 

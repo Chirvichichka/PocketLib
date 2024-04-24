@@ -7,7 +7,7 @@ sealed class Screen(
     data object Profile : Screen(ROUTE_PROFILE)
     data object AddBook : Screen(ROUTE_ADD_BOOK)
     data object PageBookHome : Screen(ROUTE_PAGE_BOOK_FEED) {
-        private const val ROUTE_FOR_ARGS = "book_page_feed"
+        private const val ROUTE_FOR_ARGS = "book_page_feed" //todo попытаться азобраться
         fun getRouteWithArgs(id: String) : String {
             return "$ROUTE_FOR_ARGS/$id"
         }
@@ -40,9 +40,7 @@ sealed class Screen(
     data object BookProfile : Screen(ROUTE_BOOK_PROFILE)
     data object IntroductionLogin : Screen(ROUTE_INTRODUCTION_LOGIN)
     data object Introduction : Screen(ROUTE_INTRODUCTION)
-    data object App : Screen(ROUTE_APP)
-    data object Main : Screen(ROUTE_MAIN)
-
+    data object IntroductionRegistration : Screen(ROUTE_INTRODUCTION_REGISTRATION)
 
     private companion object {
         const val ROUTE_LOGIN = "login"
@@ -61,8 +59,7 @@ sealed class Screen(
         const val ROUTE_BOOK_FEED = "book_feed"
         const val ROUTE_BOOK_PROFILE = "book_profile"
         const val ROUTE_INTRODUCTION_LOGIN = "introduction_login"
+        const val ROUTE_INTRODUCTION_REGISTRATION = "introduction_registration"
         const val ROUTE_INTRODUCTION = "introduction"
-        const val ROUTE_APP = "app"
-        const val ROUTE_MAIN = "main"
     }
 }

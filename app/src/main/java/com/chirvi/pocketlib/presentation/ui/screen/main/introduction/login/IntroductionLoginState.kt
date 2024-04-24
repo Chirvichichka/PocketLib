@@ -1,4 +1,4 @@
-package com.chirvi.pocketlib.presentation.ui.screen.introduction.login
+package com.chirvi.pocketlib.presentation.ui.screen.main.introduction.login
 
 sealed class IntroductionLoginState {
     data object Initial : IntroductionLoginState()
