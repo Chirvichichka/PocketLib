@@ -134,7 +134,7 @@ private fun TextFields(
     viewModel: CreateAccountViewModel
 ) {
     val textName by viewModel.textName.observeAsState("")
-    val textEMail by viewModel.textEMail.observeAsState("")
+    val textEmail by viewModel.textEmail.observeAsState("")
     val textPassword by viewModel.textPassword.observeAsState("")
     val textConfirmPassword by viewModel.textConfirmPassword.observeAsState("")
 
@@ -153,7 +153,7 @@ private fun TextFields(
             )
             Spacer(modifier = Modifier.height(16.dp))
             TextFieldWithLabel(
-                text = textEMail,
+                text = textEmail,
                 textLabel = stringResource(id = R.string.enter_e_mail),
                 keyboardType = KeyboardType.Email,
                 onValueChange = { newText -> viewModel.onValueChangeEMail(newText) }

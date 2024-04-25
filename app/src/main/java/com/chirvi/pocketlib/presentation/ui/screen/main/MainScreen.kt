@@ -104,7 +104,7 @@ private fun Content(
                 loginContent = { LoginScreen(updateUser = { viewModel.getUser() }) },
                 bookViewer = { id -> BookViewer(id = id) },
                 introductionLoginContent = { IntroductionLoginScreen(updateUser = { viewModel.getUser() }) },
-                introductionRegistrationContent = { IntroductionRegistrationScreen() }
+                introductionRegistrationContent = { IntroductionRegistrationScreen(updateUser = { viewModel.getUser() }) }
             )
         }
     }
