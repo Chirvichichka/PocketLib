@@ -8,12 +8,7 @@ class RegistrationUseCase(
     ) {
     suspend operator fun invoke(
         user: UserDomain
-    ): String {
-        try {
-            userRepository.registration(user)
-            return ""
-        } catch (e: Exception) {
-            return e.localizedMessage
-        }
+    ): String? {
+        return userRepository.registration(user)
     }
 }

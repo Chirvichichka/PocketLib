@@ -19,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
-    private val confirmPasswordUseCase: ConfirmPasswordUseCase,
     private val registrationUseCase: RegistrationUseCase,
     private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
@@ -38,9 +37,6 @@ class CreateAccountViewModel @Inject constructor(
     private val _textPassword = MutableLiveData("")
     val textPassword: LiveData<String> = _textPassword
 
-    private val _textConfirmPassword = MutableLiveData("")
-    val textConfirmPassword: LiveData<String> = _textConfirmPassword
-
     private val _errorMessageId = MutableLiveData(R.string.password_not_error)
     val errorMessageId: LiveData<Int> = _errorMessageId
 
@@ -52,36 +48,28 @@ class CreateAccountViewModel @Inject constructor(
     fun onValueChangeEMail(text: String) { _textEMail.value = text }
 
     fun onValueChangePassword(text: String) { _textPassword.value = text }
-
-    fun onValueChangeConfirmPassword(text: String) { _textConfirmPassword.value = text }
     fun deleteImage() { _image.value = null }
     fun changeImage(imageUri: Uri) { _image.value = imageUri }
-    fun toProfileScreen(navigationState: NavigationState) {
+    fun navigateToProfileScreen(navigationState: NavigationState) {
         navigationState.navigateTo(Screen.Profile.route)
     }
 
-    private fun confirmPassword() {
-        _errorMessage.value = confirmPasswordUseCase(
-            password = _textPassword.value ?: "",
-            passwordConfirm = _textConfirmPassword.value ?: ""
-        )
-    }
     fun registration() {
-        confirmPassword()
         currentError(_errorMessage.value?: "")
         if (errorMessage.value == "") {
             viewModelScope.launch {
-                suspendRegistration()
+                suspendRegistration() //todo ередеалть
             }
         }
     }
+
     private suspend fun suspendRegistration() {
         _state.value = CreateAccountState.Loading
         viewModelScope.launch {
             val user = UserPresentation(
                 username = textName.value?:"",
                 email = textEmail.value?:"",
-                password = textConfirmPassword.value?:"",
+                password = textPassword.value?:"",
                 avatar = image.value,
             ).toDomain()
             _errorMessage.value = registrationUseCase(user = user)

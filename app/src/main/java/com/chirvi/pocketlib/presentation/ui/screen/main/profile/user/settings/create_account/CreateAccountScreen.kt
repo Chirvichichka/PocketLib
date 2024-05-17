@@ -71,7 +71,7 @@ private fun Complete(
 ) {
     val navigationState = LocalNavigationState.current
     updateUser()
-    viewModel.toProfileScreen(navigationState = navigationState)
+    viewModel.navigateToProfileScreen(navigationState = navigationState)
 }
 
 @Composable
@@ -136,7 +136,6 @@ private fun TextFields(
     val textName by viewModel.textName.observeAsState("")
     val textEmail by viewModel.textEmail.observeAsState("")
     val textPassword by viewModel.textPassword.observeAsState("")
-    val textConfirmPassword by viewModel.textConfirmPassword.observeAsState("")
 
     Card(
         colors = CardDefaults.cardColors(
@@ -163,12 +162,6 @@ private fun TextFields(
                 text = textPassword,
                 textLabel = stringResource(id = R.string.enter_password),
                 onValueChange = { newText -> viewModel.onValueChangePassword(newText) }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TextFieldPassword(
-                text = textConfirmPassword,
-                textLabel = stringResource(id = R.string.enter_confirm_password),
-                onValueChange = { newText -> viewModel.onValueChangeConfirmPassword(newText) },
             )
         }
     }

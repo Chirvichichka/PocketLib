@@ -4,6 +4,8 @@ import android.util.Log
 import com.chirvi.domain.models.UserDomain
 import com.chirvi.domain.repository.users.UserRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 
@@ -12,7 +14,8 @@ class UserRepositoryImpl : UserRepository {
     private val usersReference = database.getReference("users")
     private val auth = FirebaseAuth.getInstance()
 
-    override suspend fun registration(userDomain: UserDomain) {
+    override suspend fun registration(userDomain: UserDomain) : String? {
+        var error: String? = null
         try {
             val result = auth.createUserWithEmailAndPassword(
                 userDomain.email,
@@ -22,8 +25,10 @@ class UserRepositoryImpl : UserRepository {
             userDomain.id = userId
             saveUser(userDomain)
         } catch (e: Exception) {
-            TODO()
+            Log.e("ERROR", e.toString())
+            error = e.localizedMessage
         }
+        return error
     }
 
     override suspend fun authentication(userDomain: UserDomain) {
@@ -41,7 +46,6 @@ class UserRepositoryImpl : UserRepository {
             avatar = snapshot.child("avatar").value.toString()
         )
         return receivedUser
-
     }
 
     override suspend fun saveUser(userDomain: UserDomain) {

@@ -53,11 +53,21 @@ fun IntroductionRegistrationScreen(
             .padding(all = 8.dp)
     ) {
         when(state) {
-            IntroductionRegistrationState.Complete -> { updateUser() }
+            IntroductionRegistrationState.Complete -> { Complete(viewModel = viewModel, updateUser = updateUser) }
             IntroductionRegistrationState.Initial -> { Content(viewModel = viewModel) }
             IntroductionRegistrationState.Loading -> { LoadingCircle() }
         }
     }
+}
+
+@Composable
+private fun Complete(
+    viewModel: IntroductionRegistrationViewModel,
+    updateUser: () -> Unit,
+) {
+    val navigationState = LocalNavigationState.current
+    updateUser()
+    viewModel.navigateToProfile(navigationState = navigationState)
 }
 
 @Composable
@@ -66,7 +76,6 @@ private fun Content(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Title()
@@ -154,12 +163,14 @@ private fun AddAvatar(
 @Composable
 private fun RegistrationFields(
     viewModel: IntroductionRegistrationViewModel
-
 ) {
     val textName by viewModel.textName.observeAsState("")
     val textEmail by viewModel.textEmail.observeAsState("")
     val textPassword by viewModel.textPassword.observeAsState("")
-    val textConfirmPassword by viewModel.textConfirmPassword.observeAsState("")
+
+    val isErrorName by viewModel.isErrorName.observeAsState(false)
+    val isErrorEmail by viewModel.isErrorEmail.observeAsState(false)
+    val isErrorPassword by viewModel.isErrorPassword.observeAsState(false)
 
     Card(
         colors = CardDefaults.cardColors(
@@ -171,12 +182,14 @@ private fun RegistrationFields(
         ) {
             TextFieldWithLabel(
                 text = textName,
+                isError = isErrorName,
                 textLabel = stringResource(id = R.string.account_name),
                 onValueChange = { newText -> viewModel.onValueChangeName(newText) }
             )
             Spacer(modifier = Modifier.height(16.dp))
             TextFieldWithLabel(
                 text = textEmail,
+                isError = isErrorEmail,
                 textLabel = stringResource(id = R.string.enter_e_mail),
                 keyboardType = KeyboardType.Email,
                 onValueChange = { newText -> viewModel.onValueChangeEMail(newText) }
@@ -184,14 +197,9 @@ private fun RegistrationFields(
             Spacer(modifier = Modifier.height(16.dp))
             TextFieldPassword(
                 text = textPassword,
+                isError = isErrorPassword,
                 textLabel = stringResource(id = R.string.enter_password),
                 onValueChange = { newText -> viewModel.onValueChangePassword(newText) }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TextFieldPassword(
-                text = textConfirmPassword,
-                textLabel = stringResource(id = R.string.enter_confirm_password),
-                onValueChange = { newText -> viewModel.onValueChangeConfirmPassword(newText) },
             )
         }
     }
@@ -210,7 +218,7 @@ private fun RegistrationButtons(
             contentColor = PocketLibTheme.colors.onPrimary
         ),
         onClickListener = {
-
+            viewModel.registration()
         }
     )
     SeparativeLine()

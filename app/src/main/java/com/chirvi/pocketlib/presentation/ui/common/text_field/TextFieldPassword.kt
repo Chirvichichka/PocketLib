@@ -2,6 +2,7 @@ package com.chirvi.pocketlib.presentation.ui.common.text_field
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -27,6 +28,7 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 fun TextFieldPassword(
     text: String,
     textLabel: String,
+    isError: Boolean = false,
     onValueChange: (String) -> Unit,
 ) {
     var checkPassword by remember { mutableStateOf(true) } //todo перенести во вью модель
@@ -44,6 +46,7 @@ fun TextFieldPassword(
                 style = PocketLibTheme.textStyles.normalStyle
             )
         },
+        isError = isError,
         trailingIcon = {
             IconButton(
                 onClick = { checkPassword = !checkPassword }
@@ -75,6 +78,12 @@ fun TextFieldPassword(
             unfocusedIndicatorColor = PocketLibTheme.colors.onPrimaryContainer,
             unfocusedTextColor = PocketLibTheme.colors.onPrimaryContainer,
             unfocusedLabelColor = PocketLibTheme.colors.onPrimaryContainer,
+
+            errorContainerColor = PocketLibTheme.colors.surfaceVariant,
+            errorIndicatorColor = PocketLibTheme.colors.errorContainer,
+            errorTextColor = PocketLibTheme.colors.onPrimaryContainer,
+            errorLabelColor = PocketLibTheme.colors.primary,
+            errorCursorColor = PocketLibTheme.colors.onBackground,
         )
     )
 }

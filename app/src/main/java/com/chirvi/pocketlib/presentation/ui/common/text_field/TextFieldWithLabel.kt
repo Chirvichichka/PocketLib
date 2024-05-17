@@ -1,7 +1,9 @@
 package com.chirvi.pocketlib.presentation.ui.common.text_field
 
+import android.os.Message
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -12,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
+import java.lang.Error
 
 @Composable
 fun TextFieldWithLabel(
@@ -19,6 +22,7 @@ fun TextFieldWithLabel(
     text: String,
     textLabel: String,
     singleLine: Boolean = true,
+    isError: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
 ) {
@@ -35,6 +39,7 @@ fun TextFieldWithLabel(
                 style = PocketLibTheme.textStyles.normalStyle
             )
         },
+        isError = isError,
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
         textStyle = PocketLibTheme.textStyles.normalStyle,
         shape = RoundedCornerShape(10.dp),
@@ -50,6 +55,13 @@ fun TextFieldWithLabel(
             unfocusedIndicatorColor = PocketLibTheme.colors.onPrimaryContainer,
             unfocusedTextColor = PocketLibTheme.colors.onPrimaryContainer,
             unfocusedLabelColor = PocketLibTheme.colors.onPrimaryContainer,
+
+            errorContainerColor = PocketLibTheme.colors.surfaceVariant,
+            errorIndicatorColor = PocketLibTheme.colors.errorContainer,
+            errorTextColor = PocketLibTheme.colors.onPrimaryContainer,
+            errorLabelColor = PocketLibTheme.colors.primary,
+            errorCursorColor = PocketLibTheme.colors.onBackground,
         )
     )
+
 }
