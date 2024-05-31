@@ -26,7 +26,7 @@ class UserRepositoryImpl : UserRepository {
             saveUser(userDomain)
         } catch (e: Exception) {
             Log.e("ERROR", e.toString())
-            error = e.localizedMessage
+            error = e.message
         }
         return error
     }

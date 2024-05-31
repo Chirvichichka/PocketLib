@@ -22,7 +22,6 @@ class BookReader(private val context: Context) {
         val zipFile = ZipFile(downloadedFile)
         val entries = zipFile.entries()
 
-        // Проходимся по всем файлам в EPUB и распаковываем их во внутреннюю директорию
         while (entries.hasMoreElements()) {
             val entry = entries.nextElement()
             val entryName = entry.name
@@ -47,9 +46,7 @@ class BookReader(private val context: Context) {
         }
 
         zipFile.close()
-        // Удаляем временный файл EPUB
         downloadedFile.delete()
-
         return readXhtml(outputDirectory)
     }
 
@@ -57,33 +54,24 @@ class BookReader(private val context: Context) {
         val textList = mutableListOf<String>()
         val htmlFiles = mutableListOf<File>()
 
-        // Рекурсивная функция для обхода папок и чтения файлов
         fun exploreDirectory(directory: File) {
             val files = directory.listFiles()
             if (files != null) {
-                // Сортируем файлы по именам
                 val sortedFiles = files.sortedBy { it.name }
-
                 for (file in sortedFiles) {
                     if (file.isDirectory) {
-                        // Если это папка, рекурсивно вызываем эту же функцию для нее
                         exploreDirectory(file)
                     }else if (file.isFile &&
                         (
                             file.extension.equals("html", ignoreCase = true) ||
                             file.extension.equals("xhtml", ignoreCase = true))
                         ) {
-                        // Если это файл с расширением .html или .xhtml, добавляем его в список
                         htmlFiles.add(file)
                     }
                 }
             }
         }
-
-        // Если папка существует, начинаем обход
         exploreDirectory(directory)
-
-        // Читаем содержимое всех найденных файлов .xhtml
         for (xhtmlFile in htmlFiles) {
             val text = extractTextFromXHTML(xhtmlFile)
             textList.add(text)

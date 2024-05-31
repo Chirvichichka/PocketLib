@@ -91,10 +91,12 @@ private fun Content(
         Column(
             modifier = Modifier.padding(all = 16.dp)
         ) {
-            ButtonWithText(
-                text = stringResource(id = R.string.read),
-                onClickListener = { navigateToBookViewer() }
-            )
+            if (book.bookFile != null) {
+                ButtonWithText(
+                    text = stringResource(id = R.string.read),
+                    onClickListener = { navigateToBookViewer() }
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             TextInfo(book = book)
         }

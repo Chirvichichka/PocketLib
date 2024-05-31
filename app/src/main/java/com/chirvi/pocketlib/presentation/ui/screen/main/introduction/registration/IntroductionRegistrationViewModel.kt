@@ -1,14 +1,20 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.introduction.registration
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.chirvi.domain.usecase.users.RegistrationUseCase
 import com.chirvi.domain.usecase.users.SaveUserUseCase
+import com.chirvi.pocketlib.presentation.models.UserPresentation
+import com.chirvi.pocketlib.presentation.models.toDomain
 import com.chirvi.pocketlib.presentation.navigation.Screen
 import com.chirvi.pocketlib.presentation.navigation.state.NavigationState
+import com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.create_account.CreateAccountState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,6 +46,9 @@ class IntroductionRegistrationViewModel @Inject constructor(
     private val _image = MutableLiveData<Uri?>()
     val image: LiveData<Uri?> = _image
 
+    private val _errorMessage = MutableLiveData("")
+    val errorMessage: LiveData<String> = _errorMessage
+
     fun onValueChangeName(text: String) { _textName.value = text }
 
     fun onValueChangeEMail(text: String) { _textEmail.value = text }
@@ -53,34 +62,31 @@ class IntroductionRegistrationViewModel @Inject constructor(
     fun navigateToProfile(navigationState: NavigationState) { navigationState.navigateTo(Screen.Profile.route) }
 
     fun registration() {
-        checkField()
-//        _state.value = IntroductionRegistrationState.Loading
-//        viewModelScope.launch {
-//            val user = UserPresentation(
-//                username = textName.value?:"",
-//                email = textEmail.value?:"",
-//                password = textPassword.value?:"",
-//                avatar = image.value,
-//            ).toDomain()
-//            _errorMessage.value = registrationUseCase(user = user)
-//            if (_errorMessage.value == null) {
-//                saveUserUseCase(user)
-//                _state.value = IntroductionRegistrationState.Complete
-//            } else {
-//                _state.value = IntroductionRegistrationState.Initial
-//            }
-//        }
-    }
-    fun checkField() {
-        if(_textName.value == "") {
-            _isErrorName.value = !isErrorName.value!!
-        }
-        if(_textEmail.value == "") {
-            _isErrorEmail.value = !_isErrorEmail.value!!
-        }
-        if(_textPassword.value == "") {
-            _isErrorPassword.value = !_isErrorPassword.value!!
+        Log.e("AAA", errorMessage.value.toString())
+        if (errorMessage.value == "") {
+            viewModelScope.launch {
+                suspendRegistration() //todo ередеалть
+            }
         }
     }
 
+    private suspend fun suspendRegistration() {
+        _errorMessage.value = ""
+        _state.value = IntroductionRegistrationState.Loading
+        viewModelScope.launch {
+            val user = UserPresentation(
+                username = textName.value?:"",
+                email = textEmail.value?:"",
+                password = textPassword.value?:"",
+                avatar = image.value,
+            ).toDomain()
+            _errorMessage.value = registrationUseCase(user = user)
+            if (errorMessage.value == "") {
+                saveUserUseCase(user)
+                _state.value = IntroductionRegistrationState.Complete
+            } else {
+                _state.value = IntroductionRegistrationState.Initial
+            }
+        }.join()
+    }
 }

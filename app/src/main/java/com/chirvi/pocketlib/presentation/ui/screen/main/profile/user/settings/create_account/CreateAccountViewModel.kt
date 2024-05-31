@@ -1,6 +1,7 @@
 package com.chirvi.pocketlib.presentation.ui.screen.main.profile.user.settings.create_account
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,9 +38,6 @@ class CreateAccountViewModel @Inject constructor(
     private val _textPassword = MutableLiveData("")
     val textPassword: LiveData<String> = _textPassword
 
-    private val _errorMessageId = MutableLiveData(R.string.password_not_error)
-    val errorMessageId: LiveData<Int> = _errorMessageId
-
     private val _image = MutableLiveData<Uri?>()
     val image: LiveData<Uri?> = _image
 
@@ -55,7 +53,7 @@ class CreateAccountViewModel @Inject constructor(
     }
 
     fun registration() {
-        currentError(_errorMessage.value?: "")
+        Log.e("AAA", errorMessage.value.toString())
         if (errorMessage.value == "") {
             viewModelScope.launch {
                 suspendRegistration() //todo ередеалть
@@ -73,22 +71,16 @@ class CreateAccountViewModel @Inject constructor(
                 avatar = image.value,
             ).toDomain()
             _errorMessage.value = registrationUseCase(user = user)
-            saveUserUseCase(user)
+            if (errorMessage.value == "") {
+                saveUserUseCase(user)
+                _state.value = CreateAccountState.Complete
+            } else {
+                _state.value = CreateAccountState.Initial
+            }
         }.join()
-        _state.value = CreateAccountState.Complete
     }
 
     fun navigateToBack(navigation: NavigationState) {
         navigation.navHostController.popBackStack()
-    }
-
-    private fun currentError(error: String) {   //TODO ПЕРЕДЕЛАТЬ!!!!!!!!
-        _errorMessageId.value =
-            when(error) {
-                "Short password length" -> { R.string.password_short_length }
-                "Password mismatch" -> { R.string.password_mismatch }
-                "Field is empty" -> { R.string.password_is_empty }
-                else -> { R.string.password_not_error }
-            }
     }
 }

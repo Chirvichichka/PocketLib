@@ -78,7 +78,7 @@ private fun Complete(
 private fun Initial(
     viewModel: CreateAccountViewModel
 ) {
-    val errorId by viewModel.errorMessageId.observeAsState(0)
+    val error by viewModel.errorMessage.observeAsState("")
 
     Column {
         AddAvatar(viewModel = viewModel)
@@ -90,9 +90,9 @@ private fun Initial(
                     vertical = 4.dp,
                     horizontal = 8.dp
                 ),
-            text = stringResource(id = errorId),
+            text = error,
             style = PocketLibTheme.textStyles.normalStyle.copy(
-                color = PocketLibTheme.colors.onBackground
+                color = PocketLibTheme.colors.error
             )
         )
         Spacer(modifier = Modifier.weight(1f))

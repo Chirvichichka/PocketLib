@@ -209,8 +209,6 @@ private fun RegistrationFields(
 private fun RegistrationButtons(
     viewModel: IntroductionRegistrationViewModel
 ) {
-    val navigationState = LocalNavigationState.current
-
     ButtonWithText(
         text = "Создать аккаунт", //todo
         colors = ButtonDefaults.buttonColors(
