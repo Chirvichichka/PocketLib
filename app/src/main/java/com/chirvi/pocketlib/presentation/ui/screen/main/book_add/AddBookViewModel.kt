@@ -45,7 +45,6 @@ class AddBookViewModel @Inject constructor(
         _bookFile.value = file
     }
 
-
     private val postId = createIdUseCase()
 
     private val _opened = MutableLiveData(false)

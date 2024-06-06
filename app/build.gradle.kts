@@ -55,6 +55,7 @@ android {
 dependencies {
     implementation("com.google.dagger:hilt-android:2.50")
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.0.0")
     ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 

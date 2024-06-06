@@ -9,7 +9,8 @@ import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
 
 @Composable
 fun ButtonIconFavorite(
-    onClickListener: () -> Unit
+    isFavorite: Boolean,
+    onClickListener: () -> Unit,
 ) {
     IconButton(
         onClick = {
@@ -17,8 +18,16 @@ fun ButtonIconFavorite(
         }
     ) {
         Icon(
-            tint = PocketLibTheme.colors.onBackground,
-            painter = painterResource(id = R.drawable.bookmark_border),
+            tint = if(isFavorite) {
+                PocketLibTheme.colors.primary
+            } else {
+                PocketLibTheme.colors.onBackground
+            },
+            painter = if(isFavorite) {
+                painterResource(id = R.drawable.round_bookmark)
+            } else {
+                painterResource(id = R.drawable.bookmark_border)
+            },
             contentDescription = null
         )
     }

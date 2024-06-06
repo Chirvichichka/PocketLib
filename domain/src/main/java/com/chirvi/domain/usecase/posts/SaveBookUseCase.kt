@@ -9,16 +9,23 @@ class SaveBookUseCase(
     private val storage: StorageRepository
 ) {
     suspend operator fun invoke(book: BookDomain) {
+        var newBook = book.copy()
         if(book.image != null) {
             storage.saveImage(book.image, book.id)
+            newBook = newBook.copy(
+                image = storage.loadImage(book.id),
+            )
         }
         if (book.bookFile != null) {
             storage.saveBookFile(book.bookFile, book.id)
+            newBook = newBook.copy(
+                bookFile = storage.loadBookFile(book.id)
+            )
+        } else {
+            newBook = newBook.copy(
+                bookFile = storage.loadBookFile("")
+            )
         }
-        val newBook = book.copy(
-            image = storage.loadImage(book.id),
-            bookFile = storage.loadBookFile(book.id)
-        )
         repository.saveBook(book = newBook)
     }
 }

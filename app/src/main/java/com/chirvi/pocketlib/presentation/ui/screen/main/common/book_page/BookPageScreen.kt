@@ -15,6 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -32,7 +35,9 @@ import com.chirvi.pocketlib.presentation.ui.common.button.BackButton
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonIconFavorite
 import com.chirvi.pocketlib.presentation.ui.common.button.ButtonWithText
 import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
+import com.chirvi.pocketlib.presentation.ui.theme.LocalUser
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun BookPageScreen(
@@ -58,7 +63,8 @@ fun BookPageScreen(
                     currentRoute = currentRoute?:""
                 )
             },
-            bookName = book.name
+            book = book,
+            viewModel = viewModel
         )
         when(state) {
             BookPageState.Content -> {
@@ -91,29 +97,32 @@ private fun Content(
         Column(
             modifier = Modifier.padding(all = 16.dp)
         ) {
-            if (book.bookFile != null) {
-                ButtonWithText(
-                    text = stringResource(id = R.string.read),
-                    onClickListener = { navigateToBookViewer() }
-                )
-            }
+            ButtonWithText(
+                text = stringResource(id = R.string.read),
+                onClickListener = { navigateToBookViewer() }
+            )
             Spacer(modifier = Modifier.height(16.dp))
             TextInfo(book = book)
         }
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookPageAppTopBar(
-    bookName: String,
-    navigateToBack: () -> Unit
+    book: BookPresentation,
+    navigateToBack: () -> Unit,
+    viewModel: BookPageViewModel
 ) {
+    viewModel.getFavorites(FirebaseAuth.getInstance().currentUser?.uid?:"", book.id)
+
+    val favorites by viewModel.favorites.observeAsState(LocalUser.current?.favorites?: emptyList())
+    val isFavorite by viewModel.isFavorite.observeAsState(book.id in favorites)
+
     PocketLibTopAppBar(
         title = {
             Text(
-                text = bookName,
+                text = book.name,
                 style = PocketLibTheme.textStyles.topAppBarStyle.copy(
                     color = PocketLibTheme.colors.onSecondaryContainer
                 )
@@ -125,8 +134,14 @@ fun BookPageAppTopBar(
             )
         },
         actions = {
-            ButtonIconFavorite {
-                //todo
+            ButtonIconFavorite(
+                isFavorite = isFavorite
+            ) {
+                viewModel.toggleIsFavorite()
+                viewModel.toggleFavorite(
+                    idBook = book.id,
+                    idUser = FirebaseAuth.getInstance().currentUser?.uid?:""
+                )
             }
         }
     )

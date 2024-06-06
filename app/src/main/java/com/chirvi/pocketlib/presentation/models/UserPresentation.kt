@@ -8,7 +8,8 @@ data class UserPresentation(
     val email: String,
     val password: String,
     val username: String? = null,
-    val avatar: Uri? = null
+    val avatar: Uri? = null,
+    val favorites: List<String> = emptyList()
 )
 fun UserPresentation.toDomain(): UserDomain {
     return UserDomain(
@@ -16,7 +17,8 @@ fun UserPresentation.toDomain(): UserDomain {
         username = this.username,
         email = this.email,
         password = this.password,
-        avatar = if(this.avatar != null) { this.avatar.toString() } else { null }
+        avatar = if(this.avatar != null) { this.avatar.toString() } else { null },
+        favorites = this.favorites
     )
 }
 fun UserDomain.toPresentation(): UserPresentation {
@@ -24,6 +26,7 @@ fun UserDomain.toPresentation(): UserPresentation {
         username = this.username,
         email = this.email,
         password = this.password,
-        avatar = this.avatar?.toUri()
+        avatar = this.avatar?.toUri(),
+        favorites = this.favorites
     )
 }

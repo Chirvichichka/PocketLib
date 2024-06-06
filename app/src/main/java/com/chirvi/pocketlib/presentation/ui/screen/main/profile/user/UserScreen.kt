@@ -40,6 +40,7 @@ import com.chirvi.pocketlib.presentation.ui.common.PocketLibTopAppBar
 import com.chirvi.pocketlib.presentation.ui.theme.LocalNavigationState
 import com.chirvi.pocketlib.presentation.ui.theme.LocalUser
 import com.chirvi.pocketlib.presentation.ui.theme.PocketLibTheme
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun UserScreen() {
@@ -135,8 +136,11 @@ private fun ProfileTabRow(
     viewModel: UserViewModel,
 ) {
     val tabRowIndex by viewModel.tabRowItem.observeAsState(0)
+    viewModel.getFavoritesBooks(FirebaseAuth.getInstance().currentUser?.uid?:"")
 
-    val books by viewModel.postsList.observeAsState(emptyList())
+    val myBooks by viewModel.postsList.observeAsState(emptyList())
+    val favoriteBooks by viewModel.favoritesBooks.observeAsState(emptyList())
+
     val state by viewModel.state.observeAsState(UserState.Initial)
     val myBooksDisplayMode by viewModel.myBooksDisplayMode.observeAsState(DisplayMode.LIST)
     val favoritesDisplayMode by viewModel.favoritesDisplayMode.observeAsState(DisplayMode.LIST)
@@ -188,17 +192,24 @@ private fun ProfileTabRow(
                 UserState.Content -> {
                     BookColumn(
                         displayMode = myBooksDisplayMode,
-                        books = books,
+                        books = myBooks,
                         navigateToPost = { id -> navigation.navigateToPostFromProfile(id) }
                     )
                 }
             }
         }
         1 -> {
-            BookColumn(
-                displayMode = favoritesDisplayMode,
-                navigateToPost = {  }
-            )
+            when(state) {
+                UserState.Initial -> {  }
+                UserState.Loading -> { LoadingCircle() }
+                UserState.Content -> {
+                    BookColumn(
+                        displayMode = favoritesDisplayMode,
+                        books = favoriteBooks,
+                        navigateToPost = { id -> navigation.navigateToPostFromProfile(id) }
+                    )
+                }
+            }
         }
     }
 }

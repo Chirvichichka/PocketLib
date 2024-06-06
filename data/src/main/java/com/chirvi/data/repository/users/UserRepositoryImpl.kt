@@ -43,7 +43,8 @@ class UserRepositoryImpl : UserRepository {
             username = snapshot.child("username").value.toString(),
             email = snapshot.child("email").value.toString(),
             password = snapshot.child("password").value.toString(),
-            avatar = snapshot.child("avatar").value.toString()
+            avatar = snapshot.child("avatar").value.toString(),
+            favorites = snapshot.child("favorites").children.map { it.value.toString() },
         )
         return receivedUser
     }

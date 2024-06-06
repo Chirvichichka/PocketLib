@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -115,11 +116,17 @@ private fun SearchBook(
         textStyle = textStyle,
         singleLine = true,
         trailingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.search),
-                contentDescription = null,
-                tint = PocketLibTheme.colors.onBackground
-            )
+            IconButton(
+                onClick = {
+                    viewModel.searchBooks(text)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.search),
+                    contentDescription = null,
+                    tint = PocketLibTheme.colors.onBackground
+                )
+            }
         },
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.colors(

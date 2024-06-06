@@ -1,5 +1,6 @@
 package com.chirvi.data.repository.storage
 
+import android.util.Log
 import androidx.core.net.toUri
 import com.chirvi.domain.repository.storage.StorageRepository
 import com.google.firebase.storage.FirebaseStorage
@@ -37,9 +38,9 @@ class StorageRepositoryImpl : StorageRepository {
 
     override suspend fun loadBookFile(id: String): String {
         val bookFileReference = bookStorageReference.child("$id.epub")
+        Log.e("A", bookFileReference.toString())
         return try {
             id
-          //  bookFileReference.downloadUrl.await().toString()
         } catch (e: Exception) {
             ""
         }

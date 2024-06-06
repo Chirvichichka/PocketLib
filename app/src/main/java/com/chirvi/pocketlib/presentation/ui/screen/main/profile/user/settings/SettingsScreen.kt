@@ -74,8 +74,8 @@ fun SettingsScreen(
             )
             SeparativeLine()
             SettingsTheme(viewModel = viewModel, themeChange = changeTheme, colorSchemeChange = changeColorScheme)
-            SeparativeLine()
-            UserEdit()
+//            SeparativeLine()
+//            UserEdit()
             SeparativeLine()
             SettingsDisplay(viewModel = viewModel)
         }

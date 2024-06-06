@@ -93,11 +93,6 @@ fun HorizontalBookCard( //todo ПЕРЕДЕЛАТЬ
                             )
                         )
                     }
-                    ButtonIconFavorite(
-                        onClickListener = {
-                            //todo
-                        }
-                    )
                 }
                 Text(
                     modifier = Modifier.padding(end = 8.dp),

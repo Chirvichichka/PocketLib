@@ -5,5 +5,6 @@ data class UserDomain(
     val email: String,
     val password: String,
     val username: String? = null,
-    val avatar: String? = null
+    val avatar: String? = null,
+    val favorites: List<String> = emptyList()
 )

@@ -94,9 +94,6 @@ fun VerticalBookCard(  //todo ПЕРЕДЕЛАТЬ
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            ButtonIconFavorite {
-                //todo
-            }
         }
     }
 }
