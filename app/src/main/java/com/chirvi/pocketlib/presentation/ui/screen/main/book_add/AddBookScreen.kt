@@ -74,6 +74,7 @@ fun AddBookScreen(
 private fun Initial(
     viewModel: AddBookViewModel
 ) {
+    val error by viewModel.error.observeAsState("")
     Column(
         modifier = Modifier
             .padding(horizontal = 8.dp)
@@ -97,6 +98,14 @@ private fun Initial(
                 contentColor = PocketLibTheme.colors.onTertiary
             )
         )
+        if(error != "") {
+            Text(
+                text = error,
+                style = PocketLibTheme.textStyles.normalStyle.copy(
+                    color = PocketLibTheme.colors.onBackground
+                )
+            )
+        }
     }
 }
 
@@ -147,6 +156,7 @@ private fun AddBookTopAppBar() {
 private fun LoadButton(
     viewModel: AddBookViewModel
 ) {
+    val file by viewModel.bookFile.observeAsState()
     val pickFileLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { viewModel.loadFileBook(it?:Uri.EMPTY) }
@@ -157,6 +167,14 @@ private fun LoadButton(
             pickFileLauncher.launch("application/epub+zip")
         }
     )
+    if(file != null) {
+        Text(
+            text = "Файл загружен",
+            style = PocketLibTheme.textStyles.normalStyle.copy(
+                color = PocketLibTheme.colors.onBackground
+            )
+        )
+    }
 }
 
 @Composable

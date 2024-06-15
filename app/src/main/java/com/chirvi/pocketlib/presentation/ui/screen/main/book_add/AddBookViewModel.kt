@@ -29,6 +29,9 @@ class AddBookViewModel @Inject constructor(
     private val _image = MutableLiveData<Uri?>()
     val image: LiveData<Uri?> = _image
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
+
     private val _textName = MutableLiveData("")
     val textName: LiveData<String> = _textName
 
@@ -38,7 +41,7 @@ class AddBookViewModel @Inject constructor(
     private val _textDescription = MutableLiveData("")
     val textDescription: LiveData<String> = _textDescription
 
-    private val _bookFile = MutableLiveData<Uri?>()
+    private val _bookFile = MutableLiveData<Uri?>(null)
     val bookFile: LiveData<Uri?> = _bookFile
 
     fun loadFileBook(file: Uri) {
@@ -94,7 +97,20 @@ class AddBookViewModel @Inject constructor(
     fun onValueChangeDescription(text: String) { _textDescription.value = text }
     fun onValueChangeName(text: String) { _textName.value = text }
     fun onValueChangeAuthor(text: String) { _textAuthor.value = text }
-    fun saveBook() { viewModelScope.launch { suspendSaveBook() } }
+    fun saveBook() {
+        if(
+            _bookFile.value != null &&
+            _textName.value != null &&
+            _textAuthor.value != null &&
+            _textDescription.value != null &&
+            _confirmedGenres.value != null
+        ) {
+            _error.value = ""
+            viewModelScope.launch { suspendSaveBook() }
+        } else {
+            _error.value = "Заполните все поля"
+        }
+    }
 
     fun toFeed(navigationState: NavigationState) {
         navigationState.navigateTo(Screen.Feed.route)
